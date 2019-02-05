@@ -1,0 +1,32 @@
+{
+  "name": "manipal-utsav-frontend",
+  "private": true,
+  "description": "The frontend of Manipal Utsav website.",
+  "version": "0.1.0",
+  "dependencies": {
+    "gatsby": "^2.0.111",
+    "gatsby-image": "^2.0.29",
+    "gatsby-plugin-manifest": "^2.0.17",
+    "gatsby-plugin-offline": "^2.0.22",
+    "gatsby-plugin-react-helmet": "^3.0.6",
+    "gatsby-plugin-sharp": "^2.0.20",
+    "gatsby-source-filesystem": "^2.0.20",
+    "gatsby-transformer-sharp": "^2.1.13",
+    "prop-types": "^15.6.2",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "react-helmet": "^5.2.0"
+  },
+  "engines": {
+    "node": "10.x.x",
+    "yarn": "1.x.x"
+  },
+  "scripts": {
+    "build": "gatsby build",
+    "start": "gatsby develop",
+    "serve": "gatsby serve",
+    "test": ""
+  },
+  "repository": "https://github.com/ManipalUtsav/frontend",
+  "bugs": "https://github.com/ManipalUtsav/frontend/issues"
+}
