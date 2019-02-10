@@ -13,6 +13,17 @@ const authorize = ({ email, password }) => {
   // Send a GET request to API and check if the email & hashed password is
   // present in the database.
   // Return the user, if authorized. Otherwise, return {}.
+  // NOTE: If you wanna test it, return the following object instead:
+  // {
+  //   name: "Jane Doe",
+  //   email: "jane@nsa.gov",
+  //   contact: [ 9999999999 ],
+  //   type: 1 << 2,
+  //   password: "SomeHashedPassword",
+  //   collegeId: 012,
+  //   regNo: 160120001,
+  //   teams: [ 1234, 5678 ],
+  // }
   return {};
 };
 
