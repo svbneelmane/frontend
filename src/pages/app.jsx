@@ -9,7 +9,7 @@ import Profile from "../components/Profile";
 export default () => (
   <Layout>
     <Router>
-      // TODO: Profile is a temporary page to test login.
+      { /* TODO: Profile is a temporary page to test login. */ }
       <PrivateRoute path="/app" component={ Profile } />
       <Login path="/app/login" />
     </Router>
