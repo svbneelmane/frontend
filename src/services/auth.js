@@ -17,6 +17,8 @@ const authorize = ({ email, password }) => {
 };
 
 export const handleLogin = (partialUser) => {
+  // TODO: Add some sanity checks
+
   let user = authorize(partialUser);
 
   return setUser(user);
