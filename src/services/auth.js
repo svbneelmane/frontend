@@ -14,13 +14,13 @@ const authorize = ({ email, password }) => {
   // present in the database.
   // Return the user, if authorized. Otherwise, return {}.
   // NOTE: If you wanna test it, return the following object instead:
-  // {
+  // return {
   //   name: "Jane Doe",
   //   email: "jane@nsa.gov",
   //   contact: [ 9999999999 ],
   //   type: 1 << 2,
   //   password: "SomeHashedPassword",
-  //   collegeId: 012,
+  //   collegeId: 12,
   //   regNo: 160120001,
   //   teams: [ 1234, 5678 ],
   // }
