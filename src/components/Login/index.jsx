@@ -11,6 +11,7 @@ class NormalLoginForm extends React.Component {
 
     this.props.form.validateFields(async (err, values) => {
       if (!err){  
+      
        await handleLogin(values);
        if (isLoggedIn()) navigate(`/app`);
       }
