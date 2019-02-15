@@ -18,20 +18,21 @@ export default ({ children }) => (
     `}
     render={data => (
       <Layout>
-        <Layout.Header>
+        <Layout.Header style={{textAlign:"center",fontSize:'1.8em'}}>
           <Link to="/">
             { data.site.siteMetadata.title }
           </Link>
         </Layout.Header>
 
         <Layout.Content style={{
-          padding: "24px 50px"
+          padding: "24px 50px",
+          minHeight:"85vh"
         }}>
           { children }
         </Layout.Content>
 
-        <Layout.Footer>
-          Copyright &copy; {new Date().getFullYear()}
+        <Layout.Footer style={{textAlign:"center",background:"#555",color:"#eee"}}>
+          Copyright &copy; {new Date().getFullYear()} MAHE
         </Layout.Footer>
       </Layout>
     )}

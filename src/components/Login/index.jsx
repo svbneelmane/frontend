@@ -9,8 +9,11 @@ class NormalLoginForm extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    this.props.form.validateFields((err, values) => {
-      if (!err) handleLogin(values);
+    this.props.form.validateFields(async (err, values) => {
+      if (!err){  
+       await handleLogin(values);
+       if (isLoggedIn()) navigate(`/app`);
+      }
     });
   }
 
