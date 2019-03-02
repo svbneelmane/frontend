@@ -1,0 +1,10 @@
+.container {
+  padding: 24px ;
+  background: #fff;
+  text-align: center;
+}
+
+.field{
+  width: 50% !important;
+  margin: 8px;
+}
