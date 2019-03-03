@@ -1,11 +1,13 @@
 import React from "react";
 import "./style.css";
+import { Participant } from './subComponents';
 import constants from '../../utils/constants';
 import {
-  Layout, Button, Select, Input, Form, Divider
+  Layout, Button, Select, Input, Form, Divider, Icon
 } from 'antd';
 
 const Option = Select.Option;
+
 class NormalRegForm extends React.Component {
 
   constructor(props) {
@@ -14,16 +16,61 @@ class NormalRegForm extends React.Component {
     this.state = {
       event: [],
       college: [],
-      selectedCollege: {},
-      Participant: []
+      selectedCollege: null,
+      selectedEvent: null,
+      Participant: [],
     }
+    this.id = 0;
+  }
+
+  remove = (k) => {
+    const { form } = this.props;
+    const keys = form.getFieldValue('keys');
+    if (keys.length === 1) {
+      return;
+    }
+
+    form.setFieldsValue({
+      keys: keys.filter(key => key !== k),
+    });
+  }
+
+  add = () => {
+    const { form } = this.props;
+    const keys = form.getFieldValue('keys');
+    const nextKeys = keys.concat(this.id++);
+    form.setFieldsValue({
+      keys: nextKeys,
+    });
+  }
+
+
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
+    });
+  }
+
+  handleEventChange = async (value) => {
+    await this.setState({
+      selectedEvent: this.state.event[value],
+    })
+  }
+
+  handleCollegeChange = async (value) => {
+    await this.setState({
+      selectedCollege: value,
+    })
   }
 
   componentWillMount = async () => {
     await fetch(constants.server + "/events").then((res) => {
       return res.json();
     }).then((res) => {
-      console.log(res);
       this.setState({
         event: res.data,
       })
@@ -36,29 +83,39 @@ class NormalRegForm extends React.Component {
         college: res.data,
       })
     });
-
-  }
-
-  handleEventChange = async (value) => {
-    await this.setState({
-      selectedEvent: this.state.event[value],
-    })
-
-    console.log(this.state.selectedEvent)
-  }
-
-  handleCollegeChange = async (value) => {
-    await this.setState({
-      selectedCollege: value,
-    })
   }
 
   render() {
+    const { getFieldDecorator, getFieldValue } = this.props.form;
+    getFieldDecorator('keys', { initialValue: [] });
+    const keys = getFieldValue('keys');
+
+    const formItems = keys.map((k, index) => {
+
+      return (
+        <div key={k}>
+          <Divider/>
+          <h3>{"participant " + (k+1)}</h3>
+          <Participant whitespace={true} form={this.props.form} idx={k} message="Please Enter Participant's Name" val="name" hint="Name" />
+          <Participant whitespace={false}  form={this.props.form} idx={k} message="Please Enter Participant's Registration Number" val="regNo" hint="Registration Number" />
+          <Participant whitespace={false} type="email" form={this.props.form} idx={k} message="Please Enter Participant's Email" val="email" hint="Email" />
+          <Participant whitespace={false} form={this.props.form} idx={k} message="Please Enter Participant's Mobile Number" val="mobileNo" hint="Mobile Number" />
+
+          {keys.length > 1 ? (
+              <Button
+                className="dynamic-delete-button"
+                type="danger"
+                disabled={keys.length === 1}
+                onClick={() => this.remove(k)}
+              > Delete Participent </Button>
+            ) : null}
+        </div>
+      );
+    });
     return (
       <Layout.Content className="container">
         <Select
           showSearch
-          style={{ width: 200 }}
           placeholder="Select a Event"
           onChange={this.handleEventChange}
           size="large"
@@ -70,11 +127,10 @@ class NormalRegForm extends React.Component {
             );
           })}
         </Select>
-
         <Select
           showSearch
           style={{ width: 200 }}
-          placeholder="Select your collage"
+          placeholder="Select your college"
           onChange={this.handleCollegeChange}
           size="large"
           className="field"
@@ -86,28 +142,26 @@ class NormalRegForm extends React.Component {
           })}
         </Select>
 
-        {this.state.selectedEvent ?
+        <Form onSubmit={this.handleSubmit}>
+          {formItems}
+          <Form.Item>
+            <Button className="field" type="dashed" onClick={this.add}> <Icon type="plus" /> Add Participant </Button>
+          </Form.Item>
           
-          <div>
-            <Divider />
-            <p>Participant 1</p>
-            <Input className="field" size="large" addonBefore="Name" />
-            <Input className="field" size="large" addonBefore="Registration number" />
-            <Input className="field" size="large" addonBefore="Email" />
-            <Input className="field" size="large" addonBefore="Mobile" />
-          </div> 
-          :
-          null
-        }
+          <Form.Item >
+            {
+              (this.state.selectedEvent  && this.state.selectedCollege && this.id >= this.state.selectedEvent.minParticipants )  ?
+               <Button  type="primary" htmlType="submit">Submit</Button> 
+              :
+              <Button disabled type="primary" htmlType="submit">Submit</Button>
+            }
+          </Form.Item>
+        </Form>
 
-
-        <br />
-
-        <Button type="primary" className="field">Add Another Participant</Button>
-        <Button type="primary">Submit</Button>
       </Layout.Content>
     );
   }
 }
+
 
 export default Form.create({ name: 'normal_reg' })(NormalRegForm);
