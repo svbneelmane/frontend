@@ -18,6 +18,5 @@ export default () => (
       <Slotting path="app/slotting" />
 
     </Router>
-    </Layout>
- 
+  </Layout>
 );
