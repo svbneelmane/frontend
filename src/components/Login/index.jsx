@@ -2,7 +2,7 @@ import React from "react";
 import { navigate } from "gatsby";
 import { handleLogin, isLoggedIn } from "../../services/auth";
 import {
-  Form, Icon, Input, Button, Layout,
+  Form, Icon, Input, Button, 
 } from 'antd';
 
 class NormalLoginForm extends React.Component {
@@ -23,7 +23,7 @@ class NormalLoginForm extends React.Component {
 
     const { getFieldDecorator } = this.props.form;
     return (
-      <Layout>
+      <>
         <Form
           onSubmit={event => {
             this.handleSubmit(event);
@@ -55,7 +55,7 @@ class NormalLoginForm extends React.Component {
             </Button>
           </Form.Item>
         </Form>
-      </Layout>
+      </>
     );
   }
 }

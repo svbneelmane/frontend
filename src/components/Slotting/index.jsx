@@ -15,6 +15,8 @@ export default class Slotting extends Component {
       'SOLS, KMC Manipal',
       'SOLS, KMC Manipal'
     ];
+
+    return teams.length;
   }
   startSlotting(){
     let intro = document.querySelector("#intro");
