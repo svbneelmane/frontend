@@ -6,7 +6,7 @@ import Login from "../components/Login";
 import Registration from "../components/Registration"
 import Profile from "../components/Profile";
 import Slotting from "../components/Slotting";
-import Layout from '../layouts/default/index';
+import Layout from '../layouts/app/index';
 
 export default () => (
   <Layout>
