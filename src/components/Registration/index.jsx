@@ -58,7 +58,11 @@ class NormalRegForm extends React.Component {
 
         fetch(constants.server + "/events/" + this.state.selectedEvent.id + "/teams" , {
           method: 'POST',
-          body: payload
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          }
         }).then(res => res.json())
         .then(response => console.log('Success:', JSON.stringify(response)))
         .catch(error => console.error('Error:', error));
