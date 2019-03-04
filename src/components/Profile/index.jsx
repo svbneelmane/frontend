@@ -4,6 +4,7 @@ import React from "react";
 import { getUser, logout } from "../../services/auth";
 import { navigateTo } from "gatsby";
 
+
 export default class NormalLoginForm extends React.Component {
   handleLogout(){
     logout(()=>{
