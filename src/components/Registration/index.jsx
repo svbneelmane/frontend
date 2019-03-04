@@ -23,8 +23,8 @@ class NormalRegForm extends React.Component {
     this.id = 0;
   }
 
-  componentWillMount = async () => {
-    await fetch(constants.server + "/events").then((res) => {
+  componentWillMount = () => {
+    fetch(constants.server + "/events").then((res) => {
       return res.json();
     }).then((res) => {
       this.setState({
@@ -32,7 +32,7 @@ class NormalRegForm extends React.Component {
       })
     });
 
-    await fetch(constants.server + "/colleges").then((res) => {
+    fetch(constants.server + "/colleges").then((res) => {
       return res.json();
     }).then((res) => {
       this.setState({
@@ -134,7 +134,7 @@ class NormalRegForm extends React.Component {
       );
     });
     return (
-      <Layout.Content className="container">
+      <div className="container">
         <Select
           showSearch
           placeholder="Select a Event"
@@ -179,7 +179,7 @@ class NormalRegForm extends React.Component {
           </Form.Item>
         </Form>
 
-      </Layout.Content>
+      </div>
     );
   }
 }
