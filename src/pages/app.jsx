@@ -13,9 +13,9 @@ export default () => (
     <Router>
       { /* TODO: Profile is a temporary page to test login. */ }
       <PrivateRoute path="/app" component={ Profile } />
+      <PrivateRoute path="/app/registration" component={ Registration } />
+      <PrivateRoute path="/app/slots" component={ Slotting } />
       <Login path="/app/login" />
-      <Registration path="app/registration" />
-      <Slotting path="app/slotting" />
 
     </Router>
   </Layout>
