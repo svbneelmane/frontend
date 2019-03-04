@@ -7,11 +7,13 @@ export const getUser = () =>
     ? JSON.parse(window.localStorage.getItem("utsavUser"))
     : {};
 
-const setUser = user =>
+const setUser = user =>{
   window.localStorage.setItem("utsavUser", JSON.stringify(user));
 
+}
+
 const authorize = async ({ email, password }) => {
-  let response = await fetch(constants.server+'/user/login', {
+  let response = await fetch(constants.server+'/users/login', {
     method: 'post',
     mode: "cors",
     headers: {'Content-Type':'application/json'},
@@ -43,9 +45,9 @@ export const handleLogin = async (partialUser) => {
 }
 
 export const isLoggedIn = () => {
-  const user = getUser();
-
-  return !!user.email;
+let { data } = getUser();
+  if(data)
+    return !!data.email;
 };
 
 export const logout = callback => {
