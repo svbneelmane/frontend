@@ -3,7 +3,7 @@ import "./style.css";
 import { Participant } from './subComponents';
 import constants from '../../utils/constants';
 import {
-  Layout, Button, Select, Input, Form, Divider, Icon
+   Button, Select, Form, Divider, Icon, Layout
 } from 'antd';
 
 const Option = Select.Option;
