@@ -6,9 +6,10 @@ import Login from "../components/Login";
 import Registration from "../components/Registration"
 import Profile from "../components/Profile";
 import Slotting from "../components/Slotting";
+import Layout from '../layouts/default/index';
 
 export default () => (
- 
+  <Layout>
     <Router>
       { /* TODO: Profile is a temporary page to test login. */ }
       <PrivateRoute path="/app" component={ Profile } />
@@ -17,5 +18,6 @@ export default () => (
       <Slotting path="app/slotting" />
 
     </Router>
+    </Layout>
  
 );
