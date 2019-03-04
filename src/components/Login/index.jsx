@@ -13,6 +13,7 @@ class NormalLoginForm extends React.Component {
       if (!err){  
       
        await handleLogin(values);
+       console.log('Login',isLoggedIn());
        if (isLoggedIn()) navigate(`/app`);
       }
     });
