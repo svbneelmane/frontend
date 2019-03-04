@@ -11,7 +11,7 @@ const setUser = user =>
   window.localStorage.setItem("utsavUser", JSON.stringify(user));
 
 const authorize = async ({ email, password }) => {
-  let response = await fetch(constants.server+'/user/login', {
+  let response = await fetch(constants.server+'/users/login', {
     method: 'post',
     mode: "cors",
     headers: {'Content-Type':'application/json'},
