@@ -30,8 +30,9 @@ export default class TeamView extends React.Component {
       <div>
         <Row gutter={16}>
           {this.state.rounds.map((each, k) => {
+            console.log(each)
             return (
-              <RoundCard key={k} setRoundId={this.props.setRoundId} id={each.id} status="Finished" tagColor="#fadb14" title={"round " + k} />
+              <RoundCard key={k} setRoundId={this.props.setRoundId} id={each.id} status={each.status} tagColor="#fadb14" title={"round " + (k + 1)} />
             );
           })}
         </Row>
