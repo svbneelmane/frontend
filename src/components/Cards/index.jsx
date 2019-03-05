@@ -8,8 +8,8 @@ export const RoundCard = (props) => {
     <div >
       <Col  span={8}>
         <Card className="card" title={props.title} extra={(props.status === 1) ? <Tag color="#2db7f5">Scheduled</Tag> : (props.status === 2) ? <Tag color="#87d068">In process</Tag> : <Tag color="#f50">Finished</Tag>}>
-          <Button onClick={ event => { navigate('/app/events/:eventid/') }} className="start-btn" size="large" block type="secondary"> Generate Slots </Button>
-          <Button onClick={ event => { navigate(`app/judge/${props.eventId}/rounds/${props.id}`); }} className="start-btn" size="large" block type="primary"> Start Judging </Button>
+          <Button onClick={ event => { navigate('/app/events/:eventid/') }} className="btn" size="large" block type="secondary"> Generate Slots </Button>
+          <Button onClick={ event => { navigate(`app/judge/${props.eventId}/rounds/${props.id}`); }} className="btn" size="large" block type="primary"> Start Judging </Button>
         </Card>
       </Col>
   </div>
