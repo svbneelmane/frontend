@@ -21,6 +21,11 @@ const authorize = async ({ email, password }) => {
      email,
      password
     })
+    ,
+    headers: {
+      'Content-Type':'application/json',
+      'Accept':'application/json'
+    }
    });
    return await response.json();
 };

@@ -12,11 +12,7 @@ export default class TeamView extends React.Component {
   }
 
   componentWillMount = () => {
-    if(this.props.eventId) {
-      typeof window !== "undefined" && window.localStorage.setItem("eventId", this.props.eventId);
-    }
-    
-    fetch(constants.server + "/events/" + localStorage.getItem("eventId") + "/rounds").then(res => {
+    fetch(constants.server + "/events/" + this.props.event + "/rounds").then(res => {
       return res.json();
     }).then(res => {
       this.setState({
@@ -32,7 +28,7 @@ export default class TeamView extends React.Component {
           {this.state.rounds.map((each, k) => {
             console.log(each)
             return (
-              <RoundCard key={k} setRoundId={this.props.setRoundId} id={each.id} status={each.status} tagColor="#fadb14" title={"round " + (k + 1)} />
+              <RoundCard key={k}  id={each.id} status="Finished" tagColor="#fadb14" title={"round " + k} />
             );
           })}
         </Row>

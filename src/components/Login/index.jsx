@@ -21,9 +21,9 @@ class NormalLoginForm extends React.Component {
        let data = await handleLogin(values);
        if(data.status){
          console.log('error');
-         if(data.status === 401)
+         if(data.status===401)
           message.error('You are not authorized to login.');
-        else if(data.status !== 200)
+        else if(data.status!==200)
           message.error(data.status+": "+data.message);
        }
        console.log('Login',isLoggedIn());
