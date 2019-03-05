@@ -15,8 +15,8 @@ export default class NormalLoginForm extends React.Component {
   <>
     <h1>Your profile</h1>
     <ul>
-      <li>Name: {getUser().name}</li>
-      <li>E-mail: {getUser().email}</li>
+      <li>Name: {getUser().data.name}</li>
+      <li>E-mail: {getUser().data.email}</li>
     </ul>
     <button onClick={()=>this.handleLogout()}>Logout</button>
   </>
