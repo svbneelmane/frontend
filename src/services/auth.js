@@ -2,24 +2,15 @@ import constants from '../utils/constants';
 export const isBrowser = () => typeof window !== "undefined";
 
 
-export const getUser = () =>{
+export const getUser = () =>
 // Wrap the require in check for window
-  if(typeof window !== `undefined`) {
-    isBrowser() && window.localStorage.getItem("utsavUser")
-      ? JSON.parse(window.localStorage.getItem("utsavUser"))
-      : {};
-  }
-  else
-    return {};
-}
+  typeof window !== `undefined` && isBrowser() && window.localStorage.getItem("utsavUser")
+    ? JSON.parse(window.localStorage.getItem("utsavUser"))
+    : {};
 
-const setUser = user =>{
-  if(typeof window !== `undefined`) {
-    window.localStorage.setItem("utsavUser", JSON.stringify(user));
-    return user;
-  }
-  else
-    return {};
+const setUser = user => {
+  typeof window !== `undefined` && window.localStorage.setItem("utsavUser", JSON.stringify(user));
+  return user;
 }
 
 const authorize = async ({ email, password }) => {
