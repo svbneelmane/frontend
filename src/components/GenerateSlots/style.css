@@ -26,13 +26,38 @@
 .slotButton:hover{
   transform: scale(1.1);
 }
-#slotWrapper #intro{
+#slotWrapper .slottable{
   text-align: center;
   position: relative;
   transition: transform 1s;
   backface-visibility: hidden;
 }
 
-#slotWrapper #intro.hide{
+#slotWrapper .slottable.rotate{
   transform: rotateY(180deg);
+}
+
+.table{
+  position: absolute;
+  top:0px;
+  left:0px;
+  transform: rotateY(180deg);
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.slottable.rotate .table{
+  opacity: 1;
+}
+.table table{
+  color:#000;
+  border:1px solid #000;
+}
+.table caption{
+  caption-side: top;
+  min-width: 600px;
+  text-align: center;
+}
+.table th,td{
+  border:1px solid #000;
 }
