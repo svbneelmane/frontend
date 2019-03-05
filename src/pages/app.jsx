@@ -17,8 +17,7 @@ export default () => (
       <PrivateRoute path="/app/registration" component={ Registration } />
       <PrivateRoute path="/app/slots" component={ Slotting } />
       <Login path="/app/login" />
-      <EventList path="app/event" />
-
+      <EventList path="app/events" />
     </Router>
   </Layout>
 );
