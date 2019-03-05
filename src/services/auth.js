@@ -17,7 +17,6 @@ const authorize = async ({ email, password }) => {
   let response = await fetch(constants.server+'/users/login', {
     method: 'post',
     mode: "cors",
-    headers: {'Content-Type':'application/json'},
     body: JSON.stringify({
      email,
      password

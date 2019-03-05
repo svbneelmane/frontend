@@ -4,7 +4,7 @@ import PrivateRoute from "../components/PrivateRoute";
 import Login from "../components/Login";
 import Registration from "../components/Registration";
 import EventList from "../components/EventList";
-import TeamList from "../components/TeamList";
+import RoundList from "../components/RoundList";
 import Profile from "../components/Profile";
 import Slotting from "../components/Slotting";
 import Layout from '../layouts/app/index';
@@ -15,6 +15,7 @@ export default class Views extends React.Component {
     super(props);
     this.state = {
       eventId : null,
+      roundId: null,
     }
   }
 
@@ -22,6 +23,13 @@ export default class Views extends React.Component {
     console.log(id);
     this.setState({
       eventId: id,
+    })
+  }
+
+  setRoundId = (id) => {
+    console.log(id)
+    this.setState({
+      roundId: id,
     })
   }
 
@@ -34,7 +42,7 @@ export default class Views extends React.Component {
           <PrivateRoute path="/app/registration" component={Registration} />
           <PrivateRoute path="/app/slots" component={Slotting} />
           <Login path="/app/login" />
-          <TeamList eventId={this.state.eventId} path="/app/teams" />
+          <RoundList setRoundId={this.setRoundId} eventId={this.state.eventId} path="/app/rounds" />
           <EventList setEventId={this.setEventId} path="app/events" />
         </Router>
       </Layout>

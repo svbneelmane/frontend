@@ -30,7 +30,7 @@ class EventList extends React.PureComponent {
           <List.Item onClick={event => {
             this.props.setEventId(item.id);
             if(typeof window !== `undefined`) {
-              navigate(`/app/teams`);
+              navigate(`/app/rounds`);
             }
           }}>
             
