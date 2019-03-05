@@ -40,6 +40,7 @@ export default class Views extends React.Component {
     }
   }
 
+
   render() {
     return (
       <Layout>

@@ -1,7 +1,9 @@
 import React from "react";
-import { AutoComplete, Form, Button } from 'antd';
+import { Form, Button,Row } from 'antd';
+import { CriteriaCard } from '../Cards/index'
 import constants from '../../utils/constants';
 import { AutoCompleteInput } from "./subComponents";
+import './style.css'
 
 class Judge extends React.PureComponent {
   constructor(props) {
@@ -16,11 +18,11 @@ class Judge extends React.PureComponent {
   }
 
   componentWillMount = () => {
-    if(this.props.eventId) {
+    if (this.props.eventId) {
       typeof window !== "undefined" && window.localStorage.setItem("eventId", this.props.eventId);
     }
 
-    if(this.props.roundId) {
+    if (this.props.roundId) {
       typeof window !== "undefined" && window.localStorage.setItem("roundId", this.props.roundId);
     }
 
@@ -48,31 +50,48 @@ class Judge extends React.PureComponent {
     this.setState({
       judgeLocked: true,
     })
+
+    this.getRoundPayload();
+  }
+
+  getRoundPayload = () => {
+    fetch(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId).then(res => {
+      this.setState({
+        round: res.data,
+      })
+    })
   }
 
   render() {
-    console.log(this.state);
-    const { getFieldDecorator } = this.props.form;
     return (
-      <div>
+      <div className="judge-container">
+        <h2 className="judge-title">Enter Judge Name</h2>
         {!this.state.judgeLocked ?
-            <Form
-              onSubmit={event => {
-                event.preventDefault();
-                this.handleSubmit(event);
-              }}
-            >
-              <Form.Item>
-                <AutoCompleteInput judges={this.state.judges} onSelect={this.onSelect}/>
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Start
+          <Form
+            onSubmit={event => {
+              event.preventDefault();
+              this.handleSubmit(event);
+            }}
+          >
+            <Form.Item>
+              <AutoCompleteInput judges={this.state.judges} onSelect={this.onSelect} />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Start
                 </Button>
-              </Form.Item>
-            </Form>
+            </Form.Item>
+          </Form>
           :
-            null
+          <div>
+            <Row gutter={16}>
+              {this.state.round.map((each, k) => {
+                return(
+                <CriteriaCard key={k} title={each.criteria} />
+                );
+              })}
+            </Row>
+          </div>
         }
       </div>
     );
