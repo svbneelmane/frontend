@@ -1,4 +1,5 @@
 import React from "react";
+import { navigate } from "gatsby";
 import { List, Avatar, Tag, Form } from 'antd';
 import constants from '../../utils/constants';
 
@@ -20,12 +21,17 @@ class EventList extends React.PureComponent {
     })
   }
   render() {
+    
     return (
       <List
         itemLayout="horizontal"
         dataSource={this.state.events}
         renderItem={item => (
-          <List.Item>
+          <List.Item onClick={event => {
+            this.props.setEventId(item.id);
+            navigate(`/app/teams`);
+          }}>
+            
             <List.Item.Meta
               avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
               title={item.name}
