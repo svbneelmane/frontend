@@ -38,8 +38,10 @@ export default ({ children }) => (
               <span className="nav-text">nav 3</span>
             </Menu.Item>
             <Menu.Item key="4">
-              <Icon type="user" />
-              <span className="nav-text">nav 4</span>
+              <Link to="/app/">
+                <Icon type="user" />
+                <span className="nav-text">Profile</span>
+              </Link>
             </Menu.Item>
           </Menu>
         </Sider>
