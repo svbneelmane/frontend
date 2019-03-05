@@ -1,5 +1,5 @@
 import React from "react";
-import { Row } from 'antd';
+import { Row, Empty } from 'antd';
 import { RoundCard } from '../Cards/index';
 import constants from '../../utils/constants';
 
@@ -20,18 +20,18 @@ export default class RoundView extends React.Component {
       })
     })
   }
-
   render() {
+    let rounds = this.state.rounds;
     return (
       <div>
         <Row gutter={16}>
-          {console.log(this.state)}
-          {this.state.rounds.map((each, k) => {
+          {rounds.length===0?<Empty description="No rounds to show"/>:rounds.map((each, k) => {
             console.log(each)
             return (
               <RoundCard eventId={this.props.event} key={k}  id={each.id} status={each.status} title={"round " + (k +1)} />
             );
           })}
+          
         </Row>
       </div>
     );
