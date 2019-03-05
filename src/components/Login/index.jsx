@@ -8,7 +8,7 @@ import {
 class NormalLoginForm extends React.Component {
 
   componentWillMount(){
-    if (isLoggedIn())
+    if (isLoggedIn() && typeof window !== `undefined`)
       navigate(`/app`);
   }
 
@@ -27,7 +27,7 @@ class NormalLoginForm extends React.Component {
           message.error(data.status+": "+data.message);
        }
        console.log('Login',isLoggedIn());
-       if (isLoggedIn()) navigate(`/app`);
+       if (isLoggedIn()  && typeof window !== `undefined`) navigate(`/app`);
       }
     });
   }
