@@ -27,7 +27,7 @@
     "build": "./node_modules/.bin/gatsby build",
     "start": "./node_modules/.bin/gatsby develop",
     "serve": "./node_modules/.bin/gatsby serve",
-    "deploy": "gh-pages -d public -r https://github.com/ManipalUtsav/frontend -b gh-pages -m \"Website Updated\""
+    "deploy": "gh-pages -d public -r https://github.com/ManipalUtsav/manipalutsav.github.io -b master -m \"Website Updated\""
   },
   "repository": "https://github.com/ManipalUtsav/frontend",
   "bugs": "https://github.com/ManipalUtsav/frontend/issues",
