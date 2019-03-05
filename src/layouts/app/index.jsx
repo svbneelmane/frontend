@@ -38,12 +38,6 @@ export default ({ children }) => (
               </Link>
             </Menu.Item>
             <Menu.Item key="3" style={{fontSize:20}}>
-              <Link to="/app/slots">
-                <Icon type="user" />
-                <span className="nav-text">Slots</span>
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="4" style={{fontSize:20}}>
               <Link to="/app/">
                 <Icon type="user" />
                 <span className="nav-text">Profile</span>

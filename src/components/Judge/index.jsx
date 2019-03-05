@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, Button, Row } from 'antd';
-import { CriteriaCard } from '../Cards/index'
+//import { CriteriaCard } from '../Cards/index'
 import constants from '../../utils/constants';
 import { AutoCompleteInput } from "./subComponents";
 import './style.css'
