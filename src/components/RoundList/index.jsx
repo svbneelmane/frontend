@@ -3,7 +3,7 @@ import { Row } from 'antd';
 import { RoundCard } from '../Cards/index';
 import constants from '../../utils/constants';
 
-export default class TeamView extends React.Component {
+export default class RoundView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,10 +25,11 @@ export default class TeamView extends React.Component {
     return (
       <div>
         <Row gutter={16}>
+          {console.log(this.state)}
           {this.state.rounds.map((each, k) => {
             console.log(each)
             return (
-              <RoundCard key={k}  id={each.id} status="Finished" tagColor="#fadb14" title={"round " + k} />
+              <RoundCard eventId={this.props.event} key={k}  id={each.id} status={each.status} title={"round " + (k +1)} />
             );
           })}
         </Row>

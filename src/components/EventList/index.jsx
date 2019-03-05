@@ -1,4 +1,5 @@
 import React from "react";
+import { navigate } from 'gatsby';
 import { List, Avatar, Tag, Form } from 'antd';
 import constants from '../../utils/constants';
 
@@ -15,8 +16,6 @@ class EventList extends React.PureComponent {
       this.setState({
         events: res.data,
       });
-
-      typeof window !== "undefined" && window.localStorage.setItem("events", JSON.stringify(res.data));
     });
   }
 
@@ -38,7 +37,7 @@ class EventList extends React.PureComponent {
               description={item.description}
             />
             { 
-              (item.status == 1) ? <Tag color="#2db7f5">Scheduled</Tag> : (item.status == 2) ? <Tag color="#87d068">In process</Tag> : <Tag color="#f50">Finished</Tag>
+              (item.status === 1) ? <Tag color="#2db7f5">Scheduled</Tag> : (item.status === 2) ? <Tag color="#87d068">In process</Tag> : <Tag color="#f50">Finished</Tag>
             }
             
             

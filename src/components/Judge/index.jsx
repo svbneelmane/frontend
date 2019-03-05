@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button,Row } from 'antd';
+import { Form, Button, Row } from 'antd';
 import { CriteriaCard } from '../Cards/index'
 import constants from '../../utils/constants';
 import { AutoCompleteInput } from "./subComponents";
@@ -12,28 +12,17 @@ class Judge extends React.PureComponent {
       judges: [],
       judgeLocked: false,
       JudgeId: null,
-      eventId: this.props.eventId,
-      roundId: this.props.roundId,
+      eventId: this.props.event,
+      roundId: this.props.round,
     }
   }
 
   componentWillMount = () => {
-    if (this.props.eventId) {
-      typeof window !== "undefined" && window.localStorage.setItem("eventId", this.props.eventId);
-    }
-
-    if (this.props.roundId) {
-      typeof window !== "undefined" && window.localStorage.setItem("roundId", this.props.roundId);
-    }
-
-    this.setState({
-      eventId: localStorage.getItem("eventId"),
-      roundId: localStorage.getItem("roundId")
-    })
 
     fetch(constants.server + "/judges").then((res) => {
       return res.json();
     }).then((res) => {
+      console.log(res)
       this.setState({
         judges: res.data,
       });
@@ -50,46 +39,51 @@ class Judge extends React.PureComponent {
     this.setState({
       judgeLocked: true,
     })
-
     this.getRoundPayload();
   }
 
   getRoundPayload = () => {
-    fetch(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId).then(res => {
-      this.setState({
-        round: res.data,
-      })
-    })
+    console.log(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId)
+    // fetch(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId).then(res => {
+    //   this.setState({
+    //     round: res.data,
+    //   })
+    // })
   }
 
   render() {
+    console.log("here")
     return (
-      <div className="judge-container">
-        <h2 className="judge-title">Enter Judge Name</h2>
+
+      <div>
         {!this.state.judgeLocked ?
-          <Form
-            onSubmit={event => {
-              event.preventDefault();
-              this.handleSubmit(event);
-            }}
-          >
-            <Form.Item>
-              <AutoCompleteInput judges={this.state.judges} onSelect={this.onSelect} />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Start
+          <div className="judge-container">
+            <h2 className="judge-title">Enter Judge Name</h2>
+            <Form
+              onSubmit={event => {
+                event.preventDefault();
+                this.handleSubmit(event);
+              }}
+            >
+              <Form.Item>
+                <AutoCompleteInput judges={this.state.judges} onSelect={this.onSelect} />
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Start
                 </Button>
-            </Form.Item>
-          </Form>
+              </Form.Item>
+            </Form>
+          </div>
           :
           <div>
             <Row gutter={16}>
-              {this.state.round.map((each, k) => {
+              {console.log(this.state.round)}
+              {/* {this.state.round.map((each, k) => {
                 return(
                 <CriteriaCard key={k} title={each.criteria} />
                 );
-              })}
+              })} */}
             </Row>
           </div>
         }
