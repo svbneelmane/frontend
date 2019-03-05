@@ -9,7 +9,7 @@ export const getUser = () =>
 
 const setUser = user =>{
   window.localStorage.setItem("utsavUser", JSON.stringify(user));
-
+  return user;
 }
 
 const authorize = async ({ email, password }) => {
@@ -22,17 +22,6 @@ const authorize = async ({ email, password }) => {
      password
     })
    });
-   /*return {
-    name: "Jane Doe",
-    email: "jane@nsa.gov",
-    contact: [ 9999999999 ],
-    type: 1 << 2,
-    password: "SomeHashedPassword",
-    collegeId: 12,
-    regNo: 160120001,
-    teams: [ 1234, 5678 ],
-  }
-  */
    return await response.json();
 };
 
@@ -40,8 +29,10 @@ export const handleLogin = async (partialUser) => {
   // TODO: Add some sanity checks
 
   let user = await authorize(partialUser);
-
-  return setUser(user);
+  if(user.data)
+    return setUser(user);
+  else
+    return user;
 }
 
 export const isLoggedIn = () => {
