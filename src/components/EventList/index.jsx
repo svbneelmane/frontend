@@ -8,20 +8,20 @@ class EventList extends React.PureComponent {
     super(props);
     this.state = {
       events: [],
-    }
+    };
   }
 
   componentWillMount = () => {
-    fetch(constants.server + "/events").then((res) => {
-      return res.json()
-    }).then((res) => {
+    fetch(constants.server + "/events").then(res => res.json()).then(res => {
       this.setState({
         events: res.data,
-      })
-    })
+      });
+
+      typeof window !== "undefined" && window.localStorage.setItem("events", JSON.stringify(res.data));
+    });
   }
+
   render() {
-    
     return (
       <List
         itemLayout="horizontal"
@@ -33,7 +33,7 @@ class EventList extends React.PureComponent {
               navigate(`/app/rounds`);
             }
           }}>
-            
+
             <List.Item.Meta
               avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
               title={item.name}
