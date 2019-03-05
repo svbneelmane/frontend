@@ -2,13 +2,13 @@ import React from "react";
 import { navigate } from "gatsby";
 import { handleLogin, isLoggedIn } from "../../services/auth";
 import {
-  Form, Icon, Input, Button, 
+  Form, Icon, Input, Button, message
 } from 'antd';
 
 class NormalLoginForm extends React.Component {
 
   componentWillMount(){
-    if (isLoggedIn())
+    if (isLoggedIn() && typeof window !== `undefined`)
       navigate(`/app`);
   }
 
@@ -18,9 +18,16 @@ class NormalLoginForm extends React.Component {
     this.props.form.validateFields(async (err, values) => {
       if (!err){  
       
-       await handleLogin(values);
+       let data = await handleLogin(values);
+       if(data.status){
+         console.log('error');
+         if(data.status==401)
+          message.error('You are not authorized to login.');
+        else
+          message.error(data.status+": "+data.message);
+       }
        console.log('Login',isLoggedIn());
-       if (isLoggedIn()) navigate(`/app`);
+       if (isLoggedIn()  && typeof window !== `undefined`) navigate(`/app`);
       }
     });
   }
