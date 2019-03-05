@@ -6,6 +6,12 @@ import {
 } from 'antd';
 
 class NormalLoginForm extends React.Component {
+
+  componentWillMount(){
+    if (isLoggedIn())
+      navigate(`/app`);
+  }
+
   handleSubmit = event => {
     event.preventDefault();
 
@@ -20,7 +26,7 @@ class NormalLoginForm extends React.Component {
   }
 
   render() {
-    if (isLoggedIn()) navigate(`/app`);
+   
 
     const { getFieldDecorator } = this.props.form;
     return (
@@ -28,7 +34,7 @@ class NormalLoginForm extends React.Component {
         <Form
           onSubmit={event => {
             this.handleSubmit(event);
-            navigate(`/app`);
+           
           }}
           className="login-form"
           style={{
@@ -40,14 +46,14 @@ class NormalLoginForm extends React.Component {
             {getFieldDecorator('email', {
               rules: [{ required: true, type: "email", message: 'Please input your email!' }],
             })(
-              <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} type="email" placeholder="Email" required />
+              <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} type="email" autoComplete="email" placeholder="Email" required />
             )}
           </Form.Item>
           <Form.Item>
             {getFieldDecorator('password', {
               rules: [{ required: true, message: 'Please input your password!' }],
             })(
-              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password" required />
+              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" autoComplete="new-password" placeholder="Password" required />
             )}
           </Form.Item>
           <Form.Item>
