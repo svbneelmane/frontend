@@ -1,36 +1,66 @@
 import React from "react";
 import { AutoComplete, Form, Button } from 'antd';
+import constants from '../../utils/constants';
+import { AutoCompleteInput } from "./subComponents";
 
-export const Judge = (props) => {
-  const { getFieldDecorator } = this.props.form;
-  const Option = AutoComplete.Option;
+class Judge extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      judges: [],
+      selectedJudge: null,
+      judgeLocked: false,
+    }
+  }
 
-  const options = this.props.judges.map(val => (
-    <Option key={val.id} text={val.name}>
-      {val.name}
-    </Option>
-  ));
-    
-  return (
-    <Form
-      style={{
-        margin: "0 auto",
-        maxWidth: 500
-      }}
-    >
-      <Form.Item>
-        {getFieldDecorator('name', {
-          rules: [{ required: true, message: 'Please enter your name!' }],
-        })(
-          <AutoComplete
-            style={{ width: 200 }}
-            dataSource={options}
-            placeholder="Name"
-            onSelect={this.props.handleJudge}
-            filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-          />
-        )}
-      </Form.Item>
-    </Form>
-  );
+  componentWillMount = () => {
+    fetch(constants.server + "/judges").then((res) => {
+      return res.json();
+    }).then((res) => {
+      this.setState({
+        judges: res.data,
+      });
+    });
+  }
+
+  onSelect = (value) => {
+    this.setState({
+      selectedJudge: value,
+    })
+  }
+
+  handleSubmit = () => {
+    this.setState({
+      judgeLocked: true,
+    })
+  }
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    return (
+      <div>
+        {!this.state.judgeLocked ?
+            <Form
+              onSubmit={event => {
+                event.preventDefault();
+                this.handleSubmit(event);
+              }}
+            >
+              <Form.Item>
+                <AutoCompleteInput judges={this.state.judges} onSelect={this.onSelect}/>
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Start
+                </Button>
+              </Form.Item>
+            </Form>
+          :
+            null
+        }
+      </div>
+    );
+  }
 }
+
+export default Form.create({ name: 'judge' })(Judge);

@@ -7,6 +7,7 @@ import EventList from "../components/EventList";
 import RoundList from "../components/RoundList";
 import Profile from "../components/Profile";
 import Slotting from "../components/Slotting";
+import Judge from "../components/Judge";
 import Layout from '../layouts/app/index';
 
 export default class Views extends React.Component {
@@ -44,6 +45,7 @@ export default class Views extends React.Component {
           <Login path="/app/login" />
           <RoundList setRoundId={this.setRoundId} eventId={this.state.eventId} path="/app/rounds" />
           <EventList setEventId={this.setEventId} path="app/events" />
+          <Judge roundId={this.state.roundId} path="app/judge"/>
         </Router>
       </Layout>
     );
