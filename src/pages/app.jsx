@@ -1,4 +1,5 @@
 import React from "react";
+import { navigate } from "gatsby";
 import { Router } from "@reach/router";
 import PrivateRoute from "../components/PrivateRoute";
 import Login from "../components/Login";
@@ -25,14 +26,20 @@ export default class Views extends React.Component {
     this.setState({
       eventId: id,
     })
+    if(typeof window !== `undefined`) {
+      navigate(`/app/rounds`);
+    }
   }
 
   setRoundId = (id) => {
-    console.log(id)
     this.setState({
       roundId: id,
-    })
+    });
+    if(typeof window !== `undefined`) {
+      navigate(`/app/judge`);
+    }
   }
+
 
   render() {
     return (
@@ -45,7 +52,7 @@ export default class Views extends React.Component {
           <Login path="/app/login" />
           <RoundList setRoundId={this.setRoundId} eventId={this.state.eventId} path="/app/rounds" />
           <EventList setEventId={this.setEventId} path="app/events" />
-          <Judge roundId={this.state.roundId} path="app/judge"/>
+          <Judge roundId={this.state.roundId} eventId={this.state.eventId} path="app/judge"/>
         </Router>
       </Layout>
     );

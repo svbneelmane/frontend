@@ -1,5 +1,4 @@
 import React from "react";
-import { navigate } from "gatsby";
 import { List, Avatar, Tag, Form } from 'antd';
 import constants from '../../utils/constants';
 
@@ -29,9 +28,6 @@ class EventList extends React.PureComponent {
         renderItem={item => (
           <List.Item onClick={event => {
             this.props.setEventId(item.id);
-            if(typeof window !== `undefined`) {
-              navigate(`/app/rounds`);
-            }
           }}>
 
             <List.Item.Meta
@@ -39,9 +35,11 @@ class EventList extends React.PureComponent {
               title={item.name}
               description={item.description}
             />
-            <Tag color="#f50">Finished</Tag>
-            <Tag color="#2db7f5">Scheduled</Tag>
-            <Tag color="#87d068">In process</Tag>
+            { 
+              (item.status == 1) ? <Tag color="#2db7f5">Scheduled</Tag> : (item.status == 2) ? <Tag color="#87d068">In process</Tag> : <Tag color="#f50">Finished</Tag>
+            }
+            
+            
           </List.Item>
         )}
       />
