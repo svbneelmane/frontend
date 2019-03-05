@@ -22,12 +22,7 @@ export default ({ children }) => (
     `}
     render={data => (
       <Layout>
-        <Sider
-          breakpoint="lg"
-          collapsedWidth="0"
-          onBreakpoint={(broken) => { console.log(broken); }}
-          onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
-        >
+        <Sider>
           <div className="logo" />
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
             <Menu.Item key="1">
@@ -52,7 +47,7 @@ export default ({ children }) => (
           <Header style={{ background: '#f5f5f5', padding: 0 }} />
           <Content >
             <div style={{ padding: 24, background: '#fff', minHeight: '100vh' }}>
-              content
+            { children }
             </div>
             <Footer style={{ textAlign: 'center' }}>
               Ant Design ©2018 Created by Ant UED
