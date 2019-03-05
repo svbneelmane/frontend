@@ -29,7 +29,7 @@ class EventList extends React.PureComponent {
         renderItem={item => (
           <List.Item onClick={event => {
             this.props.setEventId(item.id);
-            navigate(`/app/teams`);
+            navigate(`/app/rounds`);
           }}>
             
             <List.Item.Meta
