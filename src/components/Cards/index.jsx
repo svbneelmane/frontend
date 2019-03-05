@@ -19,7 +19,7 @@ export const RoundCard = (props) => {
 export const CriteriaCard = (props) => {
   return (
     <div>
-      <Col  span={12}>
+      <Col  span={12} >
         <Card className="card" title={props.title}>
           <Button  className="submit-btn" size="large" block type="primary"> Add Score </Button>
         </Card>

@@ -22,11 +22,12 @@ class Judge extends React.PureComponent {
     fetch(constants.server + "/judges").then((res) => {
       return res.json();
     }).then((res) => {
-      console.log(res)
       this.setState({
         judges: res.data,
       });
     });
+
+    this.getRoundPayload();
   }
 
   onSelect = (value) => {
@@ -39,22 +40,20 @@ class Judge extends React.PureComponent {
     this.setState({
       judgeLocked: true,
     })
-    this.getRoundPayload();
   }
 
   getRoundPayload = () => {
-    console.log(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId)
-    // fetch(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId).then(res => {
-    //   this.setState({
-    //     round: res.data,
-    //   })
-    // })
+    fetch(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId).then(res => {
+      return res.json();
+    }).then( res => {
+      this.setState({
+        round : res.data
+      })
+    })
   }
 
   render() {
-    console.log("here")
     return (
-
       <div>
         {!this.state.judgeLocked ?
           <div className="judge-container">
@@ -78,12 +77,11 @@ class Judge extends React.PureComponent {
           :
           <div>
             <Row gutter={16}>
-              {console.log(this.state.round)}
-              {/* {this.state.round.map((each, k) => {
+              {this.state.round.criteria.map((each, k) => {
                 return(
                 <CriteriaCard key={k} title={each.criteria} />
                 );
-              })} */}
+              })}
             </Row>
           </div>
         }
