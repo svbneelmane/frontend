@@ -1,36 +1,101 @@
 import React from "react";
-import { AutoComplete, Form, Button } from 'antd';
+import { Form, Button,Row } from 'antd';
+import { CriteriaCard } from '../Cards/index'
+import constants from '../../utils/constants';
+import { AutoCompleteInput } from "./subComponents";
+import './style.css'
 
-export const Judge = (props) => {
-  const { getFieldDecorator } = this.props.form;
-  const Option = AutoComplete.Option;
+class Judge extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      judges: [],
+      judgeLocked: false,
+      JudgeId: null,
+      eventId: this.props.eventId,
+      roundId: this.props.roundId,
+    }
+  }
 
-  const options = this.props.judges.map(val => (
-    <Option key={val.id} text={val.name}>
-      {val.name}
-    </Option>
-  ));
-    
-  return (
-    <Form
-      style={{
-        margin: "0 auto",
-        maxWidth: 500
-      }}
-    >
-      <Form.Item>
-        {getFieldDecorator('name', {
-          rules: [{ required: true, message: 'Please enter your name!' }],
-        })(
-          <AutoComplete
-            style={{ width: 200 }}
-            dataSource={options}
-            placeholder="Name"
-            onSelect={this.props.handleJudge}
-            filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-          />
-        )}
-      </Form.Item>
-    </Form>
-  );
+  componentWillMount = () => {
+    if (this.props.eventId) {
+      typeof window !== "undefined" && window.localStorage.setItem("eventId", this.props.eventId);
+    }
+
+    if (this.props.roundId) {
+      typeof window !== "undefined" && window.localStorage.setItem("roundId", this.props.roundId);
+    }
+
+    this.setState({
+      eventId: localStorage.getItem("eventId"),
+      roundId: localStorage.getItem("roundId")
+    })
+
+    fetch(constants.server + "/judges").then((res) => {
+      return res.json();
+    }).then((res) => {
+      this.setState({
+        judges: res.data,
+      });
+    });
+  }
+
+  onSelect = (value) => {
+    this.setState({
+      JudgeId: value,
+    })
+  }
+
+  handleSubmit = () => {
+    this.setState({
+      judgeLocked: true,
+    })
+
+    this.getRoundPayload();
+  }
+
+  getRoundPayload = () => {
+    fetch(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId).then(res => {
+      this.setState({
+        round: res.data,
+      })
+    })
+  }
+
+  render() {
+    return (
+      <div className="judge-container">
+        <h2 className="judge-title">Enter Judge Name</h2>
+        {!this.state.judgeLocked ?
+          <Form
+            onSubmit={event => {
+              event.preventDefault();
+              this.handleSubmit(event);
+            }}
+          >
+            <Form.Item>
+              <AutoCompleteInput judges={this.state.judges} onSelect={this.onSelect} />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Start
+                </Button>
+            </Form.Item>
+          </Form>
+          :
+          <div>
+            <Row gutter={16}>
+              {this.state.round.map((each, k) => {
+                return(
+                <CriteriaCard key={k} title={each.criteria} />
+                );
+              })}
+            </Row>
+          </div>
+        }
+      </div>
+    );
+  }
 }
+
+export default Form.create({ name: 'judge' })(Judge);

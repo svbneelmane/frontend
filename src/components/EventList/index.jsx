@@ -1,5 +1,4 @@
 import React from "react";
-import { navigate } from "gatsby";
 import { List, Avatar, Tag, Form } from 'antd';
 import constants from '../../utils/constants';
 
@@ -28,7 +27,6 @@ class EventList extends React.PureComponent {
         dataSource={this.state.events}
         renderItem={item => (
           <List.Item onClick={event => {
-           
             if(typeof window !== `undefined`) {
               navigate(`app/events/${item.id}/rounds`);
             }
@@ -39,9 +37,11 @@ class EventList extends React.PureComponent {
               title={item.name}
               description={item.description}
             />
-            <Tag color="#f50">Finished</Tag>
-            <Tag color="#2db7f5">Scheduled</Tag>
-            <Tag color="#87d068">In process</Tag>
+            { 
+              (item.status == 1) ? <Tag color="#2db7f5">Scheduled</Tag> : (item.status == 2) ? <Tag color="#87d068">In process</Tag> : <Tag color="#f50">Finished</Tag>
+            }
+            
+            
           </List.Item>
         )}
       />
