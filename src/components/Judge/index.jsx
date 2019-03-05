@@ -8,12 +8,27 @@ class Judge extends React.PureComponent {
     super(props);
     this.state = {
       judges: [],
-      selectedJudge: null,
       judgeLocked: false,
+      JudgeId: null,
+      eventId: this.props.eventId,
+      roundId: this.props.roundId,
     }
   }
 
   componentWillMount = () => {
+    if(this.props.eventId) {
+      typeof window !== "undefined" && window.localStorage.setItem("eventId", this.props.eventId);
+    }
+
+    if(this.props.roundId) {
+      typeof window !== "undefined" && window.localStorage.setItem("roundId", this.props.roundId);
+    }
+
+    this.setState({
+      eventId: localStorage.getItem("eventId"),
+      roundId: localStorage.getItem("roundId")
+    })
+
     fetch(constants.server + "/judges").then((res) => {
       return res.json();
     }).then((res) => {
@@ -25,7 +40,7 @@ class Judge extends React.PureComponent {
 
   onSelect = (value) => {
     this.setState({
-      selectedJudge: value,
+      JudgeId: value,
     })
   }
 
@@ -36,6 +51,7 @@ class Judge extends React.PureComponent {
   }
 
   render() {
+    console.log(this.state);
     const { getFieldDecorator } = this.props.form;
     return (
       <div>

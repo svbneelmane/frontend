@@ -7,16 +7,18 @@ export default class TeamView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventId: this.props.eventId,
       rounds : [],
     }
   }
 
   componentWillMount = () => {
-    fetch(constants.server + "/events/" + this.state.eventId + "/rounds").then(res => {
+    if(this.props.eventId) {
+      typeof window !== "undefined" && window.localStorage.setItem("eventId", this.props.eventId);
+    }
+    
+    fetch(constants.server + "/events/" + localStorage.getItem("eventId") + "/rounds").then(res => {
       return res.json();
     }).then(res => {
-      console.log(res);
       this.setState({
         rounds : res.data,
       })
