@@ -16,7 +16,10 @@
     "gatsby-plugin-glamor": "^2.0.8",
     "glamor": "^2.20.40",
     "react": "^16.8.3",
-    "react-dom": "^16.8.3"
+    "react-dom": "^16.8.3",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "prettier": "^1.16.4"
