@@ -13,5 +13,6 @@ export default {
     light: "#f5f5f5",
     white: "#ffffff",
   },
+  //server:"http://localhost:3003"//express server
   server:"https://utsavb.bastionbot.org" //express server
 };

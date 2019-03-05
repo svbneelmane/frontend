@@ -5,21 +5,25 @@ import { getUser, logout } from "../../services/auth";
 import { navigateTo } from "gatsby";
 
 
-export default class NormalLoginForm extends React.Component {
+export default class Profile extends React.Component {
   handleLogout(){
     logout(()=>{
-      navigateTo("/app")
+      if(typeof window !== `undefined`) 
+        navigateTo("/app")
     })
   }
-  render=()=>(
-  <>
-    <h1>Your profile</h1>
-    <ul>
-      <li>Name: {getUser().name}</li>
-      <li>E-mail: {getUser().email}</li>
-    </ul>
-    <button onClick={()=>this.handleLogout()}>Logout</button>
-  </>
-);
+  render(){
+    let data={};
+    if(getUser().data)
+      data = getUser().data;
+    return(<>
+      <h1>Your profile</h1>
+      <ul>
+        <li>Name: {data.name||'Loading...'}</li>
+        <li>E-mail: {data.email||'Loading...'}</li>
+      </ul>
+      <button onClick={()=>this.handleLogout()}>Logout</button>
+    </>);
+  }
 
 }

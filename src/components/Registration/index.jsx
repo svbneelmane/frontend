@@ -3,7 +3,7 @@ import "./style.css";
 import { Participant } from './subComponents';
 import constants from '../../utils/constants';
 import {
-   Button, Select, Form, Divider, Icon, Layout
+   Button, Select, Form, Divider, Icon
 } from 'antd';
 
 const Option = Select.Option;
@@ -45,9 +45,7 @@ class NormalRegForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
 
-      values.participants.map((each)=> {
-        each.faculty = false;
-      })
+      values.participants.map((each) =>each.faculty = false)
 
 
       if (!err) {
