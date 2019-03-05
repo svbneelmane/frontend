@@ -26,23 +26,24 @@ export default ({ children }) => (
           <div className="logo" />
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
             <Menu.Item key="1">
-              <Icon type="user" />
-              <span className="nav-text">nav 1</span>
+              <Link to="/app/events">
+                <Icon type="calendar" />
+                <span className="nav-text">Events</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Icon type="video-camera" />
-              <span className="nav-text">nav 2</span>
+              <Link to="/app/leaderboard">
+              <Icon type="number" />
+              <span className="nav-text">Leaderboard</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="3">
-              <Icon type="upload" />
-              <span className="nav-text">nav 3</span>
-            </Menu.Item>
-            <Menu.Item key="4">
               <Link to="/app/">
                 <Icon type="user" />
                 <span className="nav-text">Profile</span>
               </Link>
             </Menu.Item>
+            
           </Menu>
         </Sider>
         <Layout>
