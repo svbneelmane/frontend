@@ -13,24 +13,6 @@ export default class Views extends React.Component {
 
   constructor(props){
     super(props);
-    this.state = {
-      eventId : null,
-      roundId: null,
-    }
-  }
-
-  setEventId = (id) => {
-    console.log(id);
-    this.setState({
-      eventId: id,
-    })
-  }
-
-  setRoundId = (id) => {
-    console.log(id)
-    this.setState({
-      roundId: id,
-    })
   }
 
   render() {
@@ -42,8 +24,8 @@ export default class Views extends React.Component {
           <PrivateRoute path="/app/registration" component={Registration} />
           <PrivateRoute path="/app/slots" component={Slotting} />
           <Login path="/app/login" />
-          <RoundList setRoundId={this.setRoundId} eventId={this.state.eventId} path="/app/rounds" />
-          <EventList setEventId={this.setEventId} path="app/events" />
+          <RoundList path="/app/events/:event/rounds" exact/>
+          <EventList path="app/events" />
         </Router>
       </Layout>
     );

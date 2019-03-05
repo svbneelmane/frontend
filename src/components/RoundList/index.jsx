@@ -7,13 +7,13 @@ export default class TeamView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      eventId: this.props.eventId,
+      eventId: this.props.event,
       rounds : [],
     }
   }
 
   componentWillMount = () => {
-    fetch(constants.server + "/events/" + this.state.eventId + "/rounds").then(res => {
+    fetch(constants.server + "/events/" + this.props.event + "/rounds").then(res => {
       return res.json();
     }).then(res => {
       console.log(res);
@@ -29,7 +29,7 @@ export default class TeamView extends React.Component {
         <Row gutter={16}>
           {this.state.rounds.map((each, k) => {
             return (
-              <RoundCard key={k} setRoundId={this.props.setRoundId} id={each.id} status="Finished" tagColor="#fadb14" title={"round " + k} />
+              <RoundCard key={k}  id={each.id} status="Finished" tagColor="#fadb14" title={"round " + k} />
             );
           })}
         </Row>

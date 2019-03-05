@@ -28,9 +28,9 @@ class EventList extends React.PureComponent {
         dataSource={this.state.events}
         renderItem={item => (
           <List.Item onClick={event => {
-            this.props.setEventId(item.id);
+           
             if(typeof window !== `undefined`) {
-              navigate(`/app/rounds`);
+              navigate(`app/events/${item.id}/rounds`);
             }
           }}>
 
