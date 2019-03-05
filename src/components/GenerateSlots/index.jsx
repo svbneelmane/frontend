@@ -3,13 +3,15 @@
 import React,{Component} from "react";
 import constants from '../../utils/constants';
 import './style.css';
-import { message } from "antd";
+import { message ,Table} from "antd";
 
 export default class GenerateSlots extends Component {
   state={
     slotted:false,
     loaded:false,
-    slottingStarted:false
+    slottingStarted:false,
+    columns:[],
+    dataSource:[]
   }
   constructor(props){
     super(props);
@@ -23,14 +25,31 @@ export default class GenerateSlots extends Component {
     let response =  await fetch(constants.server + `/events/${this.props.event}/rounds/${this.props.round}/slots`);
     let json = await response.json();
     console.log('json',json);
+    let dataSource=[],columns=[];
     ///:event/rounds/:round/slots
     if(json.data.length===0){
       message.success("Not Slotted");
     }
-
+    else{
+      columns = [{
+        title: 'Slot No.',
+        dataIndex: 'slot',
+        key: 'slot',
+      }, {
+        title: 'Team',
+        dataIndex: 'team',
+        key: 'team',
+      }];
+      
+      dataSource = json.data.map(data=>{})
+      
+      
+    }
     this.setState({
       loaded:true,
-      slotted:json.data.length>0
+      slotted:json.data.length>0,
+      columns,
+      dataSource
     });
   }
   async startSlotting(){
@@ -61,12 +80,17 @@ export default class GenerateSlots extends Component {
       <div className="table">
       </div>
     </div>);
-
-  slotted=()=>(<div>TODO: Slotted table</div>);
+  componentDidUpdate(){
+    console.log(this);
+  }
+  slotted=()=>(
+    <div>
+      <Table dataSource={this.state.dataSource} columns={this.state.columns} />
+    </div>);
   render=()=>
     this.state.loaded?
       (this.state.slotted?
-          this.slotted
+          this.slotted()
           :this.notSlotted())
       :this.notLoaded();
     
