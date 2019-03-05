@@ -25,19 +25,19 @@ export default ({ children }) => (
         <Sider>
           <div className="logo" />
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
-            <Menu.Item key="1">
+            <Menu.Item key="1" style={{fontSize:20}}>
               <Link to="/app/events">
                 <Icon type="calendar" />
                 <span className="nav-text">Events</span>
               </Link>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="2" style={{fontSize:20}}>
               <Link to="/app/leaderboard">
               <Icon type="number" />
               <span className="nav-text">Leaderboard</span>
               </Link>
             </Menu.Item>
-            <Menu.Item key="3">
+            <Menu.Item key="3" style={{fontSize:20}}>
               <Link to="/app/">
                 <Icon type="user" />
                 <span className="nav-text">Profile</span>
