@@ -13,12 +13,14 @@ export default class Profile extends React.Component {
     })
   }
   render(){
-    let {name,email} = getUser().data;
+    let data={};
+    if(getUser().data)
+      data = getUser().data;
     return(<>
       <h1>Your profile</h1>
       <ul>
-        <li>Name: {name||'Loading...'}</li>
-        <li>E-mail: {email||'Loading...'}</li>
+        <li>Name: {data.name||'Loading...'}</li>
+        <li>E-mail: {data.email||'Loading...'}</li>
       </ul>
       <button onClick={()=>this.handleLogout()}>Logout</button>
     </>);
