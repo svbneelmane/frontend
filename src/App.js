@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Input } from './commons/Form'
+import { Input, Button } from './commons/Form'
 
 import { actionTheFirst } from './actions/actionTheFirst';
 
@@ -22,7 +22,8 @@ class App extends Component {
     return (
       <div>
         <button onClick={this.handleClick}>Test redux action</button>
-        <Input value="hello world" />
+        <Input />
+        <Button  value="Login"/>
         <pre>
         {
           JSON.stringify(this.props)
