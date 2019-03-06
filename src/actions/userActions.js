@@ -1,6 +1,6 @@
 import { userService } from '../services/userService';
 
-export const login = async (username, password) => dispatch => {
+export const login = (username, password) => dispatch => {
 
   const request = (user) => { return { type: 'LOGIN_REQUEST', user } }
   const success = (user) => { return { type: 'LOGIN_SUCCESS', user } }
