@@ -1,8 +1,7 @@
 import React from "react";
-import { Form, Button, Row } from 'antd';
+import { Form, Button, Row, Input, message } from 'antd';
 import { CriteriaCard } from '../Cards/index'
 import constants from '../../utils/constants';
-import { AutoCompleteInput } from "./subComponents";
 import './style.css'
 
 class Judge extends React.PureComponent {
@@ -10,7 +9,6 @@ class Judge extends React.PureComponent {
     super(props);
     this.state = {
       judges: [],
-      judgeLocked: false,
       JudgeId: null,
       eventId: this.props.event,
       roundId: this.props.round,
@@ -19,13 +17,13 @@ class Judge extends React.PureComponent {
 
   componentWillMount = () => {
 
-    fetch(constants.server + "/judges").then((res) => {
+   /* fetch(constants.server + "/").then((res) => {
       return res.json();
     }).then((res) => {
       this.setState({
         judges: res.data,
       });
-    });
+    });*/
 
     this.getRoundPayload();
   }
@@ -36,36 +34,57 @@ class Judge extends React.PureComponent {
     })
   }
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.saveJudge();
+  }
+  async saveJudge(){
+    let name = document.querySelector("#judge-name").value;
+    if(name.length===0)
+      {
+        message.error("Name is required!");
+        return;
+      }
+    let response   = await fetch(constants.server + "/judges/",{
+      method: "POST",
+      body:JSON.stringify({
+        name,
+        round:this.props.round
+      }),
+      headers:{
+        'Content-Type':'application/json',
+        'Accept':'application/json'
+      }
+    });
+    let json = await response.json();
+    console.log(json);
     this.setState({
-      judgeLocked: true,
+      JudgeId: json.data._id,
     })
   }
 
-  getRoundPayload = () => {
-    fetch(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId).then(res => {
-      return res.json();
-    }).then( res => {
-      this.setState({
-        round : res.data
-      })
-    })
+  getRoundPayload = async () => {
+    let response   = await fetch(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId);
+    let json = await response.json();
+    this.setState({
+        round : json.data
+    },()=>{
+      console.log(this.state);
+    });
   }
 
   render() {
+    console.log(this);
     return (
       <div>
-        {!this.state.judgeLocked ?
+        {!this.state.JudgeId ?
           <div className="judge-container">
             <h2 className="judge-title">Enter Judge Name</h2>
             <Form
-              onSubmit={event => {
-                event.preventDefault();
-                this.handleSubmit(event);
-              }}
+              onSubmit={this.handleSubmit}
             >
               <Form.Item>
-                <AutoCompleteInput judges={this.state.judges} onSelect={this.onSelect} />
+                <Input id="judge-name"/>
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">
@@ -76,13 +95,16 @@ class Judge extends React.PureComponent {
           </div>
           :
           <div>
-            <Row gutter={16}>
-              {this.state.round.criteria.map((each, k) => {
-                return(
-                <CriteriaCard key={k} title={each.criteria} />
-                );
-              })}
-            </Row>
+           <table className="judgeTable">
+             <thead>
+               <th>Slot. No</th>
+               <th>Team Name</th>
+               {
+                 this.state.round.criteria.map(i=><th>{i}</th>)
+               }
+               <th>Total</th>
+             </thead>
+           </table>
           </div>
         }
       </div>
