@@ -23,7 +23,7 @@ class App extends Component {
       <div>
         <button onClick={this.handleClick}>Test redux action</button>
         <Input />
-        <Button  value="click"/>
+        <Button  value="Login"/>
         <pre>
         {
           JSON.stringify(this.props)
