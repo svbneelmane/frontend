@@ -34,6 +34,9 @@ class EventList extends React.PureComponent {
               avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
               title={item.name}
               description={item.description}
+              style={{
+                cursor: "pointer",
+              }}
             />
           </List.Item>
         )}
