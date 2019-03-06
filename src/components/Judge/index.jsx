@@ -1,6 +1,5 @@
 import React from "react";
-import { Form, Button, Row, Input, message } from 'antd';
-import { CriteriaCard } from '../Cards/index'
+import { Form, Button,  Input, message } from 'antd';
 import constants from '../../utils/constants';
 import './style.css'
 
