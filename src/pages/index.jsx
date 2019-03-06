@@ -7,7 +7,6 @@ import Layout from "../layouts/app";
 
 export default () => (
   <Layout>
-    <div>s
-    </div>
+    
   </Layout>
 );
