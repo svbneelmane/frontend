@@ -28,10 +28,10 @@ export default class RoundView extends React.Component {
           {rounds.length===0?<Empty description="No rounds to show"/>:rounds.map((each, k) => {
             console.log(each)
             return (
-              <RoundCard eventId={this.props.event} key={k}  id={each.id} status={each.status} title={"round " + (k +1)} />
+              <RoundCard eventId={this.props.event} key={k}  id={each.id} status={each.status} title={"Round " + (k +1)} />
             );
           })}
-          
+
         </Row>
       </div>
     );
