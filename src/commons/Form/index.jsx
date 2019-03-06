@@ -4,10 +4,18 @@ const Input = (props) => (
   <input
     type="text"
     name={props.name}
-    value={props.value}
   />
 );
 
+const Button = (props) => (
+  <button
+    css={{
+      backgroundColor: (props.type === "primary") ? "#FF5800" :  null,
+    }}
+  >{props.value}</button>
+);
+
 export {
-  Input
+  Input,
+  Button
 }
