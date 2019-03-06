@@ -1,3 +1,5 @@
+import { userService } from '../services';
+
 export const login = async (username, password) => dispatch => {
   dispatch(request({ username }));
   let user = await userService.login(username, password)
