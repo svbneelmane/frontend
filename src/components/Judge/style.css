@@ -13,10 +13,17 @@
 .judge-title{
   color: #1890ff;
 }
-.judgeTable{
-  width:100%;
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+
 }
-.judgeTable, .judgeTable td,.judgeTable th{
-  border:1px solid #999;
-  padding:20px;
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+  text-align: center;
 }

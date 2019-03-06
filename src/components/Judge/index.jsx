@@ -1,6 +1,8 @@
 import React from "react";
-import { Form, Button,  Input, message } from 'antd';
+import { Form, Button, message, Input } from 'antd';
 import constants from '../../utils/constants';
+import { JudgeTable } from "./subComponents";
+
 import './style.css'
 
 class Judge extends React.PureComponent {
@@ -8,23 +10,29 @@ class Judge extends React.PureComponent {
     super(props);
     this.state = {
       judges: [],
+      judgeLocked: false,
       JudgeId: null,
       eventId: this.props.event,
       roundId: this.props.round,
+      round: null,
+      slotData: null,
     }
   }
 
   componentWillMount = () => {
-
-   /* fetch(constants.server + "/").then((res) => {
-      return res.json();
-    }).then((res) => {
-      this.setState({
-        judges: res.data,
-      });
-    });*/
-
     this.getRoundPayload();
+  }
+
+  componentDidMount = () => {
+    fetch(constants.server + `/events/${this.state.eventId}/rounds/${this.state.roundId}/slots`)
+      .then(res => {
+        return res.json();
+      })
+      .then(res => {
+        this.setState({
+          slotData: res.data,
+        })
+      })
   }
 
   onSelect = (value) => {
@@ -44,11 +52,10 @@ class Judge extends React.PureComponent {
         message.error("Name is required!");
         return;
       }
-    let response   = await fetch(constants.server + "/judges/",{
+    let response   = await fetch(constants.server + `/events/${this.state.eventId}/rounds/${this.state.roundId}/judge`,{
       method: "POST",
       body:JSON.stringify({
-        name,
-        round:this.props.round
+        name
       }),
       headers:{
         'Content-Type':'application/json',
@@ -56,24 +63,20 @@ class Judge extends React.PureComponent {
       }
     });
     let json = await response.json();
-    console.log(json);
     this.setState({
-      JudgeId: json.data._id,
+      JudgeId: json.data.id,
     })
   }
 
   getRoundPayload = async () => {
-    let response   = await fetch(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId);
+    let response   = await fetch(constants.server + `/events/${this.state.eventId}/rounds/${this.state.roundId}`);
     let json = await response.json();
-    this.setState({
+    await this.setState({
         round : json.data
-    },()=>{
-      console.log(this.state);
     });
   }
 
   render() {
-    console.log(this);
     return (
       <div>
         {!this.state.JudgeId ?
@@ -94,16 +97,7 @@ class Judge extends React.PureComponent {
           </div>
           :
           <div>
-           <table className="judgeTable">
-             <thead>
-               <th>Slot. No</th>
-               <th>Team Name</th>
-               {
-                 this.state.round.criteria.map(i=><th>{i}</th>)
-               }
-               <th>Total</th>
-             </thead>
-           </table>
+            <JudgeTable round={this.state.round} slotData={this.state.slotData}/>
           </div>
         }
       </div>

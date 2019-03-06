@@ -1,5 +1,6 @@
 import React from 'react';
 import { AutoComplete } from 'antd';
+import './style.css'
 
 const AutoCompleteInput = (props) => {
   const Option = AutoComplete.Option;
@@ -21,6 +22,46 @@ const AutoCompleteInput = (props) => {
   );
 }
 
+const JudgeTable = (props) => {
+  console.log(props);
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>Slot No.</th>
+          <th>Team Name</th>
+          {props.round.criteria.map((each, k) => {
+              return (
+                <th key={k}>{each}</th>
+              )
+            })
+          }
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          props.slotData.map((each, k) => {
+            return (
+              <tr key={k}>
+                <th>{each.number}</th>
+                <th>{each.teamName}</th>
+                {props.round.criteria.map((ele,ke) => {
+                  return(
+                    <th><input type="text"></input></th>
+                  )
+                })}
+                <th></th>
+              </tr>
+              )
+            })
+        }
+      </tbody>
+    </table>
+  )
+}
+
 export {
   AutoCompleteInput,
+  JudgeTable
 }

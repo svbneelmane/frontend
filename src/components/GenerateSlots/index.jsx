@@ -240,6 +240,7 @@ export default class GenerateSlots extends Component {
       }];
       
       dataSource = json.data.map(data=>{
+        console.log(data);
         return {
           slot:data.number,
           team:data.teamName
