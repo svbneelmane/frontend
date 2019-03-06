@@ -13,3 +13,10 @@
 .judge-title{
   color: #1890ff;
 }
+.judgeTable{
+  width:100%;
+}
+.judgeTable, .judgeTable td,.judgeTable th{
+  border:1px solid #999;
+  padding:20px;
+}
