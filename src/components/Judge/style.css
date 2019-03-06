@@ -27,3 +27,73 @@ td, th {
   padding: 8px;
   text-align: center;
 }
+
+.judgeTable input{
+  text-align: center;
+  min-width: 50px;
+}
+
+.judgeTable input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.submit{
+  padding:20px;
+  text-align: right;
+}
+.submit button{
+  background: #883030;
+  color:#fff;
+  border:0px;
+  padding: 10px 20px;
+  border-radius: 30px;
+  box-shadow: 0px 0px 10px #999;
+  outline: none;
+}
+
+.dialog-background{
+  position: absolute;
+  left:0px;
+  top:0px;
+  width:100vw;
+  height:100vh;
+  background: rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dialog{
+  background: #fff;
+  max-width: 400px;
+}
+.dialog .header{
+  padding:10px;
+  font-size: 18px;
+  text-align: center;
+  background: #021225;
+  color:#fff;
+}
+.dialog .body{
+  padding: 20px;
+}
+.dialog .options button{
+  padding:5px;
+  margin:10px;
+  background: #999;
+  color:#eee;
+  border-radius: 10px;
+  border:0px;
+  outline: none;
+  box-shadow: 0px 0px 25px #aaa;
+}
+.dialog .options .left{
+  float: left;
+}
+.dialog .options .right{
+  float: right;
+}
+.dialog-background.hide{
+  display: none;
+}

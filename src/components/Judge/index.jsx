@@ -8,10 +8,10 @@ import './style.css'
 class Judge extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state =JSON.parse(localStorage.getItem("Judge"))||{
       judges: [],
       judgeLocked: false,
-      JudgeId: null,
+      JudgeId:null,
       eventId: this.props.event,
       roundId: this.props.round,
       round: null,
@@ -65,6 +65,8 @@ class Judge extends React.PureComponent {
     let json = await response.json();
     this.setState({
       JudgeId: json.data.id,
+    },()=>{
+      localStorage.setItem('Judge',JSON.stringify(this.state));
     })
   }
 
