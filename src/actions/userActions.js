@@ -1,18 +1,21 @@
-import { userService } from '../services';
+import { userService } from '../services/userService';
 
 export const login = async (username, password) => dispatch => {
-  dispatch(request({ username }));
-  let user = await userService.login(username, password)
-  user => {
-    dispatch(success(user));
-  },
-  error => {
-    dispatch(failure(error.toString()));
-  }
 
-  request = (user) => { return { type: 'LOGIN_REQUEST', user } }
-  success = (user) => { return { type: 'LOGIN_SUCCESS', user } }
-  failure = (error) => { return { type: 'LOGIN_FAILURE', error } }
+  const request = (user) => { return { type: 'LOGIN_REQUEST', user } }
+  const success = (user) => { return { type: 'LOGIN_SUCCESS', user } }
+  const failure = (error) => { return { type: 'LOGIN_FAILURE', error } }
+
+  dispatch(request({ username }));
+  userService.login(username, password)
+    .then(
+      user => {
+        dispatch(success(user));
+      },
+      error => {
+        dispatch(failure(error.toString()));
+      }
+    )
 }
 
 export const logout = () => dispatch => {
