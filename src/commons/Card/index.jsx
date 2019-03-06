@@ -16,7 +16,6 @@ const RoundCard = (props) => (
       css={{
         padding: "16px",
         fontSize: "1.2em",
-        color: "#FF5800"
       }}
     >{props.title}</div>
     <div

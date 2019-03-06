@@ -9,7 +9,7 @@ const EventList = (props) => (
       cursor: "pointer",
     }
   }}>
-    <div css={{ fontSize: "1.2em", color: "#FF5800" }} >{props.title}</div>
+    <div css={{ fontSize: "1.2em"}} >{props.title}</div>
     <div css={{ opacity: "0.45" }}>{props.description}</div>
   </div>
 );
