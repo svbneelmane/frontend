@@ -23,6 +23,7 @@ const AutoCompleteInput = (props) => {
 }
 
 const JudgeTable = (props) => {
+  console.log(props);
   return (
     <table>
       <thead>

@@ -1,7 +1,8 @@
 import React from "react";
-import { Form, Button, Row } from 'antd';
+import { Form, Button, message, Input } from 'antd';
 import constants from '../../utils/constants';
-import { AutoCompleteInput, JudgeTable } from "./subComponents";
+import { JudgeTable } from "./subComponents";
+
 import './style.css'
 
 class Judge extends React.PureComponent {
@@ -9,7 +10,7 @@ class Judge extends React.PureComponent {
     super(props);
     this.state = {
       judges: [],
-      judgeLocked: false, //change back to false before pushing
+      judgeLocked: false,
       JudgeId: null,
       eventId: this.props.event,
       roundId: this.props.round,
@@ -19,21 +20,11 @@ class Judge extends React.PureComponent {
   }
 
   componentWillMount = () => {
-
-    fetch(constants.server + "/judges").then((res) => {
-      return res.json();
-    }).then((res) => {
-      this.setState({
-        judges: res.data,
-      });
-    });
-
     this.getRoundPayload();
   }
 
   componentDidMount = () => {
-    console.log(this.state)
-    fetch(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId + "/slots")
+    fetch(constants.server + `/events/${this.state.eventId}/rounds/${this.state.roundId}/slots`)
       .then(res => {
         return res.json();
       })
@@ -50,36 +41,52 @@ class Judge extends React.PureComponent {
     })
   }
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.saveJudge();
+  }
+  async saveJudge(){
+    let name = document.querySelector("#judge-name").value;
+    if(name.length===0)
+      {
+        message.error("Name is required!");
+        return;
+      }
+    let response   = await fetch(constants.server + `/events/${this.state.eventId}/rounds/${this.state.roundId}/judge`,{
+      method: "POST",
+      body:JSON.stringify({
+        name
+      }),
+      headers:{
+        'Content-Type':'application/json',
+        'Accept':'application/json'
+      }
+    });
+    let json = await response.json();
     this.setState({
-      judgeLocked: true,
+      JudgeId: json.data.id,
     })
   }
 
-  getRoundPayload = () => {
-    fetch(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId).then(res => {
-      return res.json();
-    }).then( res => {
-      this.setState({
-        round : res.data
-      })
-    })
+  getRoundPayload = async () => {
+    let response   = await fetch(constants.server + `/events/${this.state.eventId}/rounds/${this.state.roundId}`);
+    let json = await response.json();
+    await this.setState({
+        round : json.data
+    });
   }
 
   render() {
     return (
       <div>
-        {!this.state.judgeLocked ?
+        {!this.state.JudgeId ?
           <div className="judge-container">
             <h2 className="judge-title">Enter Judge Name</h2>
             <Form
-              onSubmit={event => {
-                event.preventDefault();
-                this.handleSubmit(event);
-              }}
+              onSubmit={this.handleSubmit}
             >
               <Form.Item>
-                <AutoCompleteInput judges={this.state.judges} onSelect={this.onSelect} />
+                <Input id="judge-name"/>
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">
