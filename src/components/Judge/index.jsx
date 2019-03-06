@@ -1,8 +1,7 @@
 import React from "react";
 import { Form, Button, Row } from 'antd';
-import { CriteriaCard } from '../Cards/index'
 import constants from '../../utils/constants';
-import { AutoCompleteInput } from "./subComponents";
+import { AutoCompleteInput, JudgeTable } from "./subComponents";
 import './style.css'
 
 class Judge extends React.PureComponent {
@@ -10,10 +9,12 @@ class Judge extends React.PureComponent {
     super(props);
     this.state = {
       judges: [],
-      judgeLocked: false,
+      judgeLocked: false, //change back to false before pushing
       JudgeId: null,
       eventId: this.props.event,
       roundId: this.props.round,
+      round: null,
+      slotData: null,
     }
   }
 
@@ -28,6 +29,19 @@ class Judge extends React.PureComponent {
     });
 
     this.getRoundPayload();
+  }
+
+  componentDidMount = () => {
+    console.log(this.state)
+    fetch(constants.server + "/events/" + this.state.eventId + "/rounds/" + this.state.roundId + "/slots")
+      .then(res => {
+        return res.json();
+      })
+      .then(res => {
+        this.setState({
+          slotData: res.data,
+        })
+      })
   }
 
   onSelect = (value) => {
@@ -76,13 +90,7 @@ class Judge extends React.PureComponent {
           </div>
           :
           <div>
-            <Row gutter={16}>
-              {this.state.round.criteria.map((each, k) => {
-                return(
-                <CriteriaCard key={k} title={each.criteria} />
-                );
-              })}
-            </Row>
+            <JudgeTable round={this.state.round} slotData={this.state.slotData}/>
           </div>
         }
       </div>
