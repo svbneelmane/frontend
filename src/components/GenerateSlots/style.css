@@ -51,13 +51,14 @@
 }
 .table table{
   color:#000;
-  border:1px solid #000;
+  border: 1px solid #000;
 }
 .table caption{
   caption-side: top;
   min-width: 600px;
   text-align: center;
 }
-.table th,td{
-  border:1px solid #000;
+
+table th,td{
+  border: 1px solid #eee;
 }
