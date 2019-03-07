@@ -80,9 +80,9 @@ async handleSubmit(){
    body:JSON.stringify(scores)
  });
  let json = await response.json();
+ console.log(scores,json);
  if(json){
-   localStorage.setItem('JudgeTable','');
-   localStorage.setItem('Judge','');
+   localStorage.clear();
    navigate("/app/events")
  }
 }
