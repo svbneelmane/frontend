@@ -200,17 +200,18 @@ function WordShuffler(holder,opt){
 
 
 export default class GenerateSlots extends Component {
-  state={
-    slotted:false,
-    loaded:false,
-    slottingStarted:false,
-    columns:[],
-    dataSource:[],
-    slots:[]
-  }
+  
   constructor(props){
     super(props);
     this.startSlotting=this.startSlotting.bind(this);
+    this.state={
+      slotted:false,
+      loaded:false,
+      slottingStarted:false,
+      columns:[],
+      dataSource:[],
+      slots:[]
+    }
   }
   teams=[];
   async componentDidMount(){
@@ -236,7 +237,6 @@ export default class GenerateSlots extends Component {
       }];
       
       dataSource = json.data.map((data,k)=>{
-
         return {
           key: k,
           slot:data.number,
@@ -256,6 +256,7 @@ export default class GenerateSlots extends Component {
   async startSlotting(){
     let slottable = document.querySelector(".slottable");
     slottable.classList.add("rotate");
+    
     let response =  await fetch(constants.server + `/events/${this.props.event}/rounds/${this.props.round}/slots`,{
       method: 'POST',
       headers: {
@@ -265,7 +266,9 @@ export default class GenerateSlots extends Component {
     });
     let json = await response.json();
     let slots = json.data;
-    console.log(slots,this.state);
+
+
+
     this.setState({slots},()=>{
       setTimeout(()=>this.animate(0),2000);
     })
