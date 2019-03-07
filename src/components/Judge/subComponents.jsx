@@ -3,6 +3,7 @@ import { AutoComplete, message } from 'antd';
 import './style.css'
 import constants from '../../utils/constants';
 import { Button } from 'antd';
+import { navigate } from 'gatsby';
 
 const AutoCompleteInput = (props) => {
   const Option = AutoComplete.Option;
@@ -79,6 +80,11 @@ async handleSubmit(){
    body:JSON.stringify(scores)
  });
  let json = await response.json();
+ if(json){
+   localStorage.setItem('JudgeTable','');
+   localStorage.setItem('Judge','');
+   navigate("/app/events")
+ }
 }
 render = () => {
   let props = this.props;

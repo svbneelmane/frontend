@@ -235,7 +235,7 @@ export default class GenerateSlots extends Component {
         key: 'team',
       }];
       
-      dataSource = json.data.map(data=>{
+      dataSource = json.data.map((data,k)=>{
 
         return {
           key: k,
@@ -265,7 +265,7 @@ export default class GenerateSlots extends Component {
     });
     let json = await response.json();
     let slots = json.data;
-    
+    console.log(slots,this.state);
     this.setState({slots},()=>{
       setTimeout(()=>this.animate(0),2000);
     })
