@@ -34,7 +34,7 @@ export default class extends React.PureComponent {
         renderItem={(item, i) => (
           <List.Item>
             <List.Item.Meta
-              title={ (i + 1) + ". " + item.college }
+              title={ (i + 1) + ". " + item.team }
               description={ item.points + " points "}
               style={{
                 cursor: "pointer",
