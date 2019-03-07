@@ -239,9 +239,10 @@ export default class GenerateSlots extends Component {
         key: 'team',
       }];
       
-      dataSource = json.data.map(data=>{
+      dataSource = json.data.map((data,k)=>{
         console.log(data);
         return {
+          key: k,
           slot:data.number,
           team:data.teamName
         }
