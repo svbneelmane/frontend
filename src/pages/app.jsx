@@ -9,15 +9,16 @@ import Profile from "../components/Profile";
 import Judge from "../components/Judge";
 import Layout from '../layouts/app/index';
 import GenerateSlots from "../components/GenerateSlots";
+import Leaderboard from "../components/Leaderboard";
 
 export default class Views extends React.Component {
   render() {
     return (
       <Layout>
         <Router>
-          { /* TODO: Profile is a temporary page to test login. */}
           <PrivateRoute path="/app" component={Profile} />
           <PrivateRoute path="/app/registration" component={Registration} />
+          <PrivateRoute path="/app/events/:event/rounds/:round/leaderboard" component={Leaderboard} exact />
           <Login path="/app/login" />
           <RoundList path="/app/events/:event/rounds" exact/>
           <EventList path="app/events" />
