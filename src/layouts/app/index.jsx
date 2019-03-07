@@ -47,7 +47,7 @@ export default ({ children }) => (
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#f5f5f5', padding: 5, fontWeight:900 }}>Manipal Utsav</Header>
+          <Header style={{ background: '#f5f5f5', padding: 5, fontWeight:900 }}>HUES MCODS</Header>
           <Content >
             <div style={{ padding: 24, background: '#fff', minHeight: '100vh' }}>
             { children }
