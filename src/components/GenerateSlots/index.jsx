@@ -200,17 +200,18 @@ function WordShuffler(holder,opt){
 
 
 export default class GenerateSlots extends Component {
-  state={
-    slotted:false,
-    loaded:false,
-    slottingStarted:false,
-    columns:[],
-    dataSource:[],
-    slots:[]
-  }
+  
   constructor(props){
     super(props);
     this.startSlotting=this.startSlotting.bind(this);
+    this.state={
+      slotted:false,
+      loaded:false,
+      slottingStarted:false,
+      columns:[],
+      dataSource:[],
+      slots:[]
+    }
   }
   teams=[];
   async componentDidMount(){
@@ -255,6 +256,7 @@ export default class GenerateSlots extends Component {
   async startSlotting(){
     let slottable = document.querySelector(".slottable");
     slottable.classList.add("rotate");
+    /*
     let response =  await fetch(constants.server + `/events/${this.props.event}/rounds/${this.props.round}/slots`,{
       method: 'POST',
       headers: {
@@ -264,6 +266,76 @@ export default class GenerateSlots extends Component {
     });
     let json = await response.json();
     let slots = json.data;
+    */
+    let slots = [
+
+    {
+      number: 1,
+      round: "a",
+      team: "c",
+      name: "Third Year Team"
+    },
+    {
+      number: 2,
+      round: "a",
+      team: "c",
+      name: "First Year Team"
+    },
+
+    {
+      number: 3,
+      round: "a",
+      team: "c",
+      name: "Final Year Team"
+    },
+    {
+      number: 4,
+      round: "a",
+      team: "a",
+      name: "Tips Team"
+    },
+    {
+      number: 5,
+      round: "a",
+      team: "c",
+      name: "Second Year Team"
+    },
+    ];
+
+  // let slots = [
+
+  //   {
+  //     number: 1,
+  //     round: "a",
+  //     team: "c",
+  //     name: "Janani & Naznin"
+  //   },
+  //   {
+  //     number: 2,
+  //     round: "a",
+  //     team: "c",
+  //     name: "Avni & "
+  //   },
+    
+  //   {
+  //     number: 3,
+  //     round: "a",
+  //     team: "c",
+  //     name: "Final Year Team"
+  //   },
+  //   {
+  //     number: 4,
+  //     round: "a",
+  //     team: "a",
+  //     name: "Tips Team"
+  //   },
+  //   {
+  //     number: 5,
+  //     round: "a",
+  //     team: "c",
+  //     name: "Second Year Team"
+  //   },
+  //   ];
     
     this.setState({slots},()=>{
       setTimeout(()=>this.animate(0),2000);
