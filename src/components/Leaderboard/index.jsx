@@ -15,15 +15,15 @@ export default class extends React.PureComponent {
     fetch(
       constants.server
         + "/events/"
-        + this.state.eventId
+        + this.props.event
         + "/rounds/"
-        + this.state.roundId
+        + this.props.round
         + "/leaderboard"
     ).then(res => res.json()).then(res => {
       this.setState({
         leaderboard: res.data.sort((a, b) => parseFloat(b.points) - parseFloat(a.points)),
       });
-    });
+    })
   }
 
   render() {
@@ -34,7 +34,7 @@ export default class extends React.PureComponent {
         renderItem={(item, i) => (
           <List.Item>
             <List.Item.Meta
-              title={ (i + 1) + ". " + item.team }
+              title={ (i + 1) + ". " + item.team.name }
               description={ item.points + " points "}
               style={{
                 cursor: "pointer",
