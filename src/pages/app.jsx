@@ -21,9 +21,9 @@ export default class Views extends React.Component {
           <PrivateRoute path="/app" component={Profile} />
           <PrivateRoute path="/app/registration" component={Registration} />
           <PrivateRoute path="/app/events/:event/rounds" exact component={RoundList} />
-          <PrivateRoute path="app/events" component={EventList} />
-          <PrivateRoute path="app/judge/:event/rounds/:round" exact component={Judge} />
-          <PrivateRoute path="app/events/:event/rounds/:round/slot" exact component={GenerateSlots} />
+          <PrivateRoute path="/app/events" component={EventList} />
+          <PrivateRoute path="/app/judge/:event/rounds/:round" exact component={Judge} />
+          <PrivateRoute path="/app/events/:event/rounds/:round/slot" exact component={GenerateSlots} />
           <PrivateRoute path="/app/events/:event/rounds/:round/leaderboard" component={Leaderboard} exact />
         </Router>
       </Layout>
