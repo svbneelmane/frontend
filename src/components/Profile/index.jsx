@@ -23,6 +23,7 @@ export default class Profile extends React.Component {
         <li>E-mail: {data.email||'Loading...'}</li>
       </ul>
       <button onClick={()=>this.handleLogout()}>Logout</button>
+      <button onClick={() => localStorage.clear()}>clear</button>
     </>);
   }
 

@@ -16,14 +16,15 @@ export default class Views extends React.Component {
     return (
       <Layout>
         <Router>
+          { /* TODO: Profile is a temporary page to test login. */}
+          <Login path="/app/login" />
           <PrivateRoute path="/app" component={Profile} />
           <PrivateRoute path="/app/registration" component={Registration} />
+          <PrivateRoute path="/app/events/:event/rounds" exact component={RoundList} />
+          <PrivateRoute path="app/events" component={EventList} />
+          <PrivateRoute path="app/judge/:event/rounds/:round" exact component={Judge} />
+          <PrivateRoute path="app/events/:event/rounds/:round/slot" exact component={GenerateSlots} />
           <PrivateRoute path="/app/events/:event/rounds/:round/leaderboard" component={Leaderboard} exact />
-          <Login path="/app/login" />
-          <RoundList path="/app/events/:event/rounds" exact/>
-          <EventList path="app/events" />
-          <Judge path="app/judge/:event/rounds/:round" exact/>
-          <GenerateSlots path="app/events/:event/rounds/:round/slot" exact/>
         </Router>
       </Layout>
     );

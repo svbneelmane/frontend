@@ -1,6 +1,6 @@
 import React from "react";
 import { navigate } from 'gatsby';
-import { List, Avatar, Tag, Form } from 'antd';
+import { List, Avatar, Form } from 'antd';
 import constants from '../../utils/constants';
 
 class EventList extends React.PureComponent {

@@ -96,9 +96,7 @@ function WordShuffler(holder,opt){
     this.holder = holder;
   }
 
-  if(!this.useCanvas && typeof this.holder == "undefined"){
-    console.warn('Holder must be defined in DOM Mode. Use Canvas or define Holder');
-  }
+ 
 
 
   this.getRandCharacter = function(characterToReplace){    
@@ -193,7 +191,6 @@ function WordShuffler(holder,opt){
   this.writeWord(options.word);
 
 
-  //console.log(this.currentWord);
   update(time);
 }
 
@@ -222,7 +219,6 @@ export default class GenerateSlots extends Component {
      */
     let response =  await fetch(constants.server + `/events/${this.props.event}/rounds/${this.props.round}/slots`);
     let json = await response.json();
-    console.log('json',json);
     let dataSource=[],columns=[];
     ///:event/rounds/:round/slots
     if(json.data.length===0){
@@ -239,8 +235,8 @@ export default class GenerateSlots extends Component {
         key: 'team',
       }];
       
-      dataSource = json.data.map((data,k)=>{
-        console.log(data);
+      dataSource = json.data.map(data=>{
+
         return {
           key: k,
           slot:data.number,
@@ -258,7 +254,6 @@ export default class GenerateSlots extends Component {
     });
   }
   async startSlotting(){
-    console.log(this);
     let slottable = document.querySelector(".slottable");
     slottable.classList.add("rotate");
     let response =  await fetch(constants.server + `/events/${this.props.event}/rounds/${this.props.round}/slots`,{
@@ -278,12 +273,10 @@ export default class GenerateSlots extends Component {
     animate=(i)=>{
       if(i>=this.state.slots.length)
         return;
-      console.log(this.state.slots[i]);
     let wordLen = this.state.slots[i].name.length;
     let fps = 50;
     let timeOffset = 10;
     let tpc = timeOffset/fps;
-    console.log(document.querySelector('#team-'+this.state.slots[i].number),this.state.slots[i].name);
     new WordShuffler(document.querySelector('#team-'+this.state.slots[i].number),{
       textColor : '#000',
       timeOffset,
@@ -327,9 +320,7 @@ export default class GenerateSlots extends Component {
       </div>
       
     </div>);
-  componentDidUpdate(){
-    console.log(this);
-  }
+
   slotted=()=>(
     <div>
       <Table dataSource={this.state.dataSource} columns={this.state.columns} />
