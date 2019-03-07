@@ -63,12 +63,12 @@ async handleSubmit(){
   console.log(this);
  let scores= await this.props.slotData.map(slot=>{
   return{
+    judges:[{
+      id:JSON.parse(localStorage.getItem('Judge')).JudgeId,
+      points:this.props.round.criteria.map((name,index)=>Number(this.state[`s${slot.number}-c${index}`]||0)),
+    }],
     team:slot.team,
     round:slot.round,
-    event:this.props.round.event,
-    criteriaScores:this.props.round.criteria.map((name,index)=>Number(this.state[`s${slot.number}-c${index}`]||0)),
-    total: Number(this.state[`s${slot.number}-total`]|0),
-    judge: JSON.parse(localStorage.getItem('Judge')).JudgeId
   }
  });
  console.log(`${constants.server}/events/${this.props.round.event}/rounds/${this.props.round.id}/scores`);
