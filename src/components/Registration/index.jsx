@@ -82,7 +82,6 @@ class NormalRegForm extends React.Component {
   }
 
   add = () => {
-    console.log(this.props)
     const { form } = this.props;
     const keys = form.getFieldValue('keys');
     const nextKeys = keys.concat(this.id++);

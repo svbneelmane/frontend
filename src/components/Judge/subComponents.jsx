@@ -43,7 +43,6 @@ handleInput(event){
     let slotNo = name.split('-')[0].replace("s","");
     let total =0;
     criteria.map((i,k)=>total+=Number(this.state[`s${slotNo}-c${k}`]||0));
-    console.log(total);
     this.setState({
       [`s${slotNo}-total`]:total
     },()=>{
@@ -61,7 +60,6 @@ hideDialog(){
   dialog.classList.add('hide');
 }
 async handleSubmit(){
-  console.log(this);
  let scores= await this.props.slotData.map(slot=>{
   return{
     judges:[{
@@ -72,7 +70,6 @@ async handleSubmit(){
     round:slot.round,
   }
  });
- console.log(`${constants.server}/events/${this.props.round.event}/rounds/${this.props.round.id}/scores`);
  let response = await fetch(`${constants.server}/events/${this.props.round.event}/rounds/${this.props.round.id}/scores`,{
    method:"POST",
    headers:{
@@ -82,7 +79,6 @@ async handleSubmit(){
    body:JSON.stringify(scores)
  });
  let json = await response.json();
- console.log(scores,json);
 }
 render = () => {
   let props = this.props;
