@@ -236,7 +236,9 @@ export default class GenerateSlots extends Component {
       }];
       
       dataSource = json.data.map(data=>{
+
         return {
+          key: k,
           slot:data.number,
           team:data.teamName
         }
@@ -302,7 +304,16 @@ export default class GenerateSlots extends Component {
               <tr><th>Slot. No. </th><th>Team Name</th></tr>
               </thead>
               <tbody>
-              {this.state.slots.map(slot=><tr><th>{slot.number}</th><th id={"team-"+slot.number} >{slot.teamName}</th></tr>)}
+              {
+                this.state.slots.map((slot, k) => {
+                  return (
+                    <tr key={k}>
+                      <th>{slot.number}</th>
+                      <th id={"team-"+slot.number} >{slot.teamName}</th>
+                    </tr>
+                  )
+                })
+              }
               </tbody>
           </table>
           </div>

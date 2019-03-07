@@ -9,6 +9,7 @@ import Profile from "../components/Profile";
 import Judge from "../components/Judge";
 import Layout from '../layouts/app/index';
 import GenerateSlots from "../components/GenerateSlots";
+import Leaderboard from "../components/Leaderboard";
 
 export default class Views extends React.Component {
   render() {
@@ -23,6 +24,7 @@ export default class Views extends React.Component {
           <PrivateRoute path="app/events" component={EventList} />
           <PrivateRoute path="app/judge/:event/rounds/:round" exact component={Judge} />
           <PrivateRoute path="app/events/:event/rounds/:round/slot" exact component={GenerateSlots} />
+          <PrivateRoute path="/app/events/:event/rounds/:round/leaderboard" component={Leaderboard} exact />
         </Router>
       </Layout>
     );

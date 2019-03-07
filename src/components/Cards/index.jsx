@@ -9,6 +9,7 @@ export const RoundCard = (props) => {
       <Col  span={8}>
         <Card className="card" title={props.title} >
           <Button onClick={ event => { navigate(`/app/events/${props.eventId}/rounds/${props.id}/slot`) }} className="btn" size="large" block type="secondary"> Generate Slots </Button>
+          <Button onClick={ event => { navigate(`app/events/${props.eventId}/rounds/${props.id}/leaderboard`); }} className="btn" size="large" block type="secondary"> View Leaderboard </Button>
           <Button onClick={ event => { navigate(`app/judge/${props.eventId}/rounds/${props.id}`); }} className="btn" size="large" block type="primary"> Start Judging </Button>
         </Card>
       </Col>
