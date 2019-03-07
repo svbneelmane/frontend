@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { AutoComplete } from 'antd';
+import { AutoComplete, message } from 'antd';
 import './style.css'
+import constants from '../../utils/constants';
 
 const AutoCompleteInput = (props) => {
   const Option = AutoComplete.Option;
@@ -27,12 +28,15 @@ class JudgeTable extends Component{
 constructor(props){
   super(props);
   this.handleInput=this.handleInput.bind(this);
+  this.handleSubmit = this.handleSubmit.bind(this);
   this.state = JSON.parse(localStorage.getItem('JudgeTable'))||{};
 }
 handleInput(event){
   let {name,value} = event.target
-  console.log(name,this.state,this.props);
-  
+  if(value<0||value>10){
+    message.error("Score cannot be above 10 or below 0");
+    return;
+  }
   this.setState({[name]:value},()=>{
     let criteria = this.props.round.criteria;
     let slotNo = name.split('-')[0].replace("s","");
@@ -55,8 +59,29 @@ hideDialog(){
   let dialog = document.querySelector(".dialog-background");
   dialog.classList.add('hide');
 }
-handleSubmit(){
-  console.log(1);
+async handleSubmit(){
+  console.log(this);
+ let scores= await this.props.slotData.map(slot=>{
+  return{
+    team:slot.team,
+    round:slot.round,
+    event:this.props.round.event,
+    criteriaScores:this.props.round.criteria.map((name,index)=>Number(this.state[`s${slot.number}-c${index}`]||0)),
+    total: Number(this.state[`s${slot.number}-total`]|0),
+    judge: JSON.parse(localStorage.getItem('Judge')).JudgeId
+  }
+ });
+ console.log(`${constants.server}/events/${this.props.round.event}/rounds/${this.props.round.id}/scores`);
+ let response = await fetch(`${constants.server}/events/${this.props.round.event}/rounds/${this.props.round.id}/scores`,{
+   method:"POST",
+   headers:{
+    'Content-Type':'application/json',
+    'Accept':'application/json'
+  },
+   body:JSON.stringify(scores)
+ });
+ let json = await response.json();
+ console.log(scores,json);
 }
 render = () => {
   let props = this.props;
