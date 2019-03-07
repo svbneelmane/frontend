@@ -64,9 +64,9 @@ class Judge extends React.PureComponent {
     });
     let json = await response.json();
     console.log('JSON',json);
-    console.log(json.data._id);
+    console.log(json.data.id);
     this.setState({
-      JudgeId: json.data._id,
+      JudgeId: json.data.id,
     },()=>{
       console.log(1);
       localStorage.setItem('Judge',JSON.stringify(this.state));

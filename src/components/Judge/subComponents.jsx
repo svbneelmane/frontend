@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { AutoComplete, message } from 'antd';
 import './style.css'
 import constants from '../../utils/constants';
+import { Button } from 'antd';
 
 const AutoCompleteInput = (props) => {
   const Option = AutoComplete.Option;
@@ -117,7 +118,7 @@ render = () => {
       </tbody>
     </table>
         <div className="submit">
-          <button onClick={this.confirmSubmit}>Submit</button>
+        <Button type="primary" onClick={this.confirmSubmit}>Submit</Button>
         </div>
         <div className="dialog-background hide">
           <div className="dialog">
@@ -126,8 +127,8 @@ render = () => {
               Once you submit you cannot change your scores, do you want to proceed?
             </div>
             <div className="options">
-                <button className="left" onClick={this.handleSubmit}>Submit</button>
-                <button className="right" onClick={this.hideDialog}>Cancel</button>
+                <Button type="primary" onClick={this.handleSubmit}>Submit</Button>
+                <Button type="primary" ghost onClick={this.hideDialog}>Cancel</Button>
             </div>
           </div>
         </div>
