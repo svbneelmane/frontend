@@ -82,7 +82,8 @@ async handleSubmit(){
  let json = await response.json();
  console.log(scores,json);
  if(json){
-   localStorage.clear();
+   localStorage.removeItem('Judge');
+   localStorage.removeItem('JudgeTable');
    navigate("/app/events")
  }
 }
