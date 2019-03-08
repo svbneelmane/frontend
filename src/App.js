@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {eventActions} from './actions/eventActions'
+import {eventActions} from './actions/eventActions';
+
 class App extends Component {
 
   render() {
