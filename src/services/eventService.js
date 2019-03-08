@@ -1,9 +1,10 @@
+import constants from '../utils/constants';
 const getEvents = () => {
   const requestOptions = {
     method: 'GET',
   };
 
-  return fetch("https://utsavb.bastionbot.org/events", requestOptions)
+  return fetch(`${constants.server}/events`, requestOptions)
     .then((response) => response.json())
     .then(events => {
         return events;
