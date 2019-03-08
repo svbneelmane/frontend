@@ -1,6 +1,6 @@
 import { userService } from '../services/userService';
 
-export const login = (username, password) => dispatch => {
+const login = (username, password) => dispatch => {
 
   const request = (user) => { return { type: 'LOGIN_REQUEST', user } }
   const success = (user) => { return { type: 'LOGIN_SUCCESS', user } }
@@ -18,9 +18,14 @@ export const login = (username, password) => dispatch => {
     )
 }
 
-export const logout = () => dispatch => {
+const logout = () => dispatch => {
     userService.logout();
     dispatch({
       type: 'LOGOUT_SUCCESS',
     })
+}
+
+export {
+  login,
+  logout,
 }

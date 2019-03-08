@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Input = (props) => (
-  <input type={props.type} placeholder={props.placeholder} css={{
+  <input onChange={ (e) => props.onChange(e.target)} name={props.name} type={props.type} placeholder={props.placeholder} css={{
     ...props.styles,
     height: "32px",
     width: "250px",
@@ -16,6 +16,7 @@ const Input = (props) => (
 
 const Button = (props) => (
   <button
+    onClick={props.onClick}
     css={{
       ...props.styles,
       position: "relative",

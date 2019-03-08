@@ -5,7 +5,7 @@ const login = (username, password) => {
     body: JSON.stringify({ username, password })
   };
 
-  return fetch("https://utsavb.bastionbot.org/users/login", requestOptions)
+  return fetch("https://api.manipalutsav.com/users/login", requestOptions)
     .then(handleResponse)
     .then(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -34,4 +34,9 @@ const handleResponse = (response) => {
 
     return data;
   });
+}
+
+export const userService = {
+  login,
+  logout,
 }
