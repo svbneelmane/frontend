@@ -22,7 +22,7 @@ const HeaderLogo = () => (
       <div css = {{
         fontSize: "1.3em",
       }}>
-        Manipal Utsav
+        MUCAPP
       </div>
     </div>
   </Link>
