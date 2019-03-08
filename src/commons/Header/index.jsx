@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "gatsby";
-
+import {FiMenu} from 'react-icons/fi'
 import Logo from "../../../static/favicon.png";
 
 const HeaderLogo = () => (
@@ -52,6 +52,9 @@ const HeaderLinks = () => (
   </ul>
 );
 
+const handleMenu=()=>{
+  
+}
 export default () => (
   <header css = {{
     display: "flex",
@@ -60,6 +63,10 @@ export default () => (
     height: 64,
     boxShadow: "0 2px 8px #f0f1f2",
   }}>
+    <FiMenu style={{transform: 'scale(2)',
+                    marginLeft: 5,
+                    color:'#df6148'}}
+                    onClick={handleMenu}/>
     <HeaderLogo />
     <HeaderLinks />
   </header>

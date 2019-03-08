@@ -7,5 +7,6 @@ export default () => (
     minWidth: 0,
     minHeight: "100vh",
   }}>
+  
   </sidebar>
 );
