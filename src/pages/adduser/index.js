@@ -19,15 +19,17 @@ export default class Adduser extends Component{
         college:null,
         type:null
       }
-      handleChange = (selectedOption) => {
-        this.setState({ selectedOption });
-        console.log(`Option selected:`, selectedOption);
+      handleChange = (name,selected) => {
+        this.setState({ [name]:selected },()=>{
+            console.log(this.state);
+        });
+        
       }
     render(){
         return(
             <Layout>
                 <h3>Add User</h3>
-                <form class="form" >
+                <form className="form" >
                     <div>
                         <label for="name">Name:</label>
                         <input name="name" autoComplete="off" id="name"/>
@@ -36,7 +38,7 @@ export default class Adduser extends Component{
                         <label for="college">College:</label>
                         <Select
                             value={this.state.college}
-                            onChange={this.handleChange}
+                            onChange={(selected)=>this.handleChange('college',selected)}
                             options={this.colleges}
                             className="select"
                             isSearchable={true}
@@ -58,11 +60,11 @@ export default class Adduser extends Component{
                         <label for="type">Type:</label>
                          <Select
                             value={this.state.type}
-                            onChange={this.handleChange}
+                            onChange={(selected)=>this.handleChange('type',selected)}
                             options={this.types}
                             className="select"
                             isSearchable={true}
-                            name="college"
+                            name="type"
                         />
                        
                     </div>

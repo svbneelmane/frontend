@@ -4,10 +4,10 @@
 .events .header{
     display: inline-block;
     vertical-align: top;
-    padding: 0px 30px
+    padding: 0px 30px;
 }
 .events .time,.event .venue{
-    font-size: 12px;
+    font-size: 14px;
     color:#999;
     margin-top: 5px;
 }

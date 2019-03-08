@@ -14,21 +14,21 @@ export default class Adduser extends Component{
         return(
             <Layout>
                 <h3>Events</h3>
-                <div class="events">
-                    <div class="event">
+                <div className="events">
+                    <div className="event">
                         <img src={dance} />
-                        <div class="header">
-                            <div class="name">Western Solo Dancing</div>
-                            <div class="venue"><label>Venue:</label> Manipal Institute of Technolody</div>
-                            <div class="time"><label>Date:</label> 2<sup>nd</sup> April</div>
+                        <div className="header">
+                            <div className="name">Western Solo Dancing</div>
+                            <div className="venue"><label>Venue:</label> Manipal Institute of Technolody</div>
+                            <div className="time"><label>Date:</label> 2<sup>nd</sup> April</div>
                         </div>
                     </div>
-                    <div class="event">
+                    <div className="event">
                         <img src={singing} />
-                        <div class="header">
-                            <div class="name">Solo Singing</div>
-                            <div class="venue"><label>Venue:</label> Manipal College of Dental Sciences</div>
-                            <div class="time">2<sup>nd</sup> April</div>
+                        <div className="header">
+                            <div className="name">Solo Singing</div>
+                            <div className="venue"><label>Venue:</label> Manipal College of Dental Sciences</div>
+                            <div className="time">2<sup>nd</sup> April</div>
                         </div>
                     </div>
                     
