@@ -12,6 +12,7 @@ const HeaderLogo = () => (
       <div>
         <img
           src = { Logo }
+          alt="Logo"
           height = "64"
           css = {{
             padding: 15,
