@@ -1,20 +1,22 @@
 import React from "react";
-import { navigate } from "gatsby";
-import { handleLogin, isLoggedIn } from "../../services/auth";
-import {
-  Form, Icon, Input, Button, message
-} from 'antd';
+import { Input, Button } from "../../commons/Form";
+import { connect } from 'react-redux';
+import { login } from '../../actions/userActions';
 
-class NormalLoginForm extends React.Component {
+const mapStateToProps = state => ({
+  ...state,
+});
 
-  componentWillMount(){
-    if (isLoggedIn() && typeof window !== `undefined`)
-      navigate(`/app`);
-  }
+const mapDispatchToProps = dispatch => ({
+ login: (email, password) => dispatch(login(email, password))
+})
 
-  handleSubmit = event => {
-    event.preventDefault();
+class Login extends React.Component {
 
+  constructor(props) {
+    super(props);
+
+<<<<<<< HEAD
     this.props.form.validateFields(async (err, values) => {
       if (!err){  
       
@@ -28,48 +30,52 @@ class NormalLoginForm extends React.Component {
        if (isLoggedIn()  && typeof window !== `undefined`) navigate(`/app`);
       }
     });
+=======
+    this.state = {
+      email: null,
+      password: null,
+    };
+>>>>>>> 0c79f51dc84dff584eeb73a9a68c67bd53c8bbe6
   }
 
-  render() {
-   
+  handleChange = (e) => {
+    this.setState({
+      [e.name]: e.value
+    })
+  }
 
-    const { getFieldDecorator } = this.props.form;
-    return (
-      <>
-        <Form
-          onSubmit={event => {
-            this.handleSubmit(event);
-           
-          }}
-          className="login-form"
-          style={{
-            margin: "0 auto",
-            maxWidth: 500
-          }}
-        >
-          <Form.Item>
-            {getFieldDecorator('email', {
-              rules: [{ required: true, type: "email", message: 'Please input your email!' }],
-            })(
-              <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} type="email" autoComplete="email" placeholder="Email" required />
-            )}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('password', {
-              rules: [{ required: true, message: 'Please input your password!' }],
-            })(
-              <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" autoComplete="new-password" placeholder="Password" required />
-            )}
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button">
-              Log in
-            </Button>
-          </Form.Item>
-        </Form>
-      </>
-    );
+  login = () => {
+    this.props.login(this.state.email, this.state.password);
+  }
+
+  render(){
+    return(
+      <div css={{
+        boxShadow: "0px 9px 12px -5px rgba(0, 0, 0, 0.1)",
+        padding: "16px 16px",
+        display: "block",
+        borderRadius: "5px",
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+      }}>
+        <div css={{
+          textAlign: "center",
+          marginBottom: "16px"
+        }}>Login</div>
+        <div>
+          <Input onChange={this.handleChange} name="email" type="text" placeholder="Email" />
+          <br />
+          <Input onChange={this.handleChange} type="password" name="password" placeholder="Password" />
+        </div>
+        <div css={{
+          marginTop: "16px"
+        }}>
+          <Button styles={{ left : "50%", transform : "translateX(-50%)" }} onClick={this.login} value="Sign in"></Button>
+        </div>
+      </div>
+    )
   }
 }
 
-export default Form.create({ name: 'normal_login' })(NormalLoginForm);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

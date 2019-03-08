@@ -1,28 +1,8 @@
 import React from "react";
-import { Link } from "gatsby";
+import { Provider } from 'react-redux'
+import configureStore from '../store';
+import App from '../App';
+import Login from '../components/Login';
 
-import { getUser, isLoggedIn } from "../services/auth";
-import Layout from "../layouts/default";
-
-export default () => (
-  <Layout>
-    <h1>Hello {isLoggedIn() ? getUser().name : "world"}!</h1>
-    <p>
-    {
-      isLoggedIn()
-      ? (
-          <>
-            You are logged in, so check your{" "}
-            <Link to="/app">profile</Link>
-          </>
-        )
-      : (
-          <>
-            You should <Link to="/app/login">log in</Link> to see restricted
-            content
-          </>
-        )
-    }
-    </p>
-  </Layout>
-);
+import Layout from "../layouts/app";
+export default () => <Provider store={configureStore()}><Layout><Login /></Layout></Provider>;
