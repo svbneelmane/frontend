@@ -4,25 +4,27 @@ import { Link } from "gatsby";
 import Logo from "../../../static/favicon.png";
 
 const HeaderLogo = () => (
-  <div css = {{
-    display: "flex",
-    alignItems: "center",
-  }}>
-    <div>
-      <img
-        src = { Logo }
-        height = "64"
-        css = {{
-          padding: 15,
-        }}
-      />
-    </div>
+  <Link to="/">
     <div css = {{
-      fontSize: "1.3em",
+      display: "flex",
+      alignItems: "center",
     }}>
-      Manipal Utsav
+      <div>
+        <img
+          src = { Logo }
+          height = "64"
+          css = {{
+            padding: 15,
+          }}
+        />
+      </div>
+      <div css = {{
+        fontSize: "1.3em",
+      }}>
+        Manipal Utsav
+      </div>
     </div>
-  </div>
+  </Link>
 );
 
 const HeaderLink = (props) => (
