@@ -1,7 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "gatsby";
-import {FiMenu} from 'react-icons/fi'
+import {FiMenu, FiArrowLeft,FiUser} from 'react-icons/fi'
 import Logo from "../../../static/favicon.png";
+import store from '../../reducers/sidebarReducer';
+import {open,close} from '../../actions/sidebarActions';
+import './style.css';
 
 const HeaderLogo = () => (
   <Link to="/">
@@ -46,28 +49,47 @@ const HeaderLinks = () => (
     listStyle: "none",
     display: "flex",
     fontSize: "0.8em",
+    marginRight:50
   }}>
     <HeaderLink title = "Events" to = "/events" />
     <HeaderLink title = "Leaderboard" to = "/leaderboard" />
+    <Link to="/login"> <FiUser class="userIcon"/></Link>
   </ul>
 );
 
-const handleMenu=()=>{
-  
-}
-export default () => (
-  <header css = {{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: 64,
-    boxShadow: "0 2px 8px #f0f1f2",
-  }}>
-    <FiMenu style={{transform: 'scale(2)',
-                    marginLeft: 5,
-                    color:'#df6148'}}
-                    onClick={handleMenu}/>
-    <HeaderLogo />
-    <HeaderLinks />
-  </header>
-);
+
+export default class Header extends Component{
+  state={
+    menu:'close'
+  }
+  componentDidMount(){
+    store.subscribe(()=>{
+      let storeState = store.getState();
+      this.setState({menu:storeState})
+      console.log(storeState,this.state);
+    });
+  }
+
+  render = () => (
+    <header css = {{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      height: 64,
+      boxShadow: "0 2px 8px #f0f1f2",
+    }}>
+    {
+      this.state.menu=='close'?<FiMenu style={{transform: 'scale(2)',
+      marginLeft: 5,
+      color:'#df6148'}}
+      onClick={open}/>:<FiArrowLeft style={{transform: 'scale(2)',
+      marginLeft: 5,
+      color:'#df6148'}}
+      onClick={close}/>
+    }
+      
+      <HeaderLogo />
+      <HeaderLinks />
+    </header>
+  );  
+} 

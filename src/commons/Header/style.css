@@ -1,0 +1,10 @@
+.userIcon{
+    transform:scale(1.7);
+    margin-left:5px;
+    border-radius: 50%;
+
+}
+.userIcon:hover{
+    background: #eee;
+
+}
