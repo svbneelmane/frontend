@@ -24,3 +24,7 @@ a {
 a:hover {
   color: #ffd100; /* accent */
 }
+
+input, textarea {
+  font-family: inherit;
+}
