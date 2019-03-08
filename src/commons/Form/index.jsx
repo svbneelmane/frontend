@@ -1,20 +1,6 @@
 import React from 'react';
 
 const Input = (props) => (
-  <input
-    type="text"
-    name={props.name}
-    css={{
-      ...props.styles,
-      width: 400,
-      height: 20,
-      padding: 20,
-      fontSize: "1em"
-    }}
-  />
-);
-
-const RounderInput = (props) => (
   <input type={props.type} placeholder={props.placeholder} css={{
     ...props.styles,
     height: "32px",
@@ -26,7 +12,7 @@ const RounderInput = (props) => (
     fontSize: "12px",
     outline: "0",
   }} />
-)
+);
 
 const Button = (props) => (
   <button
@@ -49,6 +35,5 @@ const Button = (props) => (
 
 export {
   Input,
-  RounderInput,
   Button
 }

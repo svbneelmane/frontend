@@ -1,5 +1,5 @@
 import React from "react";
-import { RounderInput, Button } from "../../commons/Form";
+import { Input, Button } from "../../commons/Form";
 
 export default class Login extends React.Component {
   render(){
@@ -18,9 +18,9 @@ export default class Login extends React.Component {
           marginBottom: "16px"
         }}>Lorem</div>
         <div>
-          <RounderInput type="text" placeholder="Email" />
+          <Input type="text" placeholder="Email" />
           <br />
-          <RounderInput type="password" placeholder="Password" />
+          <Input type="password" placeholder="Password" />
         </div>
         <div css={{
           marginTop: "16px"
