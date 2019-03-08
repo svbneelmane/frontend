@@ -16,7 +16,6 @@ export default class Views extends React.Component {
     return (
       <Layout>
         <Router>
-          { /* TODO: Profile is a temporary page to test login. */}
           <Login path="/app/login" />
           <PrivateRoute path="/app" component={Profile} />
           <PrivateRoute path="/app/registration" component={Registration} />
