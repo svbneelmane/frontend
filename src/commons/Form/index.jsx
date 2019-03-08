@@ -1,27 +1,34 @@
 import React from 'react';
 
 const Input = (props) => (
-  <input
-    type="text"
-    name={props.name}
-    css={{width:400, 
-      height:20, 
-      padding:20, 
-      fontSize: "1em"}}
-  />
+  <input onChange={ (e) => props.onChange(e.target)} name={props.name} type={props.type} placeholder={props.placeholder} css={{
+    ...props.styles,
+    height: "32px",
+    width: "250px",
+    borderRadius: "3px",
+    marginBottom: 10,
+    border: "1px #efefef solid",
+    paddingLeft: "16px",
+    fontSize: "12px",
+    outline: "0",
+  }} />
 );
 
 const Button = (props) => (
   <button
+    onClick={props.onClick}
     css={{
-      height:50, 
-      width:120, 
-      fontSize:"1em", 
-      background:"#ff5800", 
-      color:"#fff", 
-      borderRadius:"5px", 
-      ":focus":{outline:0}, 
-      ":hover":{ opacity:0.7}
+      ...props.styles,
+      position: "relative",
+      padding: "8px",
+      borderRadius: "3px",
+      backgroundColor: "#ff5800",
+      color: "white",
+      border: "none",
+      cursor: "pointer",
+      width: "100%",
+      ":focus": { outline: 0 },
+      ":hover": { opacity: 0.8 },
     }}>
     {props.value}
   </button>
