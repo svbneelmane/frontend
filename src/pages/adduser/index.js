@@ -5,13 +5,19 @@ import Select from 'react-select';
 
 
 export default class Adduser extends Component{
-     options = [
+     colleges = [
         { value: 'kmc-mangalore', label: 'Kasturba Medical College, Mangalore' },
         { value: 'mit-manipal', label: 'Manipal Institute of Technology, Mangalore' },
         { value: 'mcods-manipal', label: 'Manipal College of Dental Sciences' }
       ];
+      types = [
+          {value: "admin",label:'Admin'},
+          {value: "faculty",label:'Faculty Coordinators'},
+          {value: "support",label:'Support Team'},
+      ]
       state = {
-        selectedOption: null,
+        college:null,
+        type:null
       }
       handleChange = (selectedOption) => {
         this.setState({ selectedOption });
@@ -28,12 +34,14 @@ export default class Adduser extends Component{
                     </div>
                     <div>
                         <label for="college">College:</label>
-                        <input name="college" list="colleges" autoComplete="off" id="name"/>
-                        <datalist id="colleges">
-                            <option>MIT</option>
-                            <option>KMC</option>
-                            <option>MCODS</option>
-                        </datalist>
+                        <Select
+                            value={this.state.college}
+                            onChange={this.handleChange}
+                            options={this.colleges}
+                            className="select"
+                            isSearchable={true}
+                            name="college"
+                        />
                     </div>
                     <div>
                         <label for="email">Email Id:</label>
@@ -49,9 +57,9 @@ export default class Adduser extends Component{
                     <div>
                         <label for="type">Type:</label>
                          <Select
-                            value={this.state.selectedOption}
+                            value={this.state.type}
                             onChange={this.handleChange}
-                            options={this.options}
+                            options={this.types}
                             className="select"
                             isSearchable={true}
                             name="college"
