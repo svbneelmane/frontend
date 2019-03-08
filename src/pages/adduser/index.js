@@ -1,8 +1,22 @@
 import React,{ Component } from "react";
 import Layout from '../../layouts/app';
 import "./style.css";
+import Select from 'react-select';
+
 
 export default class Adduser extends Component{
+     options = [
+        { value: 'kmc-mangalore', label: 'Kasturba Medical College, Mangalore' },
+        { value: 'mit-manipal', label: 'Manipal Institute of Technology, Mangalore' },
+        { value: 'mcods-manipal', label: 'Manipal College of Dental Sciences' }
+      ];
+      state = {
+        selectedOption: null,
+      }
+      handleChange = (selectedOption) => {
+        this.setState({ selectedOption });
+        console.log(`Option selected:`, selectedOption);
+      }
     render(){
         return(
             <Layout>
@@ -14,7 +28,7 @@ export default class Adduser extends Component{
                     </div>
                     <div>
                         <label for="college">College:</label>
-                        <input name="name" list="colleges" autoComplete="off" id="name"/>
+                        <input name="college" list="colleges" autoComplete="off" id="name"/>
                         <datalist id="colleges">
                             <option>MIT</option>
                             <option>KMC</option>
@@ -34,14 +48,17 @@ export default class Adduser extends Component{
 
                     <div>
                         <label for="type">Type:</label>
-                        <select>
-                            <option>Admin</option>
-                            <option>Faculty Coordinator</option>
-                            <option>Support Team</option>
-                        </select>
+                         <Select
+                            value={this.state.selectedOption}
+                            onChange={this.handleChange}
+                            options={this.options}
+                            className="select"
+                            isSearchable={true}
+                            name="college"
+                        />
                        
                     </div>
-                    <div>
+                    <div style={{textAlign:"center"}}>
                         <button>Create</button>
                     </div>
                 </form>
