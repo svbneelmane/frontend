@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "gatsby";
-import {FiMenu, FiArrowLeft} from 'react-icons/fi'
+import {FiMenu, FiArrowLeft,FiUser} from 'react-icons/fi'
 import Logo from "../../../static/favicon.png";
 import store from '../../reducers/sidebarReducer';
 import {open,close} from '../../actions/sidebarActions';
+import './style.css';
 
 const HeaderLogo = () => (
   <Link to="/">
@@ -48,9 +49,11 @@ const HeaderLinks = () => (
     listStyle: "none",
     display: "flex",
     fontSize: "0.8em",
+    marginRight:50
   }}>
     <HeaderLink title = "Events" to = "/events" />
     <HeaderLink title = "Leaderboard" to = "/leaderboard" />
+    <Link to="/login"> <FiUser class="userIcon"/></Link>
   </ul>
 );
 
