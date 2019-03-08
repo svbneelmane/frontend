@@ -14,6 +14,45 @@ const Input = (props) => (
   }} />
 );
 
+const Tag = (props) => (
+  <div css={{
+    ...props.styles,
+    display : "inline-block"
+  }}>
+    {(props.type == 1) ? 
+      <div css={{
+        fontSize : "12px",
+        backgroundColor: "#108ee9",
+        color: "#ffffff",
+        padding: "4px",
+        borderRadius: "3px"
+      }}>
+        scheduled
+      </div>
+      :
+      (props.type == 2) ?
+      <div css={{
+        fontSize : "12px",
+        backgroundColor: "#87d068",
+        color: "#ffffff",
+        padding: "4px",
+        borderRadius: "3px"
+      }}>
+        In Process
+      </div> :
+      <div css={{
+        fontSize : "12px",
+        backgroundColor: "#f5222d",
+        color: "#ffffff",
+        padding: "4px",
+        borderRadius: "3px"
+      }}>
+        Finished
+      </div>
+    }
+  </div>
+);
+
 const Button = (props) => (
   <button
     onClick={props.onClick}
@@ -22,11 +61,12 @@ const Button = (props) => (
       position: "relative",
       padding: "8px",
       borderRadius: "3px",
-      backgroundColor: "#ff5800",
-      color: "white",
+      backgroundColor: props.color ? props.color : "#ff5800",
+      color: props.fontColor ? props.fontColor : "white",
       border: "none",
       cursor: "pointer",
       width: "100%",
+      fontSize: "16px",
       ":focus": { outline: 0 },
       ":hover": { opacity: 0.8 },
     }}>
@@ -36,5 +76,6 @@ const Button = (props) => (
 
 export {
   Input,
-  Button
+  Button,
+  Tag
 }

@@ -37,7 +37,7 @@ const HeaderLink = (props) => (
       padding: "20px 10px",
       color: "black",
       ":hover": {
-        borderTop: "2px solid orange",
+        borderTop: "4px solid #ff5800",
       },
     }}>
       { props.title }
