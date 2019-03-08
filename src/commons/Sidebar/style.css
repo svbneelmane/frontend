@@ -1,0 +1,8 @@
+.sidebar li{
+    padding:20px;
+    list-style: none;
+    border-bottom: 0.5px solid #eee;
+}
+.sidebar li:hover{
+    color: #ff5800;
+}
