@@ -16,26 +16,10 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
 
-<<<<<<< HEAD
-    this.props.form.validateFields(async (err, values) => {
-      if (!err){  
-      
-       let data = await handleLogin(values);
-       if(data.status){
-         if(data.status===401)
-          message.error('You are not authorized to login.');
-        else if(data.status!==200)
-          message.error(data.status+": "+data.message);
-       }
-       if (isLoggedIn()  && typeof window !== `undefined`) navigate(`/app`);
-      }
-    });
-=======
     this.state = {
       email: null,
       password: null,
     };
->>>>>>> 0c79f51dc84dff584eeb73a9a68c67bd53c8bbe6
   }
 
   handleChange = (e) => {
