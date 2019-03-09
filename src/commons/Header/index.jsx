@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "gatsby";
-import {FiMenu, FiArrowLeft,FiUser, FiUserCheck} from 'react-icons/fi'
+import { FiMenu, FiArrowLeft,FiUser } from 'react-icons/fi'
 import Logo from "../../../static/favicon.png";
 import sidebarStore from '../../reducers/sidebarReducer';
 import userStore from '../../reducers/userReducer';
@@ -10,6 +10,10 @@ const HeaderLogo = () => (
   <Link to="/">
     <div css = {{
       display: "flex",
+      position: "absolute",
+      top: 0,
+      left: "50%",
+      transform: "translateX(-50%)",
       alignItems: "center",
     }}>
       <div>
@@ -27,29 +31,28 @@ const HeaderLogo = () => (
 );
 
 class UserLink extends Component {
-  state={
-    loggedIn:false
-  }
+  state = {
+    loggedIn: false
+  };
 
-  async checkLoggedIn(){
+  async checkLoggedIn() {
     let userState = await userStore.getState();
 
-    this.setState({loggedIn:!!userState},()=>{
-      console.log(this.state);
-    });
+    this.setState({ loggedIn: !!userState });
   }
 
   componentDidMount(){
+    this.checkLoggedIn();
+
+    userStore.subscribe(() => {
       this.checkLoggedIn();
-      userStore.subscribe(()=>{
-        this.checkLoggedIn();
-      })
+    });
   }
 
   render = () => (
     <Link to = { this.state.loggedIn ? "/profile" : "/login" }>
       <button css = {{
-        margin: 10,
+        margin: "0 20px",
       }}>
         <FiUser />&ensp;{ this.state.loggedIn ? "Profile" : "Login" }
       </button>
@@ -57,19 +60,36 @@ class UserLink extends Component {
   );
 }
 
+class NavigationToggle extends Component {
+  state = {
+    menu: "close",
+  };
 
-export default class Header extends Component{
-  state={
-    menu:'close'
-  }
-  componentDidMount(){
-    sidebarStore.subscribe(()=>{
+  componentDidMount() {
+    sidebarStore.subscribe(() => {
       let storeState = sidebarStore.getState();
-      this.setState({menu:storeState})
-      console.log(storeState,this.state);
+      this.setState({ menu:storeState });
     });
   }
 
+  render = () => (
+    <button
+      css = {{
+        fontSize: "1em",
+        margin: "0 20px",
+      }}
+      onClick = { this.state.menu === "close" ? open : close }
+    >
+      {
+        this.state.menu === "close"
+        ? <FiMenu />
+        : <FiArrowLeft />
+      }
+    </button>
+  );
+}
+
+export default class Header extends Component{
   render = () => (
     <header css = {{
       display: "flex",
@@ -78,15 +98,7 @@ export default class Header extends Component{
       height: 64,
       boxShadow: "0 5px 50px 10px #f0f1f2",
     }}>
-      {
-        this.state.menu==='close'?<FiMenu style={{transform: 'scale(2)',
-        marginLeft: 5,
-        color:'#df6148'}}
-        onClick={open}/>:<FiArrowLeft style={{transform: 'scale(2)',
-        marginLeft: 5,
-        color:'#df6148'}}
-        onClick={close}/>
-      }
+      <NavigationToggle />
       <HeaderLogo />
       <UserLink />
     </header>
