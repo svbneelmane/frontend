@@ -25,6 +25,19 @@ a:hover {
   color: #ff5800; /* accent */
 }
 
-input,button,option,textarea{
+button {
+  display: flex;
+  padding: 10px 15px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  background: #ff5800;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, .3);
+  font-size: .8em;
+}
+
+input, button, option, textarea {
   font-family: inherit;
 }
