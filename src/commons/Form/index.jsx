@@ -19,7 +19,7 @@ const Tag = (props) => (
     ...props.styles,
     display : "inline-block"
   }}>
-    {(props.type == 1) ? 
+    {(props.type === 1) ? 
       <div css={{
         fontSize : "12px",
         backgroundColor: "#108ee9",
@@ -30,7 +30,7 @@ const Tag = (props) => (
         scheduled
       </div>
       :
-      (props.type == 2) ?
+      (props.type === 2) ?
       <div css={{
         fontSize : "12px",
         backgroundColor: "#87d068",
