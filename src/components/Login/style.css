@@ -1,12 +1,21 @@
-.login-form {
-            margin: 0px 300px;
-            padding: 20px 20px 0px 20px;
-            border: 2px solid #eee;
-            border-radius: 10px;
-            box-shadow: 1px 1px 3px 3px #efefef;
-          }
+.loginBox{
+        box-shadow: 0px 0px 100px #ddd;
+        padding : 16px 16px;
+        display: block;
+        border-radius: 5px;
+        max-width: 500px;
+}
 
-.login-form-button{
-	position: relative;
-	left: 43%;
+.loginBoxContainer{
+    width:100%;
+    height:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.loginBox input{
+    font-size: 20px;
+    width: 100%;
+    min-width: 300px;
+    padding:20px;
 }
