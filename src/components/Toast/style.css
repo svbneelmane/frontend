@@ -1,14 +1,30 @@
-.toast{
-    background: rgba(0,0,0,0.9);
-    color:#fff;
+.toastContainer{
     position: fixed;
+    top:-10%;
+    transition:top 1s;
     width: 100%;
+}
+
+.toast{
+    background: #fff;
+    color:#900;
+    max-width: 300px;
     z-index: 1000;
-    top:100%;
+    font-size: 12px;
     text-align: center;
     padding: 10px;
-    transition:top 1s;
+    margin:auto;
+    box-shadow: 0px 0px 100px #ddd;
 }
-.toast.show{
-    top:50%;
+.toastContainer.show{
+    top:10%;
+    animation: fadeOut 3s linear 0s 1 forwards;
+}
+@keyframes fadeOut{
+    80%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
 }

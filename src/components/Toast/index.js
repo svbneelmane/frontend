@@ -1,17 +1,18 @@
 import React,{ Component } from "react";
 import './style.css';
 import toastReducer from '../../reducers/toastReducer';
+import {FiInfo} from 'react-icons/fi'
 
 export default class Toast extends Component{
     state={
         message:null
     }
     show(){
-        let toast = document.querySelector(".toast");
+        let toast = document.querySelector(".toastContainer");
         toast.classList.add('show');
         setTimeout(()=>{
             toast.classList.remove('show'); 
-        },2000);
+        },5000);
     }
     componentDidMount(){
         toastReducer.subscribe(()=>{
@@ -23,7 +24,9 @@ export default class Toast extends Component{
     }
     render(){
         return(
-        <div className="toast">{this.state.message}</div>
+            <div className="toastContainer">
+                <div className="toast"><FiInfo /> {this.state.message}</div>
+            </div>
         );
     }
 }
