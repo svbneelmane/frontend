@@ -41,7 +41,7 @@ export default class Login extends Component {
           <div css={{
             marginTop: "16px"
           }}>
-            <Button styles={{ left : "50%", transform : "translateX(-50%)" }} onClick={this.login} value="Sign in"></Button>
+            <Button  onClick={this.login} value="Sign in"></Button>
           </div>
         </div>
       </div>

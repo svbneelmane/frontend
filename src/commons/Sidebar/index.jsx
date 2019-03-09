@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import store from "../../reducers/sidebarReducer";
 import './style.css';
+import { Link } from "gatsby";
 export default class Sidebar extends Component{
     state={
       open:false
@@ -20,10 +21,12 @@ export default class Sidebar extends Component{
       transition: "margin-left 0.3s ease-out"
     }}>
       <ul>
-        <li>Nav Link 1</li>
-        <li>Nav Link 2</li>
-        <li>Nav Link 3</li>
-        <li>Nav Link 4</li>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/adduser">Add User</Link></li>
+        <li><Link to="/login">Login</Link></li>
+        <li><Link to="/events">Events</Link></li>
+        <li><Link to="/profile">Profile</Link></li>
+        
       </ul>
     </sidebar>
   );

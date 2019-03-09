@@ -72,7 +72,7 @@ class HeaderLinks extends Component {
     }}>
       <HeaderLink title = "Events" to = "/events" />
       <HeaderLink title = "Leaderboard" to = "/leaderboard" />
-  <Link to="/login"> {this.state.loggedIn?<FiUserCheck className="userIcon"/>:<FiUser className="userIcon"/>}</Link>
+   {this.state.loggedIn?<Link to="/profile"><FiUserCheck className="userIcon"/></Link>:<Link to="/login"><FiUser className="userIcon"/></Link>}
     </ul>
   );
 } 
