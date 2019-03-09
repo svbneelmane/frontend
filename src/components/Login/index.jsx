@@ -1,17 +1,9 @@
-import React from "react";
+import React,{Component} from "react";
 import { Input, Button } from "../../commons/Form";
-import { connect } from 'react-redux';
 import { login } from '../../actions/userActions';
 
-const mapStateToProps = state => ({
-  ...state,
-});
 
-const mapDispatchToProps = dispatch => ({
- login: (email, password) => dispatch(login(email, password))
-})
-
-class Login extends React.Component {
+export default class Login extends Component {
 
   constructor(props) {
     super(props);
@@ -29,7 +21,7 @@ class Login extends React.Component {
   }
 
   login = () => {
-    this.props.login(this.state.email, this.state.password);
+    login(this.state.email, this.state.password);
   }
 
   render(){
@@ -61,5 +53,3 @@ class Login extends React.Component {
     )
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);

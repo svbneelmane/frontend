@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Tag } from '../Form'
+import { Button } from '../Form'
 import { navigate } from 'gatsby';
 
 const RoundCard = (props) => (

@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from '../../layouts/app';
+// import Layout from '../../layouts/app';
 import { RoundCard } from '../../commons/Card'
 // import store from '../reducers/roundReducer';
 

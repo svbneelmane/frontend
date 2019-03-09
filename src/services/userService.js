@@ -1,26 +1,31 @@
 import constants from '../utils/constants';
-const login = (email, password) => {
+import { navigate } from 'gatsby';
+
+export const login = async (email, password) => {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password })
   };
-
-  return fetch(`${constants.server}/users/login`, requestOptions)
-    .then(handleResponse)
-    .then(user => {
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-        localStorage.setItem('user', JSON.stringify(user));
-        return user;
-    });
+  let response = await fetch(`${constants.server}/users/login`, requestOptions);
+  let json = await response.json();
+  if(json.status&&json.status===200){
+    localStorage.setItem('user', JSON.stringify(json.data));
+    console.log("JSON",json.data);
+    navigate("/events");
+    return json.data;
+  }
+  else{
+    return null;
+  }
 }
 
-const logout = () => {
+export const logout = () => {
   // remove user from local storage to log user out
   localStorage.removeItem('user');
 }
 
-const handleResponse = (response) => {
+/*const handleResponse = (response) => {
   return response.text().then(text => {
     const data = text && JSON.parse(text);
     if (!response.ok) {
@@ -35,9 +40,4 @@ const handleResponse = (response) => {
 
     return data;
   });
-}
-
-export const userService = {
-  login,
-  logout,
-}
+}*/
