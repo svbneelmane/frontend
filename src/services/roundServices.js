@@ -1,13 +1,12 @@
-// import store from '../reducers/roundReducer';
+import { sendRounds } from "../actions/roundAction";
+import constants from "../utils/constants";
 
-// const getRounds = () => {
-//   const requestOptions = {
-//     method: 'GET',
-//   };
+export const getRounds = async (eventId) => {
+  const requestOptions = {
+    method: 'GET',
+  };
 
-//   return fetch("https://utsavb.bastionbot.org/events", requestOptions)
-//     .then((response) => response.json())
-//     .then(rounds => {
-//         store.dispatch({type:'ROUNDS_RECIEVED',data:rounds});
-//     });
-// }
+  let response = await fetch(`${constants.server}/events/${eventId}/rounds`, requestOptions)
+  let json = await response.json();
+  sendRounds(json.data);
+}

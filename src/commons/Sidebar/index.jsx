@@ -10,6 +10,7 @@ export default class Sidebar extends Component{
         this.setState({open:store.getState()==='open'})
       })
     }
+    
     render=() => (
     <sidebar className="sidebar" css = {{
       display: "block",
