@@ -6,8 +6,6 @@ import sidebarStore from '../../reducers/sidebarReducer';
 import userStore from '../../reducers/userReducer';
 import {open,close} from '../../actions/sidebarActions';
 
-import './style.css';
-
 const HeaderLogo = () => (
   <Link to="/">
     <div css = {{
@@ -24,58 +22,40 @@ const HeaderLogo = () => (
           }}
         />
       </div>
-      <div css = {{
-        fontSize: "1.3em",
-      }}>
-        MUCAPP
-      </div>
     </div>
   </Link>
 );
 
-const HeaderLink = (props) => (
-  <li>
-    <Link to = { props.to } title = { props.title } css = {{
-      padding: "20px 10px",
-      color: "black",
-      ":hover": {
-        borderTop: "4px solid #ff5800",
-      },
-    }}>
-      { props.title }
-    </Link>
-  </li>
-);
-class HeaderLinks extends Component {
+class UserLink extends Component {
   state={
     loggedIn:false
   }
+
   async checkLoggedIn(){
     let userState = await userStore.getState();
-        
+
     this.setState({loggedIn:!!userState},()=>{
       console.log(this.state);
     });
   }
+
   componentDidMount(){
       this.checkLoggedIn();
       userStore.subscribe(()=>{
         this.checkLoggedIn();
       })
   }
-  render= () => (
-    <ul css = {{
-      listStyle: "none",
-      display: "flex",
-      fontSize: "0.8em",
-      marginRight:50
-    }}>
-      <HeaderLink title = "Events" to = "/events" />
-      <HeaderLink title = "Leaderboard" to = "/leaderboard" />
-   {this.state.loggedIn?<Link to="/profile"><FiUserCheck className="userIcon"/></Link>:<Link to="/login"><FiUser className="userIcon"/></Link>}
-    </ul>
+
+  render = () => (
+    <Link to = { this.state.loggedIn ? "/profile" : "/login" }>
+      <button css = {{
+        margin: 10,
+      }}>
+        <FiUser />&ensp;{ this.state.loggedIn ? "Profile" : "Login" }
+      </button>
+    </Link>
   );
-} 
+}
 
 
 export default class Header extends Component{
@@ -96,20 +76,19 @@ export default class Header extends Component{
       justifyContent: "space-between",
       alignItems: "center",
       height: 64,
-      boxShadow: "0 2px 8px #f0f1f2",
+      boxShadow: "0 5px 50px 10px #f0f1f2",
     }}>
-    {
-      this.state.menu==='close'?<FiMenu style={{transform: 'scale(2)',
-      marginLeft: 5,
-      color:'#df6148'}}
-      onClick={open}/>:<FiArrowLeft style={{transform: 'scale(2)',
-      marginLeft: 5,
-      color:'#df6148'}}
-      onClick={close}/>
-    }
-      
+      {
+        this.state.menu==='close'?<FiMenu style={{transform: 'scale(2)',
+        marginLeft: 5,
+        color:'#df6148'}}
+        onClick={open}/>:<FiArrowLeft style={{transform: 'scale(2)',
+        marginLeft: 5,
+        color:'#df6148'}}
+        onClick={close}/>
+      }
       <HeaderLogo />
-      <HeaderLinks />
+      <UserLink />
     </header>
-  );  
-} 
+  );
+}
