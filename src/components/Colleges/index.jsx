@@ -61,7 +61,7 @@ const CollegeList = (props) => (
   </div>
 );
 
-export default class Profile extends React.Component {
+export default class Colleges extends React.Component {
   state = {
     colleges: [],
   };
