@@ -1,6 +1,6 @@
 export default (state = {}, action) => {
   switch (action.type) {
-    case 'getEvents':
+    case 'get':
       return {
         result: action.events
       }
