@@ -1,8 +1,6 @@
 import React from 'react';
 // import Layout from '../../layouts/app';
 import { List } from '../../commons/List'
-import {fetchRounds} from '../../actions/roundAction';
-import reducer from '../../reducers/roundReducer';
 
 export default class LeaderBoard extends React.Component{
 
