@@ -15,5 +15,5 @@ export default {
   },
   //server:"https://api.manipalutsav.com"
   server:"http://localhost:3003" 
-  //server:"http://192.168.0.16:8000" 
+  //server:"http://192.168.0.103:3003" 
 };

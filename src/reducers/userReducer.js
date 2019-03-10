@@ -3,7 +3,8 @@ import {login} from '../services/userService';
 let reducers =  async (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN':
-      let state = await login(action.username,action.password)
+    console.log('action',action)
+      let state = await login(action)
       return state;
     case 'LOGOUT':
       return {};

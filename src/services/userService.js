@@ -1,4 +1,5 @@
 import constants from "../utils/constants";
+import {toast} from '../actions/toastActions';
 
 export const isBrowser = () => typeof window !== "undefined";
 
@@ -19,6 +20,7 @@ export const isLoggedIn = () => {
 };
 
 const authorize = async ({ email, password }) => {
+  console.log(email,password);
   let response = await fetch(constants.server + "/users/login", {
     method: "POST",
     credentials: "include",
@@ -35,9 +37,16 @@ const authorize = async ({ email, password }) => {
 export const login = async (partialUser) => {
   // TODO: Add some sanity checks
   let response = await authorize(partialUser);
-
-  if (response && response.data) return setUser(response.data);
-  else return {};
+  console.log('40',response);
+  if (response && response.data){
+    return setUser(response.data);
+  } 
+  else {
+    if(response){
+      toast(response.message);
+    }
+    return {};
+  }
 }
 
 export const logout = callback => {
