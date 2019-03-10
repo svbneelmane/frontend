@@ -11,41 +11,30 @@ import {
   getRounds,
   getRoundTeams,
   getSlots,
-  send,
-} from '../services/eventServices';
+} from '../services/eventService';
 
 let reducers = async (state = {}, action) => {
   switch (action.type) {
     case 'CREATE':
-      let state = await create(action.payload);
-      return state;
+      return await create(action.payload);
     case 'CREATE_ROUND':
-      let state = await createRound(action.payload, action.eventId);
-      return state;
+      return await createRound(action.payload, action.eventId);
     case 'CREATE_TEAM':
-      let state = await createTeam(action.payload, action.eventId);
-      return state;
+      return await createTeam(action.payload, action.eventId);
     case 'CREATE_SLOTS':
-      let state = await createSlots(action.payload, action.eventId, action.roundId);
-      return state;
+      return await createSlots(action.payload, action.eventId, action.roundId);
     case 'SUBMIT_SCORE':
-      let state = await submitScore(action.payload, action.eventId, action.roundId);
-      return state;
+      return await submitScore(action.payload, action.eventId, action.roundId);
     case 'GET':
-      let state = await get();
-      return state;
+      return await get();
     case 'GET_TEAMS':
-      let state = await getTeams(action.eventId);
-      return state;
+      return await getTeams(action.eventId);
     case 'GET_ROUNDS':
-      let state = await getRounds(action.eventId);
-      return state;
+      return await getRounds(action.eventId);
     case 'GET_ROUND_TEAMS':
-      let state = await getRoundTeams(action.eventId, action.roundId);
-      return state;
+      return await getRoundTeams(action.eventId, action.roundId);
     case 'GET_SLOTS':
-      let state = await getSlots(action.eventId, action.roundId);
-      return state;
+      return await getSlots(action.eventId, action.roundId);
     default:
       return state
   }

@@ -1,4 +1,4 @@
-import reducer from "../reducer/eventReducer";
+import reducer from "../reducers/eventReducer";
 
 export const create = (payload) => {
   reducer.dispatch({type: 'CREATE', payload});

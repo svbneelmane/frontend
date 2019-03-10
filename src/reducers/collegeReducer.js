@@ -10,17 +10,13 @@ import {
 let reducers = async (state = {}, action) => {
   switch (action.type) {
     case 'GET':
-      let state = await get();
-      return state;
+      return await get();
     case 'GET_PARTICIPANTS':
-      let state = await getParticipants(action.eventId);
-      return state;
+      return await getParticipants(action.eventId);
     case 'GET_TEAMS':
-      let state = await getTeams(action.eventId);
-      return state;
+      return await getTeams(action.eventId);
     case 'CREATE':
-      let state = await create(action.payload);
-      return state;
+      return await create(action.payload);
     default:
       return state
   }

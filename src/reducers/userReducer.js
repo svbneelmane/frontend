@@ -11,20 +11,16 @@ import {
 let reducers = async (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN':
-      state = await login(action);
-      return state;
+      return await login(action);
     case 'LOGOUT':
       await logout();
       return {};
     case 'UPDATE':
-      state = await update(action.payload);
-      return state;
+      return await update(action.payload);
     case 'CREATE':
-      state = await create(action.payload);
-      return state;
+      return await create(action.payload);
     case 'GET':
-      state = await get(action.id);
-      return state;
+      return await get(action.id);
     default:
       return state
   }

@@ -8,11 +8,9 @@ import {
 let reducers = async (state = {}, action) => {
   switch (action.type) {
     case 'GET':
-      let state = await get();
-      return state;
+      return await get();
     case 'CREATE':
-      let state = await create(action.payload);
-      return state;
+      return await create(action.payload);
     default:
       return state
   }

@@ -9,8 +9,7 @@ import {
 let reducers = async (state = {}, action) => {
   switch (action.type) {
     case 'GET_EVENT_LEADERBOARD':
-      let state = await getEventLeaderboard(action.eventId);
-      return state;
+      return await getEventLeaderboard(action.eventId);
     case 'GET_ROUND_LEADERBOARD':
       let state = await getRoundLeaderboard(action.eventId, action.roundId);
       return state;

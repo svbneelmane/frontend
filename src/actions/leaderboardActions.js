@@ -1,4 +1,4 @@
-import reducer from "../reducer/leaderboardReducer";
+import reducer from "../reducers/leaderboardReducer";
 
 export const createEventLeaderboard = (eventId) => {
   reducer.dispatch({type: 'CREATE', eventId});

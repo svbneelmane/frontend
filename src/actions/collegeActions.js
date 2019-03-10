@@ -1,4 +1,4 @@
-import reducer from "../reducer/collegeReducer";
+import reducer from "../reducers/collegeReducer";
 
 export const create = (payload) => {
   reducer.dispatch({type: 'CREATE', payload});

@@ -4,7 +4,7 @@ const reducer =  (state = 'close', action) => {
   switch (action.type) {
     case 'open':
     case 'close':
-    return action.type;
+      return action.type;
     default:
       return state
   }
