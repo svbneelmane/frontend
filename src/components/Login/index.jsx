@@ -33,21 +33,31 @@ export default class Login extends Component {
         justifyContent: "center",
       }}>
         <div css = {{
+          width: 350,
           padding: 20,
           borderRadius: 5,
           boxShadow: "0 10px 50px -10px rgba(0, 0, 0, .2)",
         }}>
           <div css={{
             textAlign: "center",
-            marginBottom: "16px"
+            marginBottom: "16px",
           }}>Login to your account</div>
-          <div>
+          <div css ={{
+            display: "flex",
+            flexDirection: "column",
+          }}>
             <Input onChange={this.handleChange} name="email" type="email" placeholder="Email" />
-            <br />
             <Input onChange={this.handleChange} type="password" name="password" placeholder="Password" />
           </div>
           <div>
-            <Button  onClick={this.login} value="Login"></Button>
+            <Button
+              styles = {{
+                width: "100%",
+              }}
+              onClick = {this.login}
+            >
+              Login
+            </Button>
           </div>
         </div>
       </div>
