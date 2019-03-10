@@ -1,7 +1,7 @@
 import reducer from '../reducers/roundReducer';
 
 export const fetchRounds=(eventId)=>{
-  reducer.dispatch({type:'FETCH_ROUNDS', eventId: eventId});
+  reducer.dispatch({type:'FETCH_ROUNDS', eventId});
 }
 
 export const sendRounds=(data)=>{
