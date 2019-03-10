@@ -1,14 +1,16 @@
-.toast{
-    background: rgba(0,0,0,0.9);
-    color:#fff;
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-    top:100%;
-    text-align: center;
-    padding: 10px;
-    transition:top 1s;
+.toastContainer.show{
+   
+    animation: fadeOut 3s linear 0s 1 forwards;
 }
-.toast.show{
-    top:50%;
+@keyframes fadeOut{
+    20%{
+        top:10%;
+    }
+    80%{
+        opacity: 1;  
+    }
+    100%{
+        opacity: 0;
+        top:10%;
+    }
 }
