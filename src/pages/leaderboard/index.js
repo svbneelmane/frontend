@@ -1,10 +1,6 @@
 import React from 'react';
 // import Layout from '../../layouts/app';
 import { List } from '../../commons/List'
-<<<<<<< HEAD
-=======
-
->>>>>>> aa96eaddf9223b81f9d923a3001b0ad9844995d4
 export default class LeaderBoard extends React.Component{
 
 	render(){
