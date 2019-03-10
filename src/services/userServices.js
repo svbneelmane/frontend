@@ -22,7 +22,6 @@ export const isLoggedIn = () => {
 };
 
 const authorize = async ({ email, password }) => {
-  console.log(email,password);
   let response = await fetch(constants.server + "/users/login", {
     method: "POST",
     credentials: "include",

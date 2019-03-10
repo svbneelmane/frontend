@@ -2,7 +2,7 @@ import React from "react";
 import { navigate } from "gatsby";
 
 // import userReducer from '../../reducers/userReducer';
-import { getUser, logout } from "../../services/userService";
+import { getUser, logout } from "../../services/userServices";
 
 
 export default class Profile extends React.Component {
