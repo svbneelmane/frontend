@@ -12,7 +12,7 @@ export default class Toast extends Component{
         toast.classList.add('show');
         setTimeout(()=>{
             toast.classList.remove('show'); 
-        },5000);
+        },3000);
     }
     componentDidMount(){
         toastReducer.subscribe(()=>{
@@ -24,8 +24,27 @@ export default class Toast extends Component{
     }
     render(){
         return(
-            <div className="toastContainer">
-                <div className="toast"><FiInfo /> {this.state.message}</div>
+            <div className="toastContainer" css={{
+                position:"fixed",
+                top:"-10%",
+                width:"100%"
+            }}>
+                <div css={{
+                    background: "#fff",
+                    color:"#900",
+                    maxWidth: 300,                    
+                    zIndex: 1000,
+                    fontSize: 12,
+                    textAlign: "center",
+                    padding: 10,
+                    margin:"auto",
+                    boxShadow: "0px 0px 100px #ddd"
+                }}>
+                    <FiInfo/> 
+                    <span style={{marginLeft:2}}>
+                        {this.state.message}
+                    </span>
+                </div>
             </div>
         );
     }
