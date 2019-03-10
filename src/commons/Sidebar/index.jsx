@@ -34,6 +34,7 @@ const SidebarItems = () => (
     padding: 0,
   }}>
     <SidebarItem to="/" title="Home" />
+    <SidebarItem to="/colleges" title="Colleges" />
     <SidebarItem to="/events" title="Events" />
     <SidebarItem to="/adduser" title="Add User" />
     <SidebarItem to="/login" title="Login" />
