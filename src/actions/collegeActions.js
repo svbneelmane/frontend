@@ -1,0 +1,17 @@
+import reducer from "../reducer/collegeReducer";
+
+export const create = (payload) => {
+  reducer.dispatch({type: 'CREATE', payload});
+}
+
+export const get = () => {
+  reducer.dispatch({type: 'GET'});
+}
+
+export const getParticipants = (eventId) => {
+  reducer.dispatch({type: 'GET_PARTICPANTS', eventId});
+}
+
+export const getTeams = (eventId) => {
+  reducer.dispatch({type: 'GET_TEAMS', eventId});
+}

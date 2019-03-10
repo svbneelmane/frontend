@@ -1,5 +1,6 @@
 import constants from "../utils/constants";
-import {toast} from '../actions/toastActions';
+import { send } from "../actions/commonActions";
+import { toast } from "../actions/toastActions";
 import { navigate } from "gatsby";
 
 export const isBrowser = () => typeof window !== "undefined";
@@ -38,13 +39,13 @@ const authorize = async ({ email, password }) => {
 export const login = async (partialUser) => {
   // TODO: Add some sanity checks
   let response = await authorize(partialUser);
-  console.log('40',response);
-  if (response && response.data){
+
+  if (response && response.data) 
     navigate('/profile');
     return setUser(response.data);
   } 
   else {
-    if(response){
+    if (response) {
       toast(response.message);
     }
     return {};
@@ -56,3 +57,47 @@ export const logout = callback => {
 
   callback();
 };
+
+export const get = async (id) => {
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  };
+  let response = await fetch(`${constants.server}/user/${id}`, requestOptions);
+  let json = await response.json();
+  if(json.status&&json.status===200) {
+    send(json.data);
+  } else {
+    return null;
+  }
+ } 
+
+export const create = async (payload) => {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  };
+  let response = await fetch(`${constants.server}/user`, requestOptions);
+  let json = await response.json();
+  if(json.status&&json.status===200) {
+    send(json.data);
+  } else {
+    return null;
+  }
+}
+
+export const update = async (payload) => {
+  const requestOptions = {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  };
+  let response = await fetch(`${constants.server}/user`, requestOptions);
+  let json = await response.json();
+  if(json.status&&json.status===200) {
+    send(json.data);
+  } else {
+    return null;
+  }
+}
