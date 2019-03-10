@@ -9,6 +9,7 @@ export default class Profile extends React.Component {
   handleLogout() {
     logout(() => {
       navigate("/");
+      return null;
     });
   }
 
