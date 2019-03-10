@@ -32,7 +32,7 @@ const RoundCard = (props) => (
       // borderTop: "2px solid #efefef",
     }}
     >
-      <Button onClick={ event => { navigate(`/events/${props.eventId}/rounds/${props.id}/slot`) }} fontColor="black" color="#f5f5f5" value="View Slots" /> 
+      <Button onClick={ event => { navigate(`/events/${props.eventId}/rounds/${props.RoundId}/slot`) }} fontColor="black" color="#f5f5f5" value="View Slots" /> 
       <Button onClick={ event => { navigate(`/judge/${props.eventId}/rounds/${props.RoundId}`); }} styles={{marginTop: "16px"}} value="Start Round" /> 
     </div>
   </div>
