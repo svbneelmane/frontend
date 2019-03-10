@@ -40,10 +40,10 @@ export const login = async (partialUser) => {
   // TODO: Add some sanity checks
   let response = await authorize(partialUser);
 
-  if (response && response.data) 
+  if (response && response.data) {
     navigate('/profile');
     return setUser(response.data);
-  } 
+  }
   else {
     if (response) {
       toast(response.message);
@@ -70,7 +70,7 @@ export const get = async (id) => {
   } else {
     return null;
   }
- } 
+ }
 
 export const create = async (payload) => {
   const requestOptions = {
