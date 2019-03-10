@@ -1,4 +1,4 @@
-import {createStore} from 'redux';
+import { createStore } from 'redux';
 
 import { 
   login,
@@ -11,7 +11,7 @@ import {
 let reducers = async (state = {}, action) => {
   switch (action.type) {
     case 'LOGIN':
-      let state = await login(action.email, action.password);
+      let state = await login(action);
       return state;
     case 'LOGOUT':
       await logout();

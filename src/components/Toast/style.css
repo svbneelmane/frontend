@@ -1,0 +1,16 @@
+.toastContainer.show{
+   
+    animation: fadeOut 3s linear 0s 1 forwards;
+}
+@keyframes fadeOut{
+    20%{
+        top:10%;
+    }
+    80%{
+        opacity: 1;  
+    }
+    100%{
+        opacity: 0;
+        top:10%;
+    }
+}

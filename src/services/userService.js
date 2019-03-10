@@ -1,24 +1,62 @@
-import constants from '../utils/constants';
-import { send } from '../actions/commonActions';
+import constants from "../utils/constants";
+import { send } from "../actions/commonActions";
+import { toast } from "../actions/toastActions";
+import { navigate } from "gatsby";
 
-const login = (email, password) => {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password })
-  };
+export const isBrowser = () => typeof window !== "undefined";
 
-  let response = await fetch(`${constants.server}/users/login`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
-    localStorage.setItem('user', JSON.stringify(json.data));
-    navigate("/events");
-    return json.data;
-  }
-  else{
-    return null;
+export const getUser = () =>
+  isBrowser() && window.localStorage.getItem("me")
+    ? JSON.parse(window.localStorage.getItem("me"))
+    : {};
+
+const setUser = user => {
+  isBrowser() && window.localStorage.setItem("me", JSON.stringify(user));
+  return user;
+};
+
+export const isLoggedIn = () => {
+  let user = getUser();
+  if (user) return !!user.email;
+  return false;
+};
+
+const authorize = async ({ email, password }) => {
+  console.log(email,password);
+  let response = await fetch(constants.server + "/users/login", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type":"application/json",
+      "Accept":"application/json"
+    },
+    body: JSON.stringify({ email, password }),
+   });
+
+   return await response.json();
+};
+
+export const login = async (partialUser) => {
+  // TODO: Add some sanity checks
+  let response = await authorize(partialUser);
+
+  if (response && response.data) 
+    navigate('/profile');
+    return setUser(response.data);
+  } 
+  else {
+    if (response) {
+      toast(response.message);
+    }
+    return {};
   }
 }
+
+export const logout = callback => {
+  setUser({});
+
+  callback();
+};
 
 export const get = async (id) => {
   const requestOptions = {
@@ -62,9 +100,4 @@ export const update = async (payload) => {
   } else {
     return null;
   }
-}
-
-export const logout = () => {
-  // remove user from local storage to log user out
-  localStorage.removeItem('user');
 }

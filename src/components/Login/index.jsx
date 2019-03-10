@@ -1,18 +1,9 @@
-import React from "react";
+import React,{Component} from "react";
 import { Input, Button } from "../../commons/Form";
-import { connect } from 'react-redux';
 import { login } from '../../actions/userActions';
 
-const mapStateToProps = state => ({
-  ...state,
-});
 
-const mapDispatchToProps = dispatch => ({
- login: (email, password) => dispatch(login(email, password))
-})
-
-class Login extends React.Component {
-
+export default class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -29,37 +20,47 @@ class Login extends React.Component {
   }
 
   login = () => {
-    this.props.login(this.state.email, this.state.password);
+    login(this.state.email, this.state.password);
   }
 
   render(){
     return(
-      <div css={{
-        boxShadow: "0px 9px 12px -5px rgba(0, 0, 0, 0.1)",
-        padding: "16px 16px",
-        display: "block",
-        borderRadius: "5px",
-        position: "absolute",
-        left: "50%",
-        top: "50%",
+      <div css = {{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
       }}>
-        <div css={{
-          textAlign: "center",
-          marginBottom: "16px"
-        }}>Login</div>
-        <div>
-          <Input onChange={this.handleChange} name="email" type="text" placeholder="Email" />
-          <br />
-          <Input onChange={this.handleChange} type="password" name="password" placeholder="Password" />
-        </div>
-        <div css={{
-          marginTop: "16px"
+        <div css = {{
+          width: 350,
+          padding: 20,
+          borderRadius: 5,
+          boxShadow: "0 10px 50px -10px rgba(0, 0, 0, .2)",
         }}>
-          <Button styles={{ left : "50%", transform : "translateX(-50%)" }} onClick={this.login} value="Sign in"></Button>
+          <div css={{
+            textAlign: "center",
+            marginBottom: "16px",
+          }}>Login to your account</div>
+          <div css ={{
+            display: "flex",
+            flexDirection: "column",
+          }}>
+            <Input onChange={this.handleChange} name="email" type="email" placeholder="Email" />
+            <Input onChange={this.handleChange} type="password" name="password" placeholder="Password" />
+          </div>
+          <div>
+            <Button
+              styles = {{
+                width: "100%",
+              }}
+              onClick = {this.login}
+            >
+              Login
+            </Button>
+          </div>
         </div>
       </div>
     )
   }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);

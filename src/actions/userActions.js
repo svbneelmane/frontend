@@ -19,4 +19,3 @@ export const update = (payload) => {
 export const logout = () => {
   reducer.dispatch({type: 'LOGOUT'});
 }
-
