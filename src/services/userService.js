@@ -1,47 +1,47 @@
-import constants from '../utils/constants';
-import { navigate } from 'gatsby';
-import {toast} from '../actions/toastActions';
+import constants from "../utils/constants";
 
-export const login = async (email, password) => {
-  const requestOptions = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify({ email, password })
-  };
-  let response = await fetch(`${constants.server}/users/login`, requestOptions);
-  let json = await response.json();
+export const isBrowser = () => typeof window !== "undefined";
 
-  if(json.status&&json.status===200){
-    localStorage.setItem('user', JSON.stringify(json.data));
-    console.log("JSON",json.data);
-    navigate("/profile");
-    return json.data;
-  }
-  else{
-    toast(json.message);
-    return null;
-  }
+export const getUser = () =>
+  isBrowser() && window.localStorage.getItem("me")
+    ? JSON.parse(window.localStorage.getItem("me"))
+    : {};
+
+const setUser = user => {
+  isBrowser() && window.localStorage.setItem("me", JSON.stringify(user));
+  return user;
+};
+
+export const isLoggedIn = () => {
+  let user = getUser();
+  if (user) return !!user.email;
+  return false;
+};
+
+const authorize = async ({ email, password }) => {
+  let response = await fetch(constants.server + "/users/login", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type":"application/json",
+      "Accept":"application/json"
+    },
+    body: JSON.stringify({ email, password }),
+   });
+
+   return await response.json();
+};
+
+export const login = async (partialUser) => {
+  // TODO: Add some sanity checks
+  let response = await authorize(partialUser);
+
+  if (response && response.data) return setUser(response.data);
+  else return {};
 }
 
-export const logout = () => {
-  // remove user from local storage to log user out
-  localStorage.removeItem('user');
-}
+export const logout = callback => {
+  setUser({});
 
-/*const handleResponse = (response) => {
-  return response.text().then(text => {
-    const data = text && JSON.parse(text);
-    if (!response.ok) {
-      if (response.status === 401) {
-        // auto logout if 401 response returned from api
-        logout();
-      }
-
-      const error = (data && data.message) || response.statusText;
-      return Promise.reject(error);
-    }
-
-    return data;
-  });
-}*/
+  callback();
+};
