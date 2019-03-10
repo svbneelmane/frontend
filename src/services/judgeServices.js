@@ -1,4 +1,5 @@
 import constants from '../utils/constants';
+import { send } from '../actions/commonActions';
 
 export const get = async () => {
   const requestOptions = {
@@ -8,7 +9,7 @@ export const get = async () => {
   let response = await fetch(`${constants.server}/judges`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    return json.data;
+    send(json.data);
   } else {
     return null;
   }
@@ -23,7 +24,7 @@ export const create = async (payload) => {
   let response = await fetch(`${constants.server}/judges`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    return json.data;
+    send(json.data);
   } else {
     return null;
   }
