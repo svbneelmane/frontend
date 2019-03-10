@@ -1,5 +1,6 @@
 import constants from "../utils/constants";
 import {toast} from '../actions/toastActions';
+import { navigate } from "gatsby";
 
 export const isBrowser = () => typeof window !== "undefined";
 
@@ -39,6 +40,7 @@ export const login = async (partialUser) => {
   let response = await authorize(partialUser);
   console.log('40',response);
   if (response && response.data){
+    navigate('/profile');
     return setUser(response.data);
   } 
   else {

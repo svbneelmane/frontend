@@ -73,4 +73,6 @@ yarn.lock
 package-lock.json
 
 #constant
-src/utils/constants.js
+constants.js
+
+.gitignore
