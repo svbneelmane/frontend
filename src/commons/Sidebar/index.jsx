@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import store from "../../reducers/sidebarReducer";
 import { Link } from "gatsby";
+
+import store from "../../reducers/sidebarReducer";
 
 const SidebarItem = (props) => (
   <li>
