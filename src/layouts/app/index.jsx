@@ -7,6 +7,7 @@ import Sidebar from "../../commons/Sidebar";
 import Content from "../../commons/Content";
 
 import "../base.css";
+import Toast from "../../components/Toast";
 
 export default (props) => (
   <>
@@ -18,5 +19,6 @@ export default (props) => (
       </Content>
     </Main>
     <Footer />
+    <Toast/>
   </>
 );

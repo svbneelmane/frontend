@@ -17,14 +17,61 @@ body {
 }
 
 a {
-  color: #ff5800; /* highlight */
+  color: #ff5800;
   text-decoration: none;
   transition: color .25s ease-out;
 }
 a:hover {
-  color: #ff5800; /* accent */
+  color: #ffd100;
 }
 
-input,button,option,textarea{
+button {
+  display: flex;
+  padding: 10px 15px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  background: #ff5800;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, .3);
+  font-size: .8em;
+  text-align: center;
+  justify-content: center;
+  transition: .15s ease-out;
+}
+button:hover {
+  background-color: #ffd100;
+  color: black;
+}
+
+input, textarea {
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  border-radius: 3px;
+  font-size: 16px;
+  border: 1px solid rgba(0, 0, 0, .1);
+}
+
+input:hover,
+textarea:hover,
+input:focus,
+textarea:focus {
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, .3);
+}
+input:hover,
+textarea:hover {
+  border-color: #ff5800;
+}
+input:focus,
+textarea:focus {
+  border-color: #ffd100;
+}
+
+input, button, option, textarea {
   font-family: inherit;
+}
+
+a, input, button {
+  outline: 0;
 }
