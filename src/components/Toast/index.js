@@ -5,18 +5,23 @@ import {FiInfo} from 'react-icons/fi'
 
 export default class Toast extends Component{
     state={
-        message:null
+        message:null,
+        timer:null,
+        animation:'none'
     }
     show(){
-        let toast = document.querySelector(".toastContainer");
-        toast.classList.add('show');
+        this.setState({
+            animation: "fadeOut 3s linear 0s 1 forwards"
+        })
         setTimeout(()=>{
-            toast.classList.remove('show'); 
+            this.setState({
+                animation: "none"
+            })
         },3000);
+        
     }
     componentDidMount(){
         toastReducer.subscribe(()=>{
-
             this.setState({...toastReducer.getState()},()=>{
                 this.show();
             });
@@ -24,10 +29,11 @@ export default class Toast extends Component{
     }
     render(){
         return(
-            <div className="toastContainer" css={{
+            <div css={{
                 position:"fixed",
                 top:"-10%",
-                width:"100%"
+                width:"100%",
+                animation:this.state.animation
             }}>
                 <div css={{
                     background: "#fff",
