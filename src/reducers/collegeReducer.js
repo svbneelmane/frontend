@@ -2,6 +2,7 @@ import {createStore} from 'redux';
 
 import {
   get,
+  getAll,
   getParticipants,
   getTeams,
   create,
@@ -11,6 +12,8 @@ let reducers = async (state = {}, action) => {
   switch (action.type) {
     case 'GET':
       return await get();
+    case 'GET_ALL':
+      return await getAll();
     case 'GET_PARTICIPANTS':
       return await getParticipants(action.eventId);
     case 'GET_TEAMS':
