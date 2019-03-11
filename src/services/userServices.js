@@ -1,7 +1,5 @@
 import constants from "../utils/constants";
 import { send } from "../actions/commonActions";
-import { toast } from "../actions/toastActions";
-import { navigate } from "gatsby";
 
 export const isBrowser = () => typeof window !== "undefined";
 
@@ -10,7 +8,7 @@ export const getUser = () =>
     ? JSON.parse(window.localStorage.getItem("me"))
     : {};
 
-const setUser = user => {
+export const setUser = user => {
   isBrowser() && window.localStorage.setItem("me", JSON.stringify(user));
   return user;
 };
@@ -38,17 +36,7 @@ const authorize = async ({ email, password }) => {
 export const login = async (partialUser) => {
   // TODO: Add some sanity checks
   let response = await authorize(partialUser);
-
-  if (response && response.data) {
-    navigate('/profile');
-    return setUser(response.data);
-  }
-  else {
-    if (response) {
-      toast(response.message);
-    }
-    return {};
-  }
+  return response;
 }
 
 export const logout = callback => {
