@@ -6,6 +6,7 @@ import Login from "../components/Login";
 import Profile from "../components/Profile";
 import Colleges from "../components/Colleges";
 import AddCollege from "../components/Colleges/Add";
+import Users from "../components/Users";
 import NotFound from "../components/404";
 
 import configureStore from "../store";
@@ -18,6 +19,7 @@ export default () =>
         height: "100%",
       }}>
         <Login path="/login" />
+        <PrivateRoute path="/users" component={ Users } />
         <PrivateRoute path="/profile" component={ Profile } />
         <PrivateRoute path="/colleges" component={ Colleges } />
         <PrivateRoute path="/colleges/add" component={ AddCollege } />
