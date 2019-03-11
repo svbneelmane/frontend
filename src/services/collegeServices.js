@@ -15,7 +15,7 @@ export const getAll = async () => {
   if (response && response.status === 200 && response.data) {
     send(response.data);
   } else {
-    return [];
+    send([]);
   }
 };
 
