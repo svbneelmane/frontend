@@ -57,6 +57,24 @@ export const logout = callback => {
   callback();
 };
 
+export const getAll = async () => {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  };
+
+  let response = await fetch(constants.server + "/users", requestOptions);
+  response = await response.json();
+
+  if (response && response.status === 200 && response.data) {
+    send(response.data);
+  } else {
+    send([]);
+  }
+};
+
 export const get = async (id) => {
   const requestOptions = {
     method: 'GET',
