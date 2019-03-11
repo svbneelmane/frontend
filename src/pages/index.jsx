@@ -14,7 +14,9 @@ import Layout from "../layouts/app";
 
 export default () =>
     <Layout>
-      <Router>
+      <Router css = {{
+        height: "100%",
+      }}>
         <Login path="/login" />
         <PrivateRoute path="/profile" component={ Profile } />
         <PrivateRoute path="/colleges" component={ Colleges } />
