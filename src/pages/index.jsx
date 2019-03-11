@@ -10,7 +10,7 @@ import Users from "../components/Users";
 import AddUser from "../components/Users/Add";
 import NotFound from "../components/404";
 
-import configureStore from "../store";
+// import configureStore from "../store";
 
 import Layout from "../layouts/app";
 
