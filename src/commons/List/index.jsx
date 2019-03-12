@@ -27,9 +27,9 @@ const List = (props) => (
     }}>
     <div css={{ fontSize: "1.2em"}} >{props.title}</div>
     <div css={{ opacity: "0.45", fontSize: "0.8em", marginTop: "8px" }}>{props.subTitle}</div>
-    
+
     </div>
-    
+
   </div>
 );
 

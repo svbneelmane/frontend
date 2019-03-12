@@ -1,5 +1,6 @@
 import React from "react";
-import { List } from "antd";
+
+import LBList from "../../commons/LBList";
 import constants from "../../utils/constants";
 
 export default class extends React.PureComponent {
@@ -14,10 +15,6 @@ export default class extends React.PureComponent {
   componentWillMount = () => {
     fetch(
       constants.server
-        + "/events/"
-        + this.props.event
-        + "/rounds/"
-        + this.props.round
         + "/leaderboard"
     ).then(res => res.json()).then(res => {
       this.setState({
@@ -26,23 +23,21 @@ export default class extends React.PureComponent {
     })
   }
 
-  render() {
-    return (
-      <List
-        itemLayout="horizontal"
-        dataSource={this.state.leaderboard}
-        renderItem={(item, i) => (
-          <List.Item>
-            <List.Item.Meta
-              title={ (i + 1) + ". " + ((item.team && item.team.name) || " ") }
-              description={ item.points + " points "}
-              style={{
-                cursor: "pointer",
-              }}
+  render = () => (
+    <div>
+      {
+        this.state.leaderboard
+        ? this.state.leaderboard.map((team, i) => (
+            <LBList
+              key={ i }
+              position={ i + 1 }
+              title={ team.college.name }
+              description={ team.college.location }
+              points={ team.points }
             />
-          </List.Item>
-        )}
-      />
-    );
-  }
+          ))
+        : null
+      }
+    </div>
+  );
 };

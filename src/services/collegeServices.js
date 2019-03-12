@@ -1,6 +1,24 @@
 import constants from '../utils/constants';
 import { send } from '../actions/commonActions';
 
+export const getAll = async () => {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+  };
+
+  let response = await fetch(constants.server + "/colleges", requestOptions);
+  response = await response.json();
+
+  if (response && response.status === 200 && response.data) {
+    send(response.data);
+  } else {
+    send([]);
+  }
+};
+
 export const get = async () => {
   const requestOptions = {
     method: 'GET',
