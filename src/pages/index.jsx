@@ -10,6 +10,7 @@ import Users from "../components/Users";
 import AddUser from "../components/Users/Add";
 import Judges from "../components/Judges";
 import AddJudge from "../components/Judges/Add";
+import Leaderboard from "../components/Leaderboard";
 import NotFound from "../components/404";
 
 // import configureStore from "../store";
@@ -29,6 +30,7 @@ export default () =>
         <PrivateRoute path="/colleges/add" component={ AddCollege } />
         <PrivateRoute path="/judges" component={ Judges } />
         <PrivateRoute path="/judges/add" component={ AddJudge } />
+        <PrivateRoute path="/leaderboard" component={ Leaderboard } />
         <NotFound path="/*" component={ NotFound } />
       </Router>
     </Layout>
