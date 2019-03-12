@@ -4,6 +4,7 @@ import { send } from '../actions/commonActions';
 export const get = async () => {
   const requestOptions = {
     method: 'GET',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
   };
   let response = await fetch(`${constants.server}/events`, requestOptions);
@@ -18,6 +19,7 @@ export const get = async () => {
 export const getRounds = async (eventId) => {
   const requestOptions = {
     method: 'GET',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
   };
   let response = await fetch(`${constants.server}/events/${eventId}/rounds`, requestOptions);
@@ -32,6 +34,7 @@ export const getRounds = async (eventId) => {
 export const getSlots = async (eventId, roundId) => {
   const requestOptions = {
     method: 'GET',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
   };
   let response = await fetch(`${constants.server}/events/${eventId}/rounds/${roundId}/slots`, requestOptions);
@@ -46,6 +49,7 @@ export const getSlots = async (eventId, roundId) => {
 export const getTeams = async (eventId) => {
   const requestOptions = {
     method: 'GET',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
   };
   let response = await fetch(`${constants.server}/events/${eventId}/teams`, requestOptions);
@@ -60,6 +64,7 @@ export const getTeams = async (eventId) => {
 export const getRoundTeams = async (eventId, roundId) => {
   const requestOptions = {
     method: 'GET',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
   };
   let response = await fetch(`${constants.server}/events/${eventId}/rounds/${roundId}/teams`, requestOptions);
@@ -74,6 +79,7 @@ export const getRoundTeams = async (eventId, roundId) => {
 export const create = async (payload) => {
   const requestOptions = {
     method: 'POST',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   };
@@ -90,6 +96,7 @@ export const create = async (payload) => {
 export const createRound = async (payload, eventId) => {
   const requestOptions = {
     method: 'POST',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   };
@@ -105,6 +112,7 @@ export const createRound = async (payload, eventId) => {
 export const createTeam = async (payload, eventId) => {
   const requestOptions = {
     method: 'POST',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   };
@@ -120,6 +128,7 @@ export const createTeam = async (payload, eventId) => {
 export const createSlots = async (payload, eventId, roundId) => {
   const requestOptions = {
     method: 'POST',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   };
@@ -135,6 +144,7 @@ export const createSlots = async (payload, eventId, roundId) => {
 export const submitScore = async (payload, eventId, roundId) => {
   const requestOptions = {
     method: 'POST',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   };

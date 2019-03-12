@@ -7,8 +7,10 @@ import { create } from "../../services/userServices";
 import { Input, Button } from "../../commons/Form";
 import constants from "../../utils/constants";
 import { getAll } from "../../services/collegeServices";
+import { toast } from "../../actions/toastActions";
 
 export default class AddUser extends React.Component {
+
   types = (function() {
     let options = [];
 
@@ -23,25 +25,52 @@ export default class AddUser extends React.Component {
 
     return options;
   }());
+  ADD_USER="Add User";
+  ADDING_USER="Adding User...";
+  state = {
 
-  state = {};
+    buttonText:this.ADD_USER
+  };
 
   handleChange = (e) => {
     this.setState({ [e.name]: e.value });
   };
 
   handleClick = () => {
-    create({
-      name: this.state.name,
-      email: this.state.email,
-      password: this.state.password,
-      college: this.state.college,
-      type: this.state.type,
-    });
+    if(!this.state.name)
+      return toast("Please enter name");
+    if(!this.state.email)
+      return toast("Please enter email id");
+    if(!this.state.password)
+      return toast("Please enter password");
+    if(!this.state.college)
+      return toast("Please select college");
+    if(!this.state.type)
+      return toast("Please select user type");
+    
+    this.setState({
+      buttonText:this.ADDING_USER
+    },async ()=>{
+      let response = await create({
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password,
+        college: this.state.college,
+        type: this.state.type,
+      });
+      if(!response)
+        toast("Some error occured");
+      else if(response.status===200)
+        return navigate("/users");
+      else
+        toast(response.message);
+      this.setState({buttonText:this.ADD_USER})
 
-    reducer.subscribe(() => {
-      navigate("/users");
-    });
+
+    })
+   
+
+   
   };
 
   componentWillMount() {
@@ -164,7 +193,7 @@ export default class AddUser extends React.Component {
           />
         </div>
         <div>
-          <Button onClick={ this.handleClick }>Add</Button>
+          <Button onClick={ this.handleClick } disabled={this.state.buttonText==this.ADDING_USER}>{this.state.buttonText}</Button>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { send } from '../actions/commonActions';
 export const getAll = async () => {
   const requestOptions = {
     method: "GET",
+    credentials: "include",
     headers: {
       Accept: "application/json"
     },
@@ -22,6 +23,7 @@ export const getAll = async () => {
 export const get = async () => {
   const requestOptions = {
     method: 'GET',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
   };
   let response = await fetch(`${constants.server}/judges`, requestOptions);
@@ -36,6 +38,7 @@ export const get = async () => {
 export const create = async (payload) => {
   const requestOptions = {
     method: 'POST',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   };
