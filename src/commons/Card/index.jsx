@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../Form'
+import { Button, Input } from '../Form'
 import { navigate } from 'gatsby';
 
 const RoundCard = (props) => (
@@ -38,6 +38,41 @@ const RoundCard = (props) => (
   </div>
 );
 
+const CriteriaCard = (props) => (
+  <div
+    css={{
+      margin: "2%",
+      borderRadius: "4px",
+      width: "46%",
+      display: "inline-block",
+      boxShadow: "0px 5px 12px -5px rgba(0, 0, 0, .1)",
+    }}
+  > 
+    <div
+      css={{
+        padding: "16px",
+        fontSize: "1.2em",
+        textAlign: "center"
+      }}
+    >{props.title} </div>
+
+    <div
+    css={{
+      padding: "16px",
+    }}
+    >
+      <Input type="number" 
+      onChange={props.onChange}
+      styles={{
+        width: "100%",
+        textAlign: "center",
+        fontSize: "200%"
+      }}/>
+    </div>
+  </div>
+);
+
 export {
   RoundCard,
+  CriteriaCard
 }
