@@ -9,6 +9,7 @@ import AddCollege from "../components/Colleges/Add";
 import Users from "../components/Users";
 import AddUser from "../components/Users/Add";
 import Judges from "../components/Judges";
+import AddJudge from "../components/Judges/Add";
 import NotFound from "../components/404";
 
 // import configureStore from "../store";
@@ -27,6 +28,7 @@ export default () =>
         <PrivateRoute path="/colleges" component={ Colleges } />
         <PrivateRoute path="/colleges/add" component={ AddCollege } />
         <PrivateRoute path="/judges" component={ Judges } />
+        <PrivateRoute path="/judges/add" component={ AddJudge } />
         <NotFound path="/*" component={ NotFound } />
       </Router>
     </Layout>
