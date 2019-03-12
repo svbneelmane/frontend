@@ -44,6 +44,10 @@ button:hover {
   background-color: #ffd100;
   color: black;
 }
+button:disabled{
+  background-color: #ffa593;
+  color:#fff;
+}
 
 input, textarea {
   margin-bottom: 10px;

@@ -69,9 +69,6 @@ export const create = async (payload) => {
   };
   let response = await fetch(`${constants.server}/colleges`, requestOptions);
   let json = await response.json();
-  if(json.status&&json.status===200) {
-    send(json.data);
-  } else {
-    return null;
-  }
+  
+  return json;
 }

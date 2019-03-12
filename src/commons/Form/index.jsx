@@ -58,6 +58,7 @@ const Button = (props) => (
       ...props.styles,
     }}
     onClick = {props.onClick}
+    disabled={props.disabled?"disabled":false}
   >
     {props.children}
   </button>
