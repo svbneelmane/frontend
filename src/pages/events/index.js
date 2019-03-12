@@ -5,14 +5,15 @@ import dance from '../../images/dance.png';
 import singing from '../../images/singing.png';
 import { get } from '../../actions/eventActions';
 import store from '../../reducers/commonReducer';
+import { navigate } from 'gatsby';
 
 const EventCard = ({ event }) => (
-  <div className="event">
-    <img src={event.image} alt={event.alt} />
+  <div onClick={() => {navigate(`events/${event.id}/rounds`)}} className="event" css={{cursor: "pointer"}}>
+    <img src={dance} alt={event.name} />
     <div className="header">
       <div className="name">{event.name}</div>
-      <div className="venue"><label>Venue:</label> {event.venue}</div>
-      <div className="time"><label>Date:</label> {event.date}</div>
+      <div className="venue"><label>Venue:</label> {event.college.location}</div>
+      <div className="time"><label>Date:</label> {new Date(event.startDate).toDateString('en-US')}</div>
     </div>
   </div>)
 
@@ -22,26 +23,10 @@ export default class Adduser extends Component {
   constructor(props){
     super(props)
     this.state = {
-      events: {}
+      events: []
     }
   }
 
-  events = [
-    {
-      image: dance,
-      alt: 'dance',
-      name: 'Western Solo Dancing',
-      venue: 'Manipal Institute of Technolody',
-      date: '2nd April'
-    },
-    {
-      image: singing,
-      alt: 'singing',
-      name: 'Solo Singing',
-      venue: 'Manipal College of Dental Sciences',
-      date: '2nd April'
-    }
-  ]
 
   componentWillMount = () => {
     get();
@@ -60,7 +45,7 @@ export default class Adduser extends Component {
         <h3>Events</h3>
         <div className="events">
           {
-            this.events.map((event, i) => <EventCard key={i} event={event} />)
+            this.state.events.map((event, i) =>  <EventCard key={i} event={event} /> )
           }
         </div>
       </Layout>

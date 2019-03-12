@@ -12,6 +12,8 @@ import Judges from "../components/Judges";
 import AddJudge from "../components/Judges/Add";
 import Leaderboard from "../components/Leaderboard";
 import NotFound from "../components/404";
+import Rounds from "./rounds";
+import Judge from "./judge"
 
 // import configureStore from "../store";
 
@@ -31,6 +33,8 @@ export default () =>
         <PrivateRoute path="/judges" component={ Judges } />
         <PrivateRoute path="/judges/add" component={ AddJudge } />
         <PrivateRoute path="/leaderboard" component={ Leaderboard } />
+        <PrivateRoute path="events/:event/rounds" exact component={Rounds} />
+        <PrivateRoute path="/judge/:event/rounds/:round" exact component={Judge} />
         <NotFound path="/*" component={ NotFound } />
       </Router>
     </Layout>
