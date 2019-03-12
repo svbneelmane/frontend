@@ -3,6 +3,15 @@ import { Link } from "gatsby";
 
 import store from "../../reducers/sidebarReducer";
 
+const SidebarSeparator = () => (
+  <li>
+    <hr css={{
+      margin: "10px 25px 0",
+      border: "1px dashed rgba(0, 0, 0, .1)",
+    }} />
+  </li>
+);
+
 const SidebarItem = (props) => (
   <li>
     <Link to={ props.to } title={ props.title } css={{
@@ -34,10 +43,13 @@ const SidebarItems = () => (
     padding: 0,
   }}>
     <SidebarItem to="/" title="Home" />
+    <SidebarSeparator />
     <SidebarItem to="/users" title="Users" />
     <SidebarItem to="/colleges" title="Colleges" />
     <SidebarItem to="/events" title="Events" />
     <SidebarItem to="/judges" title="Judges" />
+    <SidebarSeparator />
+    <SidebarItem to="/leaderboard" title="Leaderboard" />
   </ul>
 );
 
