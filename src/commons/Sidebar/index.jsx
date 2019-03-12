@@ -37,9 +37,7 @@ const SidebarItems = () => (
     <SidebarItem to="/users" title="Users" />
     <SidebarItem to="/colleges" title="Colleges" />
     <SidebarItem to="/events" title="Events" />
-    <SidebarItem to="/adduser" title="Add User" />
-    <SidebarItem to="/login" title="Login" />
-    <SidebarItem to="/profile" title="Profile" />
+    <SidebarItem to="/judges" title="Judges" />
   </ul>
 );
 
