@@ -10,6 +10,8 @@ import Users from "../components/Users";
 import AddUser from "../components/Users/Add";
 import Judges from "../components/Judges";
 import AddJudge from "../components/Judges/Add";
+import Events from '../components/Events';
+import AddEvent from '../components/Events/Add';
 import Leaderboard from "../components/Leaderboard";
 import NotFound from "../components/404";
 
@@ -26,6 +28,8 @@ export default () =>
         <PrivateRoute path="/profile" component={ Profile } />
         <PrivateRoute path="/users" component={ Users } />
         <PrivateRoute path="/users/add" component={ AddUser } />
+        <PrivateRoute path="/events" component={ Events } />
+        <PrivateRoute path="/events/add" component={ AddEvent } />
         <PrivateRoute path="/colleges" component={ Colleges } />
         <PrivateRoute path="/colleges/add" component={ AddCollege } />
         <PrivateRoute path="/judges" component={ Judges } />

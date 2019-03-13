@@ -4,12 +4,14 @@ import Select from "react-select";
 
 import reducer from "../../reducers/commonReducer";
 import { create } from "../../services/userServices";
-import { Input, Button } from "../../commons/Form";
+import { Input, Button, TextArea } from "../../commons/Form";
 import constants from "../../utils/constants";
 import { getAll } from "../../services/collegeServices";
 import { toast } from "../../actions/toastActions";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-export default class AddUser extends React.Component {
+export default class AddEvent extends React.Component {
 
   types = (function() {
     let options = [];
@@ -25,15 +27,18 @@ export default class AddUser extends React.Component {
 
     return options;
   }());
-  ADD_USER="Add User";
-  ADDING_USER="Adding User...";
+  ADD="Add Event";
+  ADDING="Adding Event...";
   state = {
 
     buttonText:this.ADD_USER
   };
 
   handleChange = (e) => {
-    this.setState({ [e.name]: e.value });
+    
+    this.setState({ [e.name]: e.value },()=>{
+      console.log(this.state);
+    });
   };
 
   handleClick = () => {
@@ -49,7 +54,7 @@ export default class AddUser extends React.Component {
       return toast("Please select user type");
     
     this.setState({
-      buttonText:this.ADDING_USER
+      buttonText:this.ADDING
     },async ()=>{
       let response = await create({
         name: this.state.name,
@@ -64,7 +69,7 @@ export default class AddUser extends React.Component {
         return navigate("/users");
       else
         toast(response.message);
-      this.setState({buttonText:this.ADD_USER})
+      this.setState({buttonText:this.ADD})
 
 
     })
@@ -90,8 +95,8 @@ export default class AddUser extends React.Component {
 
   render = () => (
     <div>
-      <h2>Add User</h2>
-      <p>Add a new user to MUCAPP.</p>
+      <h2>Add Event</h2>
+      <p>Add a new event to MUCAPP.</p>
       <div>
         <div>
           <Input
@@ -100,28 +105,6 @@ export default class AddUser extends React.Component {
             name="name"
             type="text"
             placeholder="Name"
-            required
-            styles={{ width: 300 }}
-          />
-        </div>
-        <div>
-          <Input
-            onChange={ this.handleChange }
-            autoComplete="off"
-            name="email"
-            type="email"
-            placeholder="Email"
-            required
-            styles={{ width: 300 }}
-          />
-        </div>
-        <div>
-          <Input
-            onChange={ this.handleChange }
-            autoComplete="off"
-            name="password"
-            type="password"
-            placeholder="Password"
             required
             styles={{ width: 300 }}
           />
@@ -160,11 +143,89 @@ export default class AddUser extends React.Component {
           />
         </div>
         <div>
+          <Input
+            onChange={ this.handleChange }
+            autoComplete="off"
+            name="minMembersPerTeam"
+            type="number"
+            placeholder="Minimum Members Per Team"
+            required
+            styles={{ width: 300 }}
+          />
+        </div>
+        <div>
+          <Input
+            onChange={ this.handleChange }
+            autoComplete="off"
+            name="maxMembersPerTeam"
+            type="number"
+            placeholder="Maximum Members Per Team"
+            styles={{ width: 300 }}
+          />
+        </div>
+        <div>
+          <Input
+            onChange={ this.handleChange }
+            autoComplete="off"
+            name="maxTeamsPerCollege"
+            type="number"
+            placeholder="Maximum Teams Per College"
+            styles={{ width: 300 }}
+          />
+        </div>
+        <div>
+          <Input
+            onChange={ this.handleChange }
+            autoComplete="off"
+            name="venue"
+            type="text"
+            placeholder="Venue"
+            styles={{ width: 300 }}
+          />
+        </div>
+        <div>
+          <TextArea
+            onChange={ this.handleChange }
+            autoComplete="off"
+            name="description"
+            type="text"
+            placeholder="Description"
+            styles={{ maxWidth: 300,minWidth:300 }}
+          />
+        </div>
+        <div>
+          <Input
+            onChange={ this.handleChange }
+            autoComplete="off"
+            name="duration"
+            type="number"
+            placeholder="Duration"
+            styles={{ width: 300 }}
+          />
+        </div>
+        <div>
+        <DatePicker
+          placeholderText="Date"
+          value={this.state.date}
+          onChange={(value)=>this.handleChange({name:'date',value:value.toLocaleDateString()})} />
+        </div>
+        <div>
+          <Input
+            onChange={ this.handleChange }
+            autoComplete="off"
+            name="startTime"
+            type="time"
+            placeholder="Start Time"
+            styles={{ width: 300 }}
+          />
+        </div>
+        
+        <div>
           <Select
             isSearchable={false}
             name="type"
-            placeholder="Account Type"
-            options={ this.types }
+            placeholder="For"
+            options={ [{label:'Students',value:'students'},{label:'Faculty',value:'faculty'}] }
             onChange={ (e) => this.setState({ type: e.value }) }
             styles={{
               control: (provided, state) => ({
@@ -193,7 +254,17 @@ export default class AddUser extends React.Component {
           />
         </div>
         <div>
-          <Button onClick={ this.handleClick } disabled={this.state.buttonText===this.ADDING_USER}>{this.state.buttonText}</Button>
+          <Input
+            onChange={ this.handleChange }
+            autoComplete="off"
+            name="rounds"
+            type="number"
+            placeholder="Rounds"
+            styles={{ width: 300 }}
+          />
+        </div>
+        <div>
+          <Button onClick={ this.handleClick } disabled={this.state.buttonText===this.ADDING}>{this.state.buttonText}</Button>
         </div>
       </div>
     </div>

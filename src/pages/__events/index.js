@@ -57,7 +57,7 @@ export default class Adduser extends Component {
   render() {
     return (
       <Layout>
-        <h3>Events</h3>
+        <h3>Eventsss</h3>
         <div className="events">
           {
             this.events.map((event, i) => <EventCard key={i} event={event} />)

@@ -1,7 +1,6 @@
 import React from "react";
 import { navigate } from "gatsby";
 
-import reducer from "../../reducers/commonReducer";
 import { create } from "../../services/collegeServices";
 import { Input, Button } from "../../commons/Form";
 import { toast } from "../../actions/toastActions";
