@@ -3,12 +3,12 @@ import { navigate } from "gatsby";
 import Select from "react-select";
 
 import reducer from "../../reducers/commonReducer";
-import { create } from "../../services/userServices";
+import { create } from "../../services/eventService";
 import { Input, Button, TextArea } from "../../commons/Form";
 import constants from "../../utils/constants";
 import { getAll } from "../../services/collegeServices";
 import { toast } from "../../actions/toastActions";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default class AddEvent extends React.Component {
@@ -30,7 +30,10 @@ export default class AddEvent extends React.Component {
   ADD="Add Event";
   ADDING="Adding Event...";
   state = {
-    buttonText:this.ADD
+    buttonText:this.ADD,
+    minMembersPerTeam:1,
+    maxMembersPerTeam:1,
+    maxTeamsPerCollege:1
   };
 
   handleChange = (e) => {
@@ -43,29 +46,39 @@ export default class AddEvent extends React.Component {
   handleClick = () => {
     if(!this.state.name)
       return toast("Please enter name");
-    if(!this.state.email)
-      return toast("Please enter email id");
-    if(!this.state.password)
-      return toast("Please enter password");
     if(!this.state.college)
-      return toast("Please select college");
-    if(!this.state.type)
-      return toast("Please select user type");
+      return toast("Please enter college");
+    if(!this.state.minMembersPerTeam)
+      return toast("Please enter minimum members per team");
+    if(!this.state.maxMembersPerTeam)
+      return toast("Please enter maximum members per team");
+    if(!this.state.maxTeamsPerCollege)
+      return toast("Please enter maximum teams per college");
     
     this.setState({
       buttonText:this.ADDING
     },async ()=>{
       let response = await create({
-        name: this.state.name,
-        email: this.state.email,
-        password: this.state.password,
-        college: this.state.college,
-        type: this.state.type,
+        name:this.state.name,
+        college:this.state.college,
+        minMembersPerTeam:this.state.minMembersPerTeam,
+        maxMembersPerTeam:this.state.maxMembersPerTeam,
+        maxTeamsPerCollege:this.state.maxMembersPerTeam,
+        venue:this.state.venue,
+        description:this.state.description,
+        duration:this.state.duration,
+        startDate:new Date(this.state.startDate),
+        endDate:new Date(this.state.endDate),
+        for:this.state.for,
+        criteria:[this.state.criteria1,this.state.criteria2,this.state.criteria3,this.state.criteria4],
+        slottable:true
       });
       if(!response)
         toast("Some error occured");
-      else if(response.status===200)
-        return navigate("/users");
+      else if(response.status===200){
+        this.UNSUB();
+        return navigate("/events");
+      }
       else
         toast(response.message);
       this.setState({buttonText:this.ADD})
@@ -80,7 +93,7 @@ export default class AddEvent extends React.Component {
   componentWillMount() {
     getAll();
 
-    reducer.subscribe(() => {
+    this.UNSUB=reducer.subscribe(() => {
       reducer.getState().then(state => {
         this.setState({
           colleges: state.data.map(college => ({
@@ -98,17 +111,20 @@ export default class AddEvent extends React.Component {
       <p>Add a new event to MUCAPP.</p>
       <div>
         <div>
+          <label>Name: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
             name="name"
             type="text"
+            value={this.state.name}
             placeholder="Name"
             required
             styles={{ width: 300 }}
           />
         </div>
         <div>
+        <label>College: </label>
           <Select
             isSearchable={false}
             name="college"
@@ -137,11 +153,13 @@ export default class AddEvent extends React.Component {
             }}
             css = {{
               fontSize: "16px",
+              display:'inline-block',
               width: 300,
             }}
           />
         </div>
         <div>
+        <label>Minimum Members Per Team: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
@@ -149,30 +167,38 @@ export default class AddEvent extends React.Component {
             type="number"
             placeholder="Minimum Members Per Team"
             required
+            min="1"
+            value={this.state.minMembersPerTeam}
             styles={{ width: 300 }}
           />
         </div>
         <div>
+        <label>Maximum Members Per Team: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
             name="maxMembersPerTeam"
             type="number"
             placeholder="Maximum Members Per Team"
+            min="1"
+            value={this.state.maxMembersPerTeam}
             styles={{ width: 300 }}
           />
         </div>
         <div>
+        <label>Maximum Teams Per College: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
             name="maxTeamsPerCollege"
             type="number"
+            value={this.state.maxTeamsPerCollege}
             placeholder="Maximum Teams Per College"
             styles={{ width: 300 }}
           />
         </div>
         <div>
+        <label>Venue: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
@@ -183,6 +209,7 @@ export default class AddEvent extends React.Component {
           />
         </div>
         <div>
+        <label>Description: </label>
           <TextArea
             onChange={ this.handleChange }
             autoComplete="off"
@@ -193,40 +220,38 @@ export default class AddEvent extends React.Component {
           />
         </div>
         <div>
+        <label>Duration in minutes: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
             name="duration"
             type="number"
-            placeholder="Duration"
-            styles={{ width: 300 }}
+            placeholder="Duration in minutes"
+            styles={{ width: 300 ,verticalAlign:"top"}}
           />
         </div>
         <div>
-        <DatePicker
-          placeholderText="Start Date"
-          value={this.state.date}
-          showTimeSelect
-          timeFormat="HH:mm"
-          timeIntervals={15}
-          dateFormat="d MMMM yyyy h:mm aa"
-          timeCaption="time"
-          customInput={<input style={{width:300}}/>}
-          onChange={(value)=>this.handleChange({name:'date',value:value.toLocaleString('en-in',{hour12:true})})} />
+        <label>Start Date: </label>
+          <Input 
+            type="datetime-local" 
+            name="startDate" 
+            value={this.state.startDate}
+            onChange={this.handleChange}
+            />
+        
+        </div>
+      
+        <div>
+        <label>End Date: </label>
+        <Input 
+            type="datetime-local" 
+            name="endDate" 
+            value={this.state.endDate}
+            onChange={this.handleChange}
+            />
         </div>
         <div>
-        <DatePicker
-          placeholderText="End Date"
-          value={this.state.end&&this.state.end.toLocaleString('en-in',{hour12:true})}
-          showTimeSelect
-          timeFormat="HH:mm"
-          timeIntervals={15}
-          dateFormat="d MMMM yyyy h:mm aa"
-          timeCaption="time"
-          customInput={<input style={{width:300}}/>}
-          onChange={(value)=>this.handleChange({name:'end',value:value})} />
-        </div>
-        <div>
+        <label>For: </label>
           <Select
             isSearchable={false}
             name="type"
@@ -256,16 +281,48 @@ export default class AddEvent extends React.Component {
             css = {{
               fontSize: "16px",
               width: 300,
+              display:'inline-block'
             }}
           />
         </div>
+        
         <div>
+        <label>Criteria 1: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
-            name="rounds"
-            type="number"
-            placeholder="Rounds"
+            name="criteria1"
+            placeholder="Criteria 1 "
+            styles={{ width: 300 }}
+          />
+        </div>
+        <div>
+        <label>Criteria 2: </label>
+          <Input
+            onChange={ this.handleChange }
+            autoComplete="off"
+            name="criteria2"
+            placeholder="Criteria 2 "
+            styles={{ width: 300 }}
+          />
+        </div>
+        <div>
+        <label>Criteria 3: </label>
+          <Input
+            onChange={ this.handleChange }
+            autoComplete="off"
+            name="criteria3"
+            placeholder="Criteria 3 "
+            styles={{ width: 300 }}
+          />
+        </div>
+        <div>
+        <label>Criteria 4: </label>
+          <Input
+            onChange={ this.handleChange }
+            autoComplete="off"
+            name="criteria4"
+            placeholder="Criteria 4 "
             styles={{ width: 300 }}
           />
         </div>

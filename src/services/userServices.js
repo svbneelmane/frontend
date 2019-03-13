@@ -80,6 +80,7 @@ export const get = async (id) => {
  }
 
 export const create = async (payload) => {
+  console.log('PAYLOAD',payload)
   const requestOptions = {
     method: 'POST',
     credentials: "include",
