@@ -13,6 +13,19 @@ const Input = (props) => (
   />
 );
 
+const TextArea = (props) => (
+  <textarea
+    onChange = { (e) => props.onChange(e.target)}
+    autoComplete = "off"
+    name = {props.name}
+    type = {props.type}
+    placeholder = {props.placeholder}
+    css = {{
+      ...props.styles,
+    }}
+  >{props.children}</textarea>
+);
+
 const Tag = (props) => (
   <div css={{
     ...props.styles,
@@ -58,6 +71,7 @@ const Button = (props) => (
       ...props.styles,
     }}
     onClick = {props.onClick}
+    disabled={props.disabled?"disabled":false}
   >
     {props.children}
   </button>
@@ -66,5 +80,6 @@ const Button = (props) => (
 export {
   Input,
   Button,
-  Tag
+  Tag,
+  TextArea
 }

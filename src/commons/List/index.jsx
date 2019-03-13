@@ -33,6 +33,26 @@ const List = (props) => (
   </div>
 );
 
+  const TeamList = (props) => (
+    <div css={{}}>
+      <div css={{
+        padding: "10px",
+        backgroundColor: "rgba(0,0,0,0.1)",
+      }}>
+        <div css={{
+          display : "inline-block",
+          marginRight: "8px",
+          fontSize : "0.9em"
+        }}>1</div>
+        <div css={{
+          display : "inline-block",
+          fontSize : "0.9em"
+        }}>Team Name</div>
+      </div>
+    </div>
+  )
+
 export {
-  List
+  List,
+  TeamList
 }

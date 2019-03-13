@@ -48,6 +48,7 @@ export const logout = callback => {
 export const getAll = async () => {
   const requestOptions = {
     method: "GET",
+    credentials: "include",
     headers: {
       Accept: "application/json",
     },
@@ -67,8 +68,9 @@ export const get = async (id) => {
   const requestOptions = {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
+    credentials: "include",
   };
-  let response = await fetch(`${constants.server}/user/${id}`, requestOptions);
+  let response = await fetch(`${constants.server}/users/${id}`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
     send(json.data);
@@ -80,25 +82,23 @@ export const get = async (id) => {
 export const create = async (payload) => {
   const requestOptions = {
     method: 'POST',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   };
-  let response = await fetch(`${constants.server}/user`, requestOptions);
+  let response = await fetch(`${constants.server}/users`, requestOptions);
   let json = await response.json();
-  if(json.status&&json.status===200) {
-    send(json.data);
-  } else {
-    return null;
-  }
+  return json;
 }
 
 export const update = async (payload) => {
   const requestOptions = {
     method: 'PATCH',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   };
-  let response = await fetch(`${constants.server}/user`, requestOptions);
+  let response = await fetch(`${constants.server}/users`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
     send(json.data);

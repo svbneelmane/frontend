@@ -42,7 +42,7 @@ export default class Login extends Component {
 			})
 		}
 	})
-	
+
   }
 
   render(){
@@ -63,7 +63,7 @@ export default class Login extends Component {
 		  <div css={{
 			textAlign: "center",
 			marginBottom: "16px",
-		  }}>Login to your account</div>
+		  }}>Login to MUCAPP</div>
 		  <div css ={{
 			display: "flex",
 			flexDirection: "column",

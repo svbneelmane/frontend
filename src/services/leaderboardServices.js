@@ -4,6 +4,7 @@ import { send } from '../actions/commonActions';
 export const getEventLeaderboard = async (eventId) => {
   const requestOptions = {
     method: 'GET',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
   };
   let response = await fetch(`${constants.server}/events/${eventId}/leaderboard`, requestOptions);
@@ -18,6 +19,7 @@ export const getEventLeaderboard = async (eventId) => {
 export const getRoundLeaderboard = async (eventId, roundId) => {
   const requestOptions = {
     method: 'GET',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
   };
   let response = await fetch(`${constants.server}/events/${eventId}/rounds/${roundId}/leaderboard`, requestOptions);
@@ -32,6 +34,7 @@ export const getRoundLeaderboard = async (eventId, roundId) => {
 export const getLeaderboard = async (eventId, roundId) => {
   const requestOptions = {
     method: 'GET',
+    credentials: "include",
     headers: { 'Content-Type': 'application/json' },
   };
   let response = await fetch(`${constants.server}/leaderboard`, requestOptions);
