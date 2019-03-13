@@ -30,8 +30,7 @@ export default class AddEvent extends React.Component {
   ADD="Add Event";
   ADDING="Adding Event...";
   state = {
-
-    buttonText:this.ADD_USER
+    buttonText:this.ADD
   };
 
   handleChange = (e) => {
@@ -205,21 +204,28 @@ export default class AddEvent extends React.Component {
         </div>
         <div>
         <DatePicker
-          placeholderText="Date"
+          placeholderText="Start Date"
           value={this.state.date}
-          onChange={(value)=>this.handleChange({name:'date',value:value.toLocaleDateString()})} />
+          showTimeSelect
+          timeFormat="HH:mm"
+          timeIntervals={15}
+          dateFormat="d MMMM yyyy h:mm aa"
+          timeCaption="time"
+          customInput={<input style={{width:300}}/>}
+          onChange={(value)=>this.handleChange({name:'date',value:value.toLocaleString('en-in',{hour12:true})})} />
         </div>
         <div>
-          <Input
-            onChange={ this.handleChange }
-            autoComplete="off"
-            name="startTime"
-            type="time"
-            placeholder="Start Time"
-            styles={{ width: 300 }}
-          />
+        <DatePicker
+          placeholderText="End Date"
+          value={this.state.end&&this.state.end.toLocaleString('en-in',{hour12:true})}
+          showTimeSelect
+          timeFormat="HH:mm"
+          timeIntervals={15}
+          dateFormat="d MMMM yyyy h:mm aa"
+          timeCaption="time"
+          customInput={<input style={{width:300}}/>}
+          onChange={(value)=>this.handleChange({name:'end',value:value})} />
         </div>
-        
         <div>
           <Select
             isSearchable={false}
