@@ -13,7 +13,7 @@ import AddJudge from "../components/Judges/Add";
 import Events from '../components/Events';
 import AddEvent from '../components/Events/Add';
 import Leaderboard from "../components/Leaderboard";
-import RegisterEvent from "../components/Registration";
+import Register from "../components/Registration";
 import NotFound from "../components/404";
 import Rounds from "../components/Rounds";
 import Judge from "../components/Judges/StartJudging"
@@ -33,12 +33,12 @@ export default () =>
         <PrivateRoute path="/users/add" component={ AddUser } />
         <PrivateRoute path="/events" component={ Events } />
         <PrivateRoute path="/events/add" component={ AddEvent } />
-        <PrivateRoute path="/colleges" component={ Colleges } />
+        <Colleges path="/colleges" component={ Colleges } />
         <PrivateRoute path="/colleges/add" component={ AddCollege } />
         <PrivateRoute path="/judges" component={ Judges } />
         <PrivateRoute path="/judges/add" component={ AddJudge } />
         <PrivateRoute path="/leaderboard" component={ Leaderboard } />
-        <PrivateRoute path="/register" component={ RegisterEvent } />
+        <PrivateRoute path="/register" component={ Register } />
         <PrivateRoute path="/events/:event/rounds" exact component={ Rounds } />
         <PrivateRoute path="/judge/:event/rounds/:round" exact component={ Judge } />
         <NotFound path="/*" component={ NotFound } />
