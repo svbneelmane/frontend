@@ -199,13 +199,45 @@ export default class AddEvent extends React.Component {
         </div>
         <div>
         <label>Venue: </label>
-          <Input
-            onChange={ this.handleChange }
-            autoComplete="off"
+         <Select
+            isSearchable={false}
             name="venue"
-            type="text"
             placeholder="Venue"
-            styles={{ width: 300 }}
+            options={ [
+              {label:'Dr. TMA Pai Hall, 2nd Floor',value:'Dr. TMA Pai Hall, 2nd Floor'},
+              {label:'Dr. TMA Pai Hall, 3rd Floor',value:'Dr. TMA Pai Hall, 3rd Floor'},
+              {label:'Counselling Hall, manipal.edu',value:'Counselling Hall, manipal.edu'},
+              {label:'MMMC, Manipal',value:'MMMC, Manipal'},
+              {label:'KMC Greens, Main Stage',value:'KMC Greens, Main Stage'},
+              {label:'KMC Greens, STEPS',value:'KMC Greens, STEPS'}
+              
+              ] }
+            onChange={ (e) => this.setState({ venue: e.value }) }
+            styles={{
+              control: (provided, state) => ({
+                ...provided,
+                marginBottom: 10,
+                border: state.isFocused ? "1px solid #ffd100" : "1px solid rgba(0, 0, 0, .1)",
+                boxShadow: state.isFocused ? "0 3px 10px -5px rgba(0, 0, 0, .3)" : "",
+                ":hover": {
+                  border: "1px solid #ff5800",
+                  boxShadow: "0 3px 10px -5px rgba(0, 0, 0, .3)",
+                },
+              }),
+              option: (provided, state) => ({
+                ...provided,
+                backgroundColor: state.isSelected ? "#ff5800" : "",
+                ":hover": {
+                  backgroundColor: "#ffd100",
+                  color: "black",
+                },
+              }),
+            }}
+            css = {{
+              fontSize: "16px",
+              width: 300,
+              display:'inline-block'
+            }}
           />
         </div>
         <div>

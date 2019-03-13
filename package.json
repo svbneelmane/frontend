@@ -11,7 +11,8 @@
     "serve": "gatsby serve",
     "deploy": "gh-pages -d public -r https://github.com/ManipalUtsav/manipalutsav.github.io -b master -m \"Website Updated\"",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\"",
-    "getip": "node scripts/getip.js"
+    "getip": "node scripts/getip.js",
+    "deploy": "gh-pages -d public -r https://github.com/ManipalUtsav/manipalutsav.github.io -b master -m \"Website Updated\""
   },
   "dependencies": {
     "gatsby": "^2.1.22",
