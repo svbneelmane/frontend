@@ -6,7 +6,7 @@ import { get } from "../../services/eventService";
 import { toast } from "../../actions/toastActions";
 
 const EventCard = ({ event }) => (
-  <Link to={ "/events/" + event.id } css={{
+  <Link to={ "/events/" + event.id + "/rounds" } css={{
     color: "inherit",
   }}>
     <div css={{
@@ -63,7 +63,7 @@ export default class Events extends React.Component {
 
   componentWillMount = async () => {
     let response = await get();
-
+    console.log(response)
     if (!response) return toast("Failed to load events, refresh to try again.");
     if (response.status !== 200) return toast(response.message);
 

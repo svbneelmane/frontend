@@ -25,18 +25,18 @@ export const get = () => {
 }
 
 export const getTeams = (eventId) => {
-  reducer.dispatch({type: 'GET_TEAMS'}, eventId);
+  reducer.dispatch({type: 'GET_TEAMS', eventId});
 }
 
 export const getRounds = (eventId) => {
-  reducer.dispatch({type: 'GET_ROUNDS'}, eventId);
+  reducer.dispatch({type: 'GET_ROUNDS', eventId});
 }
 
 export const getRoundTeams = (eventId, roundId) => {
-  reducer.dispatch({type: 'GET_ROUND_TEAMS'}, eventId, roundId);
+  reducer.dispatch({type: 'GET_ROUND_TEAMS', eventId, roundId});
 }
 
 export const getSlots = (eventId, roundId) => {
-  reducer.dispatch({type: 'GET_SLOTS'}, eventId, roundId);
+  reducer.dispatch({type: 'GET_SLOTS', eventId, roundId});
 }
 

@@ -9,7 +9,7 @@ export const create = (payload) => {
 }
 
 export const get = (id) => {
-  reducer.dispatch({type: 'GET'}, id);
+  reducer.dispatch({type: 'GET', id});
 }
 
 export const update = (payload) => {
