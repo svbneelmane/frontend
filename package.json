@@ -9,6 +9,7 @@
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "yarn develop",
     "serve": "gatsby serve",
+    "deploy": "gh-pages -d public -r https://github.com/ManipalUtsav/manipalutsav.github.io -b master -m \"Website Updated\"",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\"",
     "getip": "node scripts/getip.js",
     "deploy": "gh-pages -d public -r https://github.com/ManipalUtsav/manipalutsav.github.io -b master -m \"Website Updated\""
@@ -27,6 +28,7 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
+    "gh-pages": "^2.0.1",
     "prettier": "^1.16.4"
   },
   "repository": {
