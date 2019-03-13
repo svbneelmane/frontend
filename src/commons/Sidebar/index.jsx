@@ -17,7 +17,7 @@ const path=()=>{
   if(typeof(window)=="undefined")
     return "";
   else
-    window.location.pathname;
+    return window.location.pathname;
 }
 
 const SidebarItem = (props) => (
