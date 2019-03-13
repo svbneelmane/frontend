@@ -9,7 +9,10 @@ export const get = async () => {
   let response = await fetch(`${constants.server}/events`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'events'
+    });
   } else {
     return null;
   }
