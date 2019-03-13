@@ -29,18 +29,16 @@ export default () =>
         <Login path="/login" />
         <PrivateRoute path="/profile" component={ Profile } />
         <PrivateRoute path="/users" component={ Users } />
+        <PrivateRoute path="/users/add" component={ AddUser } />
         <PrivateRoute path="/events" component={ Events } />
         <PrivateRoute path="/events/add" component={ AddEvent } />
         <PrivateRoute path="/colleges" component={ Colleges } />
+        <PrivateRoute path="/colleges/add" component={ AddCollege } />
         <PrivateRoute path="/judges" component={ Judges } />
+        <PrivateRoute path="/judges/add" component={ AddJudge } />
         <PrivateRoute path="/leaderboard" component={ Leaderboard } />
-        
-          <PrivateRoute path="/users/add" component={ AddUser } />
-          <PrivateRoute path="/colleges/add" component={ AddCollege } />
-          <PrivateRoute path="/judges/add" component={ AddJudge } />
-          <PrivateRoute path="/events/:event/rounds" exact component={Rounds} />
-          <PrivateRoute path="/judge/:event/rounds/:round" exact component={Judge} />
-        
+        <PrivateRoute path="/events/:event/rounds" exact component={ Rounds } />
+        <PrivateRoute path="/judge/:event/rounds/:round" exact component={ Judge } />
         <NotFound path="/*" component={ NotFound } />
       </Router>
     </Layout>
