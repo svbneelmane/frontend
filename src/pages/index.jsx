@@ -34,13 +34,13 @@ export default () =>
         <PrivateRoute path="/colleges" component={ Colleges } />
         <PrivateRoute path="/judges" component={ Judges } />
         <PrivateRoute path="/leaderboard" component={ Leaderboard } />
-        {/*
+        
           <PrivateRoute path="/users/add" component={ AddUser } />
           <PrivateRoute path="/colleges/add" component={ AddCollege } />
           <PrivateRoute path="/judges/add" component={ AddJudge } />
           <PrivateRoute path="/events/:event/rounds" exact component={Rounds} />
           <PrivateRoute path="/judge/:event/rounds/:round" exact component={Judge} />
-        */}
+        
         <NotFound path="/*" component={ NotFound } />
       </Router>
     </Layout>
