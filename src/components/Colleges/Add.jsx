@@ -1,26 +1,44 @@
 import React from "react";
 import { navigate } from "gatsby";
 
-import reducer from "../../reducers/commonReducer";
 import { create } from "../../services/collegeServices";
 import { Input, Button } from "../../commons/Form";
+import { toast } from "../../actions/toastActions";
 
 export default class AddCollege extends React.Component {
-  state = {};
+  ADD_COLLEGE = "Add College";
+  ADDING_COLLEGE = "Adding College..."
+  state = {
+    buttonText:"Add College"
+  };
 
   handleChange = (e) => {
     this.setState({ [e.name]: e.value });
   };
 
   handleClick = () => {
-    create({
-      name: this.state.name,
-      location: this.state.location,
-    });
+    if(!this.state.name)
+      return toast("Please enter college name")
 
-    reducer.subscribe(() => {
-      navigate("/colleges");
-    });
+    if(!this.state.location)
+      return toast("Please enter location")
+
+    this.setState({
+      buttonText:this.ADDING_COLLEGE
+    },async ()=>{
+      let response = await create({
+        name: this.state.name,
+        location: this.state.location,
+      });
+      if(!response)
+        toast("Some error occured");
+      else if(response.status===200)
+        return navigate("/colleges");
+      else
+        toast(response.message);
+      this.setState({buttonText:this.ADD_COLLEGE})
+      
+    })
   };
 
   render = () => (
@@ -51,7 +69,7 @@ export default class AddCollege extends React.Component {
           />
         </div>
         <div>
-          <Button onClick={this.handleClick}>Add</Button>
+          <Button onClick={this.handleClick} disabled={this.state.buttonText===this.ADDING_COLLEGE}>{this.state.buttonText}</Button>
         </div>
       </div>
     </div>

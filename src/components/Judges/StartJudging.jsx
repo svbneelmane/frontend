@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Button } from "../../commons/Form";
 import Select from 'react-select';
-import './style.css';
 import { get } from '../../actions/judgeActions';
 // import { getTeams } from '../../actions/eventActions';
 import store from '../../reducers/commonReducer';
@@ -155,6 +154,7 @@ export default class Judge extends Component {
               </div>
               <div>
                 <Button
+                  disabled={!this.state.JudgeId}
                   onClick={this.selectJudge}
                   styles={{ width: "100%" }}> Start Round </Button>
               </div>

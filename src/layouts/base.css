@@ -26,7 +26,7 @@ a:hover {
 }
 
 button {
-  display: flex;
+  display: inline-flex;
   padding: 10px 15px;
   border-radius: 3px;
   border: none;
@@ -43,6 +43,10 @@ button {
 button:hover {
   background-color: #ffd100;
   color: black;
+}
+button:disabled{
+  background-color: #ffa593;
+  color:#fff;
 }
 
 input, textarea {
