@@ -18,7 +18,7 @@ const getAll = async () => {
   } else {
     return [];
   }
-}
+};
 
 export default {
   create,
