@@ -5,7 +5,7 @@ const request = (path, method = "GET", body = null) => {
     try {
       let url = path ? constants.server + path : constants.server;
       const options = {
-        body: body,
+        body: typeof body === "object" ? JSON.stringify(body) : body,
         credentials: "include",
         headers: {
           "Accept": "application/json",
