@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "gatsby";
 
 import eventsService from "../../services/events";
-import { toast } from "../../actions/toastActions";
 
 const EventCard = ({ event }) => (
   <Link to={ "/register/" + event.id } css={{
