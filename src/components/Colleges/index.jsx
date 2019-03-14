@@ -71,7 +71,7 @@ export default class Colleges extends React.Component {
 
     reducer.subscribe(() => {
       reducer.getState().then(state => {
-        this.setState({ colleges: state.data });
+        this.setState({ colleges: state.data.list });
       });
     });
   }

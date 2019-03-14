@@ -9,7 +9,15 @@ export const get = async () => {
   };
   let response = await fetch(`${constants.server}/events`, requestOptions);
   let json = await response.json();
-  return json;
+
+  if(json.status&&json.status===200) {
+    send({
+      list: json.data,
+      src: 'events'
+    });
+  } else {
+    return null;
+  }
 }
 
 export const getRounds = async (eventId) => {

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "gatsby";
 
 import store from "../../reducers/sidebarReducer";
-import { es } from "date-fns/esm/locale";
 
 const SidebarSeparator = () => (
   <li>
