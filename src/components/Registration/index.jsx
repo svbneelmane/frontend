@@ -61,7 +61,7 @@ export default class Events extends React.Component {
 
   componentWillMount = async () => {
     let response = await getTeams();
-    let teams = response&&response.status==200?response.data:[];
+    let teams = response&&response.status===200?response.data:[];
     console.log("TEAMS",teams);
     eventsService.getAll().then(events => {
       console.log(events);

@@ -16,18 +16,33 @@ const Input = (props) => (
   />
 );
 
-const TextArea = (props) => (
-  <textarea
-    onChange = { (e) => props.onChange(e.target)}
-    autoComplete = "off"
-    name = {props.name}
-    type = {props.type}
-    placeholder = {props.placeholder}
-    css = {{
-      ...props.styles,
-    }}
-  >{props.children}</textarea>
-);
+class TextArea extends React.Component{
+  state={
+    value:''
+  }
+  componentWillReceiveProps(newProps){
+    this.setState({value:newProps.children},()=>{
+      console.log(this.state)
+    });
+
+  }
+  render(){
+    let props = this.props;
+    return(
+    <textarea
+      onChange = { (e) => props.onChange(e.target)}
+      autoComplete = "off"
+      name = {props.name}
+      type = {props.type}
+      placeholder = {props.placeholder}
+      css = {{
+        ...props.styles,
+      }}
+      value={this.state.value}
+    ></textarea>
+  );
+  }
+} 
 
 const Tag = (props) => (
   <div css={{

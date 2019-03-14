@@ -106,6 +106,18 @@ export const create = async (payload) => {
   return json;
 }
 
+export const edit = async (event,payload) => {
+  const requestOptions = {
+    method: 'POST',
+    credentials: "include",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  };
+  let response = await fetch(`${constants.server}/events/${event}/edit`, requestOptions);
+  let json = await response.json();
+  return json;
+}
+
 
 export const createRound = async (payload, eventId) => {
   const requestOptions = {

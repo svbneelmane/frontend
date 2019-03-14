@@ -1,9 +1,10 @@
 import React from "react";
 import { navigate } from "gatsby";
 import Select from "react-select";
+import eventsService from "../../services/events";
 
 import reducer from "../../reducers/commonReducer";
-import { create } from "../../services/eventService";
+import { edit } from "../../services/eventService";
 import { Input, Button, TextArea } from "../../commons/Form";
 import constants from "../../utils/constants";
 import { getAll } from "../../services/collegeServices";
@@ -33,7 +34,8 @@ export default class EditEvent extends React.Component {
     buttonText:this.ADD,
     minMembersPerTeam:1,
     maxMembersPerTeam:1,
-    maxTeamsPerCollege:1
+    maxTeamsPerCollege:1,
+    colleges:[]
   };
 
   handleChange = (e) => {
@@ -57,18 +59,18 @@ export default class EditEvent extends React.Component {
     this.setState({
       buttonText:this.ADDING
     },async ()=>{
-      let response = await create({
+      let response = await edit(this.props.e,{
         name:this.state.name,
         college:this.state.college,
         minMembersPerTeam:this.state.minMembersPerTeam,
         maxMembersPerTeam:this.state.maxMembersPerTeam,
-        maxTeamsPerCollege:this.state.maxMembersPerCollege,
+        maxTeamsPerCollege:this.state.maxTeamsPerCollege,
         venue:this.state.venue,
         description:this.state.description,
         duration:this.state.duration,
         startDate:new Date(this.state.startDate),
         endDate:new Date(this.state.endDate),
-        for:this.state.for,
+        faculty:this.state.for==="falculty",
         criteria:[this.state.criteria1,this.state.criteria2,this.state.criteria3,this.state.criteria4],
         slottable:true
       });
@@ -87,6 +89,28 @@ export default class EditEvent extends React.Component {
   };
 
   componentWillMount() {
+    eventsService.get(this.props.event).then(event => {
+      console.log(91,event);
+      this.setState({
+      name:event.name,
+       college:event.college._id,
+       description:event.description,
+       endDate:event.endDate.substr(0,event.endDate.lastIndexOf(":")),
+       startDate:event.startDate.substr(0,event.startDate.lastIndexOf(":")),
+       minMembersPerTeam: event.minMembersPerTeam,
+       maxMembersPerTeam:event.maxMembersPerTeam,
+       maxTeamsPerCollege: event.maxTeamsPerCollege,
+       venue: event.venue,
+       duration: event.duration,
+       type:event.faculty?"faculty":"student",
+       criteria1: event.criteria1,
+       criteria2: event.criteria2,
+       criteria3: event.criteria3,
+       criteria4: event.criteria4
+      },()=>{
+        console.log(this.state)
+      });
+    });
     getAll();
     this.UNSUB=reducer.subscribe(() => {
       reducer.getState().then(state => {
@@ -99,7 +123,14 @@ export default class EditEvent extends React.Component {
       });
     });
   }
-
+  getCollege(){
+    let college = this.state.college;
+    if(!college||this.state.colleges.length==0)
+      return '';
+    let res = this.state.colleges.find(elem=>elem.value==college)
+    console.log('RES',res);
+    return res?res:'';
+  }
   render = () => (
     <div>
       <h2>Edit Event</h2>
@@ -123,9 +154,9 @@ export default class EditEvent extends React.Component {
           <Select
             isSearchable={false}
             name="college"
+            value={this.getCollege()}
             placeholder="College"
             options={ this.state.colleges }
-            value={this.state.college}
             onChange={ (e) => this.setState({ college: e.value }) }
             styles={{
               control: (provided, state) => ({
@@ -199,6 +230,8 @@ export default class EditEvent extends React.Component {
             isSearchable={false}
             name="venue"
             placeholder="Venue"
+            
+             value={{label:this.state.venue,value:this.state.venue}}
             options={ [
               {label:'Dr. TMA Pai Hall, 2nd Floor',value:'Dr. TMA Pai Hall, 2nd Floor'},
               {label:'Dr. TMA Pai Hall, 3rd Floor',value:'Dr. TMA Pai Hall, 3rd Floor'},
@@ -242,10 +275,11 @@ export default class EditEvent extends React.Component {
             onChange={ this.handleChange }
             autoComplete="off"
             name="description"
+            
             type="text"
             placeholder="Description"
             styles={{ maxWidth: 300,minWidth:300 }}
-          />
+          >{this.state.description}</TextArea>
         </div>
         <div>
         <label>Duration in minutes: </label>
@@ -254,6 +288,7 @@ export default class EditEvent extends React.Component {
             autoComplete="off"
             name="duration"
             type="number"
+            value={this.state.duration}
             placeholder="Duration in minutes"
             styles={{ width: 300 ,verticalAlign:"top"}}
           />
@@ -283,6 +318,7 @@ export default class EditEvent extends React.Component {
           <Select
             isSearchable={false}
             name="type"
+            value={{label:this.state.type,value:this.state.type}}
             placeholder="For"
             options={ [{label:'Students',value:'students'},{label:'Faculty',value:'faculty'}] }
             onChange={ (e) => this.setState({ type: e.value }) }
@@ -320,6 +356,7 @@ export default class EditEvent extends React.Component {
             onChange={ this.handleChange }
             autoComplete="off"
             name="criteria1"
+            value={this.state.criteria1}
             placeholder="Criteria 1 "
             styles={{ width: 300 }}
           />
@@ -330,6 +367,7 @@ export default class EditEvent extends React.Component {
             onChange={ this.handleChange }
             autoComplete="off"
             name="criteria2"
+            value={this.state.criteria2}
             placeholder="Criteria 2 "
             styles={{ width: 300 }}
           />
@@ -340,6 +378,7 @@ export default class EditEvent extends React.Component {
             onChange={ this.handleChange }
             autoComplete="off"
             name="criteria3"
+            value={this.state.criteria3}
             placeholder="Criteria 3 "
             styles={{ width: 300 }}
           />
@@ -350,6 +389,7 @@ export default class EditEvent extends React.Component {
             onChange={ this.handleChange }
             autoComplete="off"
             name="criteria4"
+            value={this.state.criteria4}
             placeholder="Criteria 4 "
             styles={{ width: 300 }}
           />
