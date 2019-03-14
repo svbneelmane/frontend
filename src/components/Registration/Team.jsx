@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "gatsby";
+import { navigate, Link } from "gatsby";
 
 import collegesService from "../../services/colleges";
 import eventsService from "../../services/events";
@@ -72,17 +72,28 @@ export default class Events extends React.Component {
     };
   }
 
-  handleChange = (index, e) => {  
+  handleChange = (index, e) => {
     let participants = this.state.participants;
     participants[index] = {
       ...participants[index],
-      [e.name]: e.value
-    }
-    
+      [e.name]: e.value,
+    };
+
     this.setState({
-      participants
+      participants,
     });
-  }
+  };
+
+  handleSubmit = () => {
+    let participants = this.state.participants.map(participant => ({
+      ...participant,
+      faculty: participant.registrationID.startsWith("MAHE") ? true : false,
+    }));
+
+    eventsService.createTeam(this.state.event.id, participants).then(team =>
+      navigate("/register/" + this.state.event.id)
+    );
+  };
 
   componentWillMount = () => {
     eventsService.get(this.props.event).then(event => {
@@ -90,7 +101,7 @@ export default class Events extends React.Component {
 
       let participantsInput = [];
       for (let i = 0; i < event.maxMembersPerTeam; i++) {
-        participantsInput.push(<Participant handleChange={this.handleChange} key={ i } count={ i + 1 } />);
+        participantsInput.push(<Participant handleChange={ this.handleChange } key={ i } count={ i + 1 } />);
       }
 
       this.setState({
@@ -111,9 +122,8 @@ export default class Events extends React.Component {
         {
           this.state.participantsInput.map(participants => participants)
         }
-        {/* // TODO: Handle submit */}
         <div>
-          <Button onClick={""}>Register</Button>
+          <Button onClick={ this.handleSubmit }>Register</Button>
         </div>
       </div>
     </div>
