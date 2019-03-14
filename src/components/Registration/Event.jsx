@@ -58,7 +58,7 @@ export default class Events extends React.Component {
     });
     let user = getUser();
     collegesService.getTeams(user.college).then(teams => {
-      teams = teams.filter(team => team.event === this.props.event );
+      teams = teams.filter(team => team.event._id === this.props.event );
       teams = teams.map(team => team);
 
       this.setState({ teams });
