@@ -13,7 +13,8 @@ const request = (path, method = "GET", body = null) => {
         method: method,
       };
 
-      if (![ "GET", "HEAD" ].includes(method)) options.body = body;
+      if (![ "GET", "HEAD" ].includes(method))
+        options.body = typeof body === "object" ? JSON.stringify(body) : body;
 
       let response = await fetch(url, options);
 
