@@ -24,7 +24,7 @@ const styles = {
 };
 
 const College = (props) => (
-  <Link to={ "/colleges/" + props.info.id } css={{
+  <Link to={ "/colleges/" + props.info.id + "/teams" } css={{
     ...styles.collegeCard,
   }}>
     <div>{ props.info.name }</div>

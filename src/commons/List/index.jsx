@@ -47,7 +47,12 @@ const List = (props) => (
         <div css={{
           display : "inline-block",
           fontSize : "0.9em"
-        }}>Team Name</div>
+        }}>{props.name}</div>
+        <div css={{
+          float: "right",
+        }}>
+          {`Event Name: ${props.subName}`}
+        </div>
       </div>
     </div>
   )

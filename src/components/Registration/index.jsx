@@ -4,10 +4,13 @@ import { Link } from "gatsby";
 import eventsService from "../../services/events";
 import {getTeams} from "../../services/collegeServices";
 import { Button } from "../../commons/Form";
+import Loader from "../../commons/Loader";
 
 const EventCard = ({ event }) => (
   <Link to={ "/register/" + event.id } css={{
-    display: "inline-block",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
     marginRight: 20,
     marginBottom: 20,
     padding: 20,
@@ -22,30 +25,33 @@ const EventCard = ({ event }) => (
       boxShadow: "0px 5px 50px -4px rgba(0, 0, 0, .1)",
     }
   }}>
-    <div css={{
-      fontSize: "1.3em",
-      marginBottom: "8px"
-    }}>
-      { event.name }
+    <div>
+      <div css={{
+        fontSize: "1.3em",
+        marginBottom: "8px"
+      }}>
+        { event.name }
+      </div>
+      <div css={{
+        fontSize: "0.8em",
+        color: "rgba(0, 0, 0, .7)",
+        marginBottom: 10,
+      }}>
+        Organized by { event.college.name }
+      </div>
+      <div css={{
+        color: "rgba(0, 0, 0, .5)",
+        fontSize: "0.9em",
+        marginBottom: "8px",
+        maxHeight: 200,
+        overflowY: "auto",
+        whiteSpace: "pre-wrap"
+      }}>
+        { event.description.replace(/[>]/g,'- ') }
+      </div>
     </div>
-    <div css={{
-      color: "rgba(0, 0, 0, .5)",
-      fontSize: "0.9em",
-      marginBottom: "8px",
-      maxHeight: 270,
-      overflowY: "auto",
-      whiteSpace: "pre-wrap"
-    }}>
-      { event.description.replace(/[>]/g,'- ') }
-    </div>
-    <div css={{
-      fontSize: "0.8em",
-      color: "rgba(0, 0, 0, .5)",
-    }}>
-      Organized by { event.college.name }
-    </div>
-    <div style={{textAlign:"right",padding:10}}>
-      <Button style={{marginTop:10}}>{event.registered?"View Team":"Register Now"}</Button>
+    <div css={{ textAlign:"right",marginTop:10 }}>
+      <Button>{event.registered ? "View Team" : "Register Now"}</Button>
     </div>
   </Link>
 );
@@ -90,7 +96,7 @@ export default class Events extends React.Component {
         console.log(this.state);
       });
     });
-   
+
   };
 
   render = () => (
@@ -103,7 +109,11 @@ export default class Events extends React.Component {
         display: "flex",
         flexWrap: "wrap",
       }}>
-        { this.state.events.map((event, i) => <EventCard key={i} event={event} />) }
+        {
+          this.state.events.length
+          ? this.state.events.map((event, i) => <EventCard key={i} event={event} />)
+          : <Loader />
+        }
       </div>
     </div>
   );

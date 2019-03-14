@@ -79,7 +79,32 @@ export const getTeams = async () => {
   };
   let response = await fetch(`${constants.server}/colleges/${getUser().college}/teams`, requestOptions);
   let json = await response.json();
-  return json;
+  if(json.status&&json.status===200) {
+    send({
+      list: json.data,
+      src: 'colleges'
+    });
+  } else {
+    return null;
+  }
+}
+
+export const getTeamsForCollege = async (collegeId) => {
+  const requestOptions = {
+    method: 'GET',
+    credentials: "include",
+    headers: { 'Content-Type': 'application/json' },
+  };
+  let response = await fetch(`${constants.server}/colleges/${collegeId}/teams`, requestOptions);
+  let json = await response.json();
+  if(json.status&&json.status===200) {
+    send({
+      list: json.data,
+      src: 'colleges'
+    });
+  } else {
+    return null;
+  }
 }
 
 export const create = async (payload) => {
