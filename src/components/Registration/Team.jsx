@@ -1,7 +1,6 @@
 import React from "react";
 import { navigate, Link } from "gatsby";
 
-import collegesService from "../../services/colleges";
 import eventsService from "../../services/events";
 import { getUser } from "../../services/userServices";
 import { Input, Button } from "../../commons/Form";
@@ -90,7 +89,11 @@ export default class Events extends React.Component {
       faculty: participant.registrationID.startsWith("MAHE") ? true : false,
     }));
 
-    eventsService.createTeam(this.state.event.id, participants).then(team =>
+    let user = getUser();
+    eventsService.createTeam(this.state.event.id, {
+      college: user.college,
+      participants,
+    }).then(team =>
       navigate("/register/" + this.state.event.id)
     );
   };
