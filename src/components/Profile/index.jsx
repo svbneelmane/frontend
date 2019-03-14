@@ -1,9 +1,10 @@
 import React from "react";
 import { navigate } from "gatsby";
 
-// import userReducer from '../../reducers/userReducer';
 import { getUser, logout } from "../../services/userServices";
+import constants from "../../utils/constants";
 
+import avatar from "../../images/user.svg";
 
 export default class Profile extends React.Component {
   handleLogout() {
@@ -13,27 +14,24 @@ export default class Profile extends React.Component {
     });
   }
 
-  // async componentDidMount(){
-  //   this.setState({ ...await userReducer.getState() }, () => {
-  //     console.log(this.state);
-  //   });
-  // }
-
   render() {
     let data = getUser();
 
     return (
-      <>
-        <h1>Your profile</h1>
-        {/*<h3>{this.state&&this.state.name}</h3>*/}
-        {/*<div>{this.state&&this.state.email}</div>*/}
-        <ul>
-          <li>Name: {data.name||'Loading...'}</li>
-          <li>E-mail: {data.email||'Loading...'}</li>
-        </ul>
-        <button onClick={()=>this.handleLogout()}>Logout</button>
-        <button onClick={() => localStorage.clear()}>clear</button>
-      </>
+      <div css={{
+        marginTop: 50,
+        textAlign: "center",
+      }}>
+        <div>
+          <img src={ avatar } height="200" width="200" />
+        </div>
+        <div>
+          <h1>{ data.name || "..." }</h1>
+          <p css={{ color: "rgba(0, 0, 0, .7)" }}>{ data.email || "..." }</p>
+          <p css={{ color: "rgba(0, 0, 0, .5)" }}>{ data.type ? constants.getUserType(data.type) : "..." }</p>
+        </div>
+        <button onClick={ () => this.handleLogout() }>Logout</button>
+      </div>
     );
   }
 }
