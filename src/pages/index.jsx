@@ -2,6 +2,7 @@ import React from "react";
 import { Router } from "@reach/router";
 
 import PrivateRoute from "../components/PrivateRoute";
+import Index from "../components/Index";
 import Login from "../components/Login";
 import Profile from "../components/Profile";
 import Colleges from "../components/Colleges";
@@ -30,6 +31,7 @@ export default () =>
         height: "100%",
       }}>
         <Login path="/login" />
+        <Index path="/" />
         <PrivateRoute path="/profile" component={ Profile } />
 
         <PrivateRoute path="/users" component={ Users } type={ 1 } />
