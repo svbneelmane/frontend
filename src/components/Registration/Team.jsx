@@ -25,20 +25,21 @@ const styles = {
   },
 };
 
-// TODO: Implement onChange
 const Participant = (props) => (
   <div>
     <h3>Participant { props.count }</h3>
     <Input
-      name="regno"
+      name="registrationID"
       type="text"
       placeholder="Registration no."
+      onChange={(e) => props.handleChange(props.count - 1, e)}
     />
     &ensp;
     <Input
       name="name"
       type="text"
       placeholder="Name"
+      onChange={(e) => props.handleChange(props.count - 1, e)}
     />
   </div>
 );
@@ -66,22 +67,35 @@ export default class Events extends React.Component {
 
     this.state = {
       event: [],
+      participantsInput: [],
       participants: [],
     };
+  }
+
+  handleChange = (index, e) => {  
+    let participants = this.state.participants;
+    participants[index] = {
+      ...participants[index],
+      [e.name]: e.value
+    }
+    
+    this.setState({
+      participants
+    });
   }
 
   componentWillMount = () => {
     eventsService.get(this.props.event).then(event => {
       if (!event.maxMembersPerTeam) event.maxMembersPerTeam = 1;
 
-      let participants = [];
+      let participantsInput = [];
       for (let i = 0; i < event.maxMembersPerTeam; i++) {
-        participants.push(<Participant key={ i } count={ i + 1 } />);
+        participantsInput.push(<Participant handleChange={this.handleChange} key={ i } count={ i + 1 } />);
       }
 
       this.setState({
         event,
-        participants,
+        participantsInput,
       });
     });
   };
@@ -95,7 +109,7 @@ export default class Events extends React.Component {
       <div css={{
       }}>
         {
-          this.state.participants.map(participants => participants)
+          this.state.participantsInput.map(participants => participants)
         }
         {/* // TODO: Handle submit */}
         <div>

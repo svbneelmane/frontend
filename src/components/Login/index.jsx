@@ -17,9 +17,9 @@ export default class Login extends Component {
   }
 
   handleChange = (e) => {
-	this.setState({
-	  [e.name]: e.value
-	})
+  	this.setState({
+  	  [e.name]: e.value
+  	})
   }
 
   login = () => {
@@ -28,7 +28,7 @@ export default class Login extends Component {
 	if(!this.state.password)
 		return toast("Please enter password");
 	this.setState({
-		loginButton:'Loging in...'
+		loginButton:'Logging in...'
 	},async ()=>{
 		let response = await login({email:this.state.email, password:this.state.password});
 		if(response.status===200){
