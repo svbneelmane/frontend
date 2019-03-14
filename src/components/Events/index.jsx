@@ -9,6 +9,7 @@ const EventCard = ({ event }) => (
   <Link to={ "/events/" + event.id + "/rounds" } css={{
     color: "inherit",
   }}>
+  {console.log("EVENT",event)}
     <div css={{
       padding: "15px 0",
       display: "flex",
@@ -39,7 +40,7 @@ const EventCard = ({ event }) => (
           color: "green",
         }}>
           { /* TODO: If we know the time the event starts, we should use .toLocaleString() instead. */ }
-          starts {(new Date(event.startDate)).toDateString()} at { (event.venue ? event.venue + " - " : "") + event.college.name }
+          starts {(new Date(event.startDate)).toDateString()} at { (event.venue ? event.venue + " - " : "") + (event.college&&event.college.name) }
         </div>
         <div css={{
           fontSize: "0.8em",

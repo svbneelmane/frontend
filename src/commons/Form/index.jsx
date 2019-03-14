@@ -6,6 +6,9 @@ const Input = (props) => (
     autoComplete = "off"
     name = {props.name}
     type = {props.type}
+    min={props.min}
+    max={props.max}
+    value={props.value}
     placeholder = {props.placeholder}
     css = {{
       ...props.styles,

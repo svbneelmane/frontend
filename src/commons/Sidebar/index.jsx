@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "gatsby";
 
 import store from "../../reducers/sidebarReducer";
+import { es } from "date-fns/esm/locale";
 
 const SidebarSeparator = () => (
   <li>
@@ -12,6 +13,13 @@ const SidebarSeparator = () => (
   </li>
 );
 
+const path=()=>{
+  if(typeof(window)=="undefined")
+    return "";
+  else
+    return window.location.pathname;
+}
+
 const SidebarItem = (props) => (
   <li>
     <Link to={ props.to } title={ props.title } css={{
@@ -20,10 +28,10 @@ const SidebarItem = (props) => (
       padding: 10,
       paddingLeft: 50,
       fontSize: ".9em",
-      color: window.location.pathname === props.to ? "#ff5800" : "inherit",
-      backgroundColor: window.location.pathname === props.to ? "rgba(255, 209, 0, .2)" : "",
+      color: path() === props.to ? "#ff5800" : "inherit",
+      backgroundColor: path() === props.to ? "rgba(255, 209, 0, .2)" : "",
       borderRight: "3px solid",
-      borderColor: window.location.pathname === props.to ? "#ff5800" : "white",
+      borderColor: path() === props.to ? "#ff5800" : "white",
       ":hover": {
         color: "#ff5800",
       },
