@@ -32,8 +32,9 @@ const EventCard = ({ event }) => (
         </div>
         <div css={{
           color: "rgba(0, 0, 0, .5)",
+          whiteSpace: "pre-wrap"
         }}>
-          { event.description }
+          { event.description.replace(/[>]/g,'- ') }
         </div>
         <div css={{
           fontSize: "0.9em",

@@ -50,6 +50,7 @@ const SidebarItems = () => (
     padding: 0,
   }}>
     <SidebarItem to="/" title="Home" />
+    <SidebarItem to="/register" title="Register" />
     <SidebarSeparator />
     <SidebarItem to="/users" title="Users" />
     <SidebarItem to="/colleges" title="Colleges" />

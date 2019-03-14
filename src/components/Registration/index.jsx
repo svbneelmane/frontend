@@ -9,7 +9,7 @@ const EventCard = ({ event }) => (
     marginRight: 20,
     marginBottom: 20,
     padding: 20,
-    width: 250,
+    width: 350,
     borderRadius: 3,
     border: "2px solid rgba(0, 0, 0, .1)",
     color: "inherit",
@@ -22,13 +22,19 @@ const EventCard = ({ event }) => (
   }}>
     <div css={{
       fontSize: "1.3em",
+      marginBottom: "8px"
     }}>
       { event.name }
     </div>
     <div css={{
       color: "rgba(0, 0, 0, .5)",
+      fontSize: "0.9em",
+      marginBottom: "8px",
+      maxHeight: 270,
+      overflowX: "scroll",
+      whiteSpace: "pre-wrap"
     }}>
-      { event.description }
+      { event.description.replace(/[>]/g,'- ') }
     </div>
     <div css={{
       fontSize: "0.8em",
