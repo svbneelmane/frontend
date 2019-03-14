@@ -31,7 +31,7 @@ const EventCard = ({ event }) => (
       fontSize: "0.9em",
       marginBottom: "8px",
       maxHeight: 270,
-      overflowX: "scroll",
+      overflowY: "auto",
       whiteSpace: "pre-wrap"
     }}>
       { event.description.replace(/[>]/g,'- ') }
