@@ -1,13 +1,18 @@
 import React from "react";
 import { navigate } from "gatsby";
-import { isLoggedIn } from "../../services/userServices";
+import { getUser, isLoggedIn } from "../../services/userServices";
 
 export default ({ component: Component, location, ...rest }) => {
   if (!isLoggedIn() && location.pathname !== "/login") {
     navigate("/login");
-    console.log("LOGIN");
-    return null;
+    return <h1>Access Denied</h1>;
   }
-  console.log("Render");
+
+  let user = getUser();
+  if (rest.type && rest.type < user.type) {
+    // navigate("/home");
+    return <h1>Access Denied</h1>;
+  }
+
   return <Component {...rest} />;
 };
