@@ -4,6 +4,7 @@ import { navigate, Link } from "gatsby";
 import eventsService from "../../services/events";
 import { getUser } from "../../services/userServices";
 import { Input, Button } from "../../commons/Form";
+import { toast } from "../../actions/toastActions";
 
 const styles = {
   teamCard: {
@@ -31,6 +32,7 @@ const Participant = (props) => (
       name="registrationID"
       type="text"
       placeholder="Registration no."
+      pattern="/^(?:(?:MAHE[\d]{7})|(?:[\d]{9}))$/"
       onChange={(e) => props.handleChange(props.count - 1, e)}
     />
     &ensp;
@@ -88,6 +90,16 @@ export default class Events extends React.Component {
       ...participant,
       faculty: participant.registrationID.startsWith("MAHE") ? true : false,
     }));
+    let pass=true;
+    this.state.participants.map(participant => {
+      if(!participant.registrationID.match(/^(?:(?:MAHE[\d]{7})|(?:[\d]{9}))$/i)){
+        pass=false;
+        toast(participant.registrationID+" is invalid register number");
+      }
+      
+    });
+   if(!pass)
+    return;
 
     let user = getUser();
     eventsService.createTeam(this.state.event.id, {
