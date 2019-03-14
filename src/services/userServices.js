@@ -76,7 +76,10 @@ export const get = async (id) => {
   let response = await fetch(`${constants.server}/users/${id}`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'users',
+    });
   } else {
     return null;
   }
@@ -105,7 +108,10 @@ export const update = async (payload) => {
   let response = await fetch(`${constants.server}/users`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'users',
+    });
   } else {
     return null;
   }

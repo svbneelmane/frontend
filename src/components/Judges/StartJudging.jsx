@@ -23,7 +23,7 @@ export default class Judge extends Component {
     store.subscribe(async () => {
       let data = await store.getState();
       let judge = [];
-      judge = data.data.map(each => {
+      judge = data.data.list.map(each => {
         return { value: each.id, label: each.name }
       });
       this.setState({

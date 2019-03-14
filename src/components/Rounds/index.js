@@ -17,7 +17,7 @@ export default class Rounds extends React.Component{
 		store.subscribe(async () => {
       let state = await store.getState();
       this.setState({
-        rounds: state.data,
+        rounds: state.data.list,
       })
     });
 	}

@@ -32,7 +32,10 @@ export const get = async () => {
   let response = await fetch(`${constants.server}/judges`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'judges'
+    });
   } else {
     return null;
   }
@@ -48,7 +51,10 @@ export const create = async (payload) => {
   let response = await fetch(`${constants.server}/judges`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'judges'
+    });
   } else {
     return null;
   }

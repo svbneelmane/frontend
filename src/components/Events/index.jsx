@@ -10,7 +10,6 @@ const EventCard = ({ event }) => (
   <Link to={ "/events/" + event.id + "/rounds" } css={{
     color: "inherit",
   }}>
-  {console.log("EVENT",event)}
     <div css={{
       padding: "15px 0",
       display: "flex",

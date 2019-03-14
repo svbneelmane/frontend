@@ -31,7 +31,10 @@ export const getRounds = async (eventId) => {
   let response = await fetch(`${constants.server}/events/${eventId}/rounds`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'events'
+    });
   } else {
     return null;
   }
@@ -46,7 +49,10 @@ export const getSlots = async (eventId, roundId) => {
   let response = await fetch(`${constants.server}/events/${eventId}/rounds/${roundId}/slots`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'events'
+    });
   } else {
     return null;
   }
@@ -61,7 +67,10 @@ export const getTeams = async (eventId) => {
   let response = await fetch(`${constants.server}/events/${eventId}/teams`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'events'
+    });
   } else {
     return null;
   }
@@ -76,7 +85,10 @@ export const getRoundTeams = async (eventId, roundId) => {
   let response = await fetch(`${constants.server}/events/${eventId}/rounds/${roundId}/teams`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'events'
+    });
   } else {
     return null;
   }
@@ -105,7 +117,10 @@ export const createRound = async (payload, eventId) => {
   let response = await fetch(`${constants.server}/events/${eventId}/rounds`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'events'
+    });
   } else {
     return null;
   }
@@ -121,7 +136,10 @@ export const createTeam = async (payload, eventId) => {
   let response = await fetch(`${constants.server}/events/${eventId}/teams`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'events'
+    });
   } else {
     return null;
   }
@@ -137,7 +155,10 @@ export const createSlots = async (payload, eventId, roundId) => {
   let response = await fetch(`${constants.server}/events/${eventId}/rounds/${roundId}/slots`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'events'
+    });
   } else {
     return null;
   }
@@ -153,7 +174,10 @@ export const submitScore = async (payload, eventId, roundId) => {
   let response = await fetch(`${constants.server}/events/${eventId}/rounds/${roundId}/scores`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'events'
+    });
   } else {
     return null;
   }

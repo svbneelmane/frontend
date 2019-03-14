@@ -32,7 +32,10 @@ export const get = async () => {
   let response = await fetch(`${constants.server}/colleges`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'colleges',
+    });
   } else {
     return null;
   }
@@ -47,7 +50,10 @@ export const getParticipants = async (eventId) => {
   let response = await fetch(`${constants.server}/colleges/${eventId}/particpants`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'colleges'
+    });
   } else {
     return null;
   }
@@ -62,7 +68,10 @@ export const getTeams = async (eventId) => {
   let response = await fetch(`${constants.server}/colleges/${eventId}/teams`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
-    send(json.data);
+    send({
+      list: json.data,
+      src: 'colleges'
+    });
   } else {
     return null;
   }
