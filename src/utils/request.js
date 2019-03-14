@@ -5,7 +5,6 @@ const request = (path, method = "GET", body = null) => {
     try {
       let url = path ? constants.server + path : constants.server;
       const options = {
-        body: typeof body === "object" ? JSON.stringify(body) : body,
         credentials: "include",
         headers: {
           "Accept": "application/json",
@@ -13,6 +12,9 @@ const request = (path, method = "GET", body = null) => {
         },
         method: method,
       };
+
+      if (![ "GET", "HEAD" ].includes(method))
+        options.body = typeof body === "object" ? JSON.stringify(body) : body;
 
       let response = await fetch(url, options);
 

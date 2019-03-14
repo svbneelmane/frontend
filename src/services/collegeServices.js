@@ -14,7 +14,10 @@ export const getAll = async () => {
   response = await response.json();
 
   if (response && response.status === 200 && response.data) {
-    send(response.data);
+    send({
+      list: response.data,
+      src: 'colleges',
+    });
   } else {
     send([]);
   }

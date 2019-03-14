@@ -71,7 +71,7 @@ export default class Judges extends React.Component {
 
     reducer.subscribe(() => {
       reducer.getState().then(state => {
-        this.setState({ judges: state.data });
+        this.setState({ judges: state.data.list });
       });
     });
   }
