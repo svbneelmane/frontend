@@ -1,9 +1,16 @@
+const userTypes = {
+  ADMINISTRATOR: 1 << 0,
+  SUPPORT_TEAM: 1 << 1,
+  FACULTY_COORDINATOR: 1 << 2,
+  STUDENT_COORDINATOR: 1 << 3,
+};
+
 export default {
-  USER_TYPES: {
-    ADMINISTRATOR: 1 << 0,
-    SUPPORT_TEAM: 1 << 1,
-    FACULTY_COORDINATOR: 1 << 2,
-    STUDENT_COORDINATOR: 1 << 3,
+  USER_TYPES: userTypes,
+  getUserType: (type) => {
+    for (let userType in userTypes)
+      if (userTypes.hasOwnProperty(userType))
+        if (userTypes[userType] === type) return userType.replace(/_/g, " ");
   },
   ROUND_STATUS: {
     SCHEDULED: 1,
