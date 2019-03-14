@@ -5,11 +5,10 @@ import eventIcon from "../../images/event.png";
 import { get } from "../../services/eventService";
 import reducer from "../../reducers/commonReducer";
 import { toast } from "../../actions/toastActions";
+import { Button } from "../../commons/Form";
 
 const EventCard = ({ event }) => (
-  <Link to={ "/events/" + event.id + "/rounds" } css={{
-    color: "inherit",
-  }}>
+  
     <div css={{
       padding: "15px 0",
       display: "flex",
@@ -49,9 +48,21 @@ const EventCard = ({ event }) => (
         }}>
           { event.rounds.length } Round{ event.rounds.length === 1 ? "" : "s" }
         </div>
+        <div>
+        <Link to={ "/events/" + event.id + "/rounds" }>
+          <Button >
+              View Rounds
+            </Button>
+        </Link>
+          <Link to={ "/events/" + event.id + "/edit" }>
+            <Button>
+              Edit Event
+            </Button>
+          </Link>
+        </div>
       </div>
     </div>
-  </Link>
+ 
 );
 
 export default class Events extends React.Component {

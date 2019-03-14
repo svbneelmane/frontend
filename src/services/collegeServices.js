@@ -1,5 +1,6 @@
 import constants from '../utils/constants';
 import { send } from '../actions/commonActions';
+import {getUser} from './userServices';
 
 export const getAll = async () => {
   const requestOptions = {
@@ -58,7 +59,7 @@ export const getParticipants = async (eventId) => {
     return null;
   }
 }
-
+/*
 export const getTeams = async (eventId) => {
   const requestOptions = {
     method: 'GET',
@@ -67,14 +68,18 @@ export const getTeams = async (eventId) => {
   };
   let response = await fetch(`${constants.server}/colleges/${eventId}/teams`, requestOptions);
   let json = await response.json();
-  if(json.status&&json.status===200) {
-    send({
-      list: json.data,
-      src: 'colleges'
-    });
-  } else {
-    return null;
-  }
+  return json;
+}
+*/
+export const getTeams = async () => {
+  const requestOptions = {
+    method: 'GET',
+    credentials: "include",
+    headers: { 'Content-Type': 'application/json' },
+  };
+  let response = await fetch(`${constants.server}/colleges/${getUser().college}/teams`, requestOptions);
+  let json = await response.json();
+  return json;
 }
 
 export const create = async (payload) => {

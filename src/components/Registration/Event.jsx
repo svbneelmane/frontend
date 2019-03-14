@@ -56,7 +56,6 @@ export default class Events extends React.Component {
     eventsService.get(this.props.event).then(event => {
       this.setState({ event });
     });
-
     let user = getUser();
     collegesService.getTeams(user.college).then(teams => {
       teams = teams.filter(team => team.event === this.props.event );

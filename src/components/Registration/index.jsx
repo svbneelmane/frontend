@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "gatsby";
 
 import eventsService from "../../services/events";
+import {getTeams} from "../../services/collegeServices";
+import { Button } from "../../commons/Form";
 
 const EventCard = ({ event }) => (
   <Link to={ "/register/" + event.id } css={{
@@ -42,6 +44,9 @@ const EventCard = ({ event }) => (
     }}>
       Organized by { event.college.name }
     </div>
+    <div style={{textAlign:"right",padding:10}}>
+      <Button style={{marginTop:10}}>{event.registered?"View Team":"Register Now"}</Button>
+    </div>
   </Link>
 );
 
@@ -54,9 +59,22 @@ export default class Events extends React.Component {
     };
   }
 
-  componentWillMount = () => {
+  componentWillMount = async () => {
+    let response = await getTeams();
+    let teams = response&&response.status==200?response.data:[];
+    console.log("TEAMS",teams);
     eventsService.getAll().then(events => {
-      events = events.map(event => ({
+      console.log(events);
+      events = events.map(event => {
+        let team = teams.find((team)=>{
+          return team.event===event.id;
+        });
+        if(team){
+          console.log("Has");
+        }
+        else
+          console.log("NOPE");
+        return({
         id: event.id,
         name: event.name,
         description: event.description,
@@ -65,10 +83,14 @@ export default class Events extends React.Component {
         rounds: event.rounds,
         startDate: event.startDate,
         endDate: event.endDate,
-      }));
+        registered:!!team
+      })});
 
-      this.setState({ events });
+      this.setState({ events },()=>{
+        console.log(this.state);
+      });
     });
+   
   };
 
   render = () => (

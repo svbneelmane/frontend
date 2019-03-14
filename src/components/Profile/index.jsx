@@ -3,6 +3,7 @@ import { navigate } from "gatsby";
 
 // import userReducer from '../../reducers/userReducer';
 import { getUser, logout } from "../../services/userServices";
+import { Button } from "../../commons/Form";
 
 
 export default class Profile extends React.Component {
@@ -31,8 +32,8 @@ export default class Profile extends React.Component {
           <li>Name: {data.name||'Loading...'}</li>
           <li>E-mail: {data.email||'Loading...'}</li>
         </ul>
-        <button onClick={()=>this.handleLogout()}>Logout</button>
-        <button onClick={() => localStorage.clear()}>clear</button>
+        <Button onClick={()=>this.handleLogout()}>Logout</Button>
+        <Button onClick={() => localStorage.clear()}>clear</Button>
       </>
     );
   }

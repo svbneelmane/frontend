@@ -11,7 +11,7 @@ import { toast } from "../../actions/toastActions";
 // import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default class AddEvent extends React.Component {
+export default class EditEvent extends React.Component {
 
   types = (function() {
     let options = [];
@@ -27,8 +27,8 @@ export default class AddEvent extends React.Component {
 
     return options;
   }());
-  ADD="Add Event";
-  ADDING="Adding Event...";
+  ADD="Update";
+  ADDING="Updating...";
   state = {
     buttonText:this.ADD,
     minMembersPerTeam:1,
@@ -37,7 +37,6 @@ export default class AddEvent extends React.Component {
   };
 
   handleChange = (e) => {
-    
     this.setState({ [e.name]: e.value },()=>{
       console.log(this.state);
     });
@@ -85,14 +84,10 @@ export default class AddEvent extends React.Component {
 
 
     })
-   
-
-   
   };
 
   componentWillMount() {
     getAll();
-
     this.UNSUB=reducer.subscribe(() => {
       reducer.getState().then(state => {
         this.setState({
@@ -107,8 +102,8 @@ export default class AddEvent extends React.Component {
 
   render = () => (
     <div>
-      <h2>Add Event</h2>
-      <p>Add a new event to MUCAPP.</p>
+      <h2>Edit Event</h2>
+      <p>Edit existing event to MUCAPP.</p>
       <div>
         <div>
           <label>Name: </label>
@@ -130,6 +125,7 @@ export default class AddEvent extends React.Component {
             name="college"
             placeholder="College"
             options={ this.state.colleges }
+            value={this.state.college}
             onChange={ (e) => this.setState({ college: e.value }) }
             styles={{
               control: (provided, state) => ({
