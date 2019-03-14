@@ -59,7 +59,7 @@ export default class EditEvent extends React.Component {
     this.setState({
       buttonText:this.ADDING
     },async ()=>{
-      let response = await edit(this.props.e,{
+      let response = await edit(this.props.event,{
         name:this.state.name,
         college:this.state.college,
         minMembersPerTeam:this.state.minMembersPerTeam,
@@ -89,6 +89,7 @@ export default class EditEvent extends React.Component {
   };
 
   componentWillMount() {
+    console.log(this.props);
     eventsService.get(this.props.event).then(event => {
       console.log(91,event);
       this.setState({
