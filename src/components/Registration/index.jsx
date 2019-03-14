@@ -4,6 +4,7 @@ import { Link } from "gatsby";
 import eventsService from "../../services/events";
 import {getTeams} from "../../services/collegeServices";
 import { Button } from "../../commons/Form";
+import Loader from "../../commons/Loader";
 
 const EventCard = ({ event }) => (
   <Link to={ "/register/" + event.id } css={{
@@ -108,7 +109,11 @@ export default class Events extends React.Component {
         display: "flex",
         flexWrap: "wrap",
       }}>
-        { this.state.events.map((event, i) => <EventCard key={i} event={event} />) }
+        {
+          this.state.events.length
+          ? this.state.events.map((event, i) => <EventCard key={i} event={event} />)
+          : <Loader />
+        }
       </div>
     </div>
   );
