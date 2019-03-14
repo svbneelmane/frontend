@@ -72,7 +72,6 @@ const Button = (props) => (
   <button
     css = {{
       ...props.styles,
-      margin:10
     }}
     onClick = {props.onClick}
     disabled={props.disabled?"disabled":false}
