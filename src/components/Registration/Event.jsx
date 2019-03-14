@@ -1,6 +1,7 @@
 import React from "react";
-import { Link } from "gatsby";
+import { navigate, Link } from "gatsby";
 
+import { Button } from "../../commons/Form";
 import collegesService from "../../services/colleges";
 import eventsService from "../../services/events";
 import { getUser } from "../../services/userServices";
@@ -93,6 +94,7 @@ export default class Events extends React.Component {
         }
         { this.state.teams.map((team, i) => <TeamCard key={i} team={team} />) }
       </div>
+      <Button styles={{marginTop: "10px"}} onClick={() => { navigate("/register")} }>Back</Button>
     </div>
   );
 };

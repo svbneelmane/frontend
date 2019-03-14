@@ -78,7 +78,7 @@ export default class Users extends React.Component {
 
     reducer.subscribe(() => {
       reducer.getState().then(state => {
-        this.setState({ users: state.data });
+        this.setState({ users: state.data.list });
       });
     });
   }

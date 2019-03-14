@@ -65,12 +65,7 @@ export default class AddUser extends React.Component {
       else
         toast(response.message);
       this.setState({buttonText:this.ADD_USER})
-
-
     })
-   
-
-   
   };
 
   componentWillMount() {
@@ -79,7 +74,7 @@ export default class AddUser extends React.Component {
     reducer.subscribe(() => {
       reducer.getState().then(state => {
         this.setState({
-          colleges: state.data.map(college => ({
+          colleges: state.data.list.map(college => ({
             value: college.id,
             label: college.name + ", " + college.location,
           })),

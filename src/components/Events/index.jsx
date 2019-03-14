@@ -3,6 +3,7 @@ import { Link } from "gatsby";
 
 import eventIcon from "../../images/event.png";
 import { get } from "../../services/eventService";
+import reducer from "../../reducers/commonReducer";
 import { toast } from "../../actions/toastActions";
 
 const EventCard = ({ event }) => (
@@ -63,25 +64,28 @@ export default class Events extends React.Component {
   }
 
   componentWillMount = async () => {
-    let response = await get();
-    console.log(response)
-    if (!response) return toast("Failed to load events, refresh to try again.");
-    if (response.status !== 200) return toast(response.message);
+    get();
+    
+    reducer.subscribe(() => {
+      reducer.getState().then(state => {
+        let events = state.data.list.map(event=>({
+          id: event.id,
+          name: event.name,
+          description: event.description || "This is a fantastic event!",
+          college: event.college,
+          venue: event.venue,
+          rounds: event.rounds,
+          startDate: event.startDate,
+          endDate: event.endDate,
+          image: eventIcon,
+        }));
 
-    let events = response.data.map(event=>({
-      id: event.id,
-      name: event.name,
-      description: event.description || "This is a fantastic event!",
-      college: event.college,
-      venue: event.venue,
-      rounds: event.rounds,
-      startDate: event.startDate,
-      endDate: event.endDate,
-
-      image: eventIcon,
-    }));
-
-    this.setState({ events });
+        this.setState({ events });
+      });
+    });
+    
+    // if (!response) return toast("Failed to load events, refresh to try again.");
+    // if (response.status !== 200) return toast(response.message);
   };
 
   render = () => (

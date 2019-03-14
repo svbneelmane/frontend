@@ -25,6 +25,6 @@ export default {
     white: "#ffffff",
   },
   server:"https://api.manipalutsav.com"
-  // server:"https://staging.manipalutsav.com"
+  //server:"https://staging.manipalutsav.com"
   // server:"http://localhost:3003"
 };

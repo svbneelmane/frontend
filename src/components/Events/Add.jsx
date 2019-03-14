@@ -96,7 +96,7 @@ export default class AddEvent extends React.Component {
     this.UNSUB=reducer.subscribe(() => {
       reducer.getState().then(state => {
         this.setState({
-          colleges: state.data.map(college => ({
+          colleges: state.data.list.map(college => ({
             value: college.id,
             label: college.name + ", " + college.location,
           })),

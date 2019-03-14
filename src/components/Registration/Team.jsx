@@ -125,8 +125,9 @@ export default class Events extends React.Component {
         {
           this.state.participantsInput.map(participants => participants)
         }
-        <div>
+        <div css={{marginTop: "20px"}}>
           <Button onClick={ this.handleSubmit }>Register</Button>
+          <Button styles={{marginLeft: "10px"}} onClick={() => { navigate("/register")} }>Cancel</Button>
         </div>
       </div>
     </div>
