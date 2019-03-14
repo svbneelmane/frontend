@@ -141,9 +141,6 @@ export default class Events extends React.Component {
     this.setState({
       button: this.REGISTERING
     },()=>{
-      console.log(this);
-      return;
-  
       eventsService.createTeam(this.state.event.id, {
         college: user.college,
         participants,
