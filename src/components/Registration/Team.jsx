@@ -63,6 +63,8 @@ const TeamCard = ({ team }) => (
 );
 
 export default class Events extends React.Component {
+  REGISTERING="Registering..."
+  REGISTER="Register"
   constructor(props) {
     super(props);
 
@@ -70,9 +72,11 @@ export default class Events extends React.Component {
       event: [],
       participantsInput: [],
       participants: [],
+      button: this.REGISTER
     };
   }
 
+  
   handleChange = (index, e) => {
     let participants = this.state.participants;
     participants[index] = {
@@ -88,26 +92,67 @@ export default class Events extends React.Component {
   handleSubmit = () => {
     let participants = this.state.participants.map(participant => ({
       ...participant,
-      faculty: participant.registrationID.startsWith("MAHE") ? true : false,
+      faculty: participant.registrationID&&participant.registrationID.startsWith("MAHE") ? true : false,
     }));
     let pass=true;
     this.state.participants.map(participant => {
+      if(!participant.registrationID){
+        pass=false;
+        return toast("Register number misssing");
+      }
       if(!participant.registrationID.match(/^(?:(?:MAHE[\d]{7})|(?:[\d]{9}))$/i)){
         pass=false;
-        toast(participant.registrationID+" is invalid register number");
+        return toast(participant.registrationID+" is invalid register number");
       }
-      
+      if(this.state.event.faculty&&participant.registrationID.match(/^[\d]{9}$/i)){
+        pass=false;
+        return toast(participant.registrationID+" cannot participate in a faculty event");
+      }
+      if(!this.state.event.faculty&&!participant.registrationID.match(/^[\d]{9}$/i)){
+        pass=false;
+        return toast(participant.registrationID+" is cannot participate in a student event");
+      }
+      if(!participant.name||participant.name.length==0){
+        pass=false;
+        return toast("Please enter participant name");
+      }
+      if(!participant.name.match(/^[A-Z\s]*$/i)){
+        pass=false;
+        return toast("Participant name cannot contain non alphabetical characters");
+      }
     });
+    if(this.state.participants.length<this.state.event.minMembersPerTeam){
+      pass=false;
+      return toast("Minimum of "+this.state.event.minMembersPerTeam+" participants are required to register for this event.");
+    }
+    this.state.participants.forEach((Ielem,i)=>{
+      this.state.participants.forEach((Jelem,j)=>{
+      if(i!=j&&Ielem.registrationID==Jelem.registrationID)
+      {
+        pass=false;
+        return toast(Ielem.registrationID+" has been entered more then once");
+      }
+    })
+  });
    if(!pass)
     return;
 
     let user = getUser();
-    eventsService.createTeam(this.state.event.id, {
-      college: user.college,
-      participants,
-    }).then(team =>
-      navigate("/register/" + this.state.event.id)
-    );
+    this.setState({
+      button: this.REGISTERING
+    },()=>{
+      console.log(this);
+      return;
+  
+      eventsService.createTeam(this.state.event.id, {
+        college: user.college,
+        participants,
+      }).then(team =>
+        navigate("/register/" + this.state.event.id)
+      );
+    })
+
+   
   };
 
   componentWillMount = () => {
@@ -138,7 +183,8 @@ export default class Events extends React.Component {
           this.state.participantsInput.map(participants => participants)
         }
         <div css={{marginTop: "20px"}}>
-          <Button onClick={ this.handleSubmit }>Register</Button>
+          {console.log("REF",this.state.button===this.REGISTERING)}
+          <Button onClick={ this.handleSubmit } disabled={this.state.button===this.REGISTERING}>{this.state.button}</Button>
           <Button styles={{marginLeft: "10px"}} onClick={() => { navigate("/register")} }>Cancel</Button>
         </div>
       </div>
