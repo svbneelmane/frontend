@@ -11,10 +11,12 @@ export const get = async () => {
   let json = await response.json();
 
   if(json.status&&json.status===200) {
+
     send({
       list: json.data,
       src: 'events'
     });
+    return json;
   } else {
     return null;
   }
