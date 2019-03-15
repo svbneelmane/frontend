@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "gatsby";
 
 import eventsService from "../../services/events";
-import {getTeams} from "../../services/collegeServices";
+import collegesService from "../../services/colleges";
+import { getUser } from "../../services/userServices";
 import { Button } from "../../commons/Form";
 import Loader from "../../commons/Loader";
 
@@ -50,8 +51,21 @@ const EventCard = ({ event }) => (
         { event.description.replace(/[>]/g,'- ') }
       </div>
     </div>
-    <div css={{ textAlign:"right",marginTop:10 }}>
-      <Button>{event.registered ? "View Team" : "Register Now"}</Button>
+    <div css={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginTop:10,
+    }}>
+      <div css={{
+        color: "red",
+        fontSize: "0.8em",
+      }}>
+        <span>{event.unregistered ? "Unregistered" : ""}</span>
+      </div>
+      <div>
+        <Button>Register</Button>
+      </div>
     </div>
   </Link>
 );
@@ -62,38 +76,31 @@ export default class Events extends React.Component {
 
     this.state = {
       events: [],
+      teams: [],
     };
   }
 
   componentWillMount = async () => {
-    let response = await getTeams();
-    let teams = response&&response.status===200?response.data:[];
-    console.log("TEAMS",teams);
-    eventsService.getAll().then(events => {
-      console.log(events);
-      events = events.map(event => {
-        let team = teams.find((team)=>{
-          return team.event===event.id;
-        });
-        if(team){
-          console.log("Has");
-        }
-        else
-          console.log("NOPE");
-        return({
-        id: event.id,
-        name: event.name,
-        description: event.description,
-        college: event.college,
-        venue: event.venue,
-        rounds: event.rounds,
-        startDate: event.startDate,
-        endDate: event.endDate,
-        registered:!!team
-      })});
+    let user = getUser();
+    collegesService.getTeams(user.college).then(teams => {
+      teams = teams.map(team => team);
 
-      this.setState({ events },()=>{
-        console.log(this.state);
+      this.setState({ teams });
+
+      eventsService.getAll().then(events => {
+        events = events.map(event => ({
+          id: event.id,
+          name: event.name,
+          description: event.description,
+          college: event.college,
+          venue: event.venue,
+          rounds: event.rounds,
+          startDate: event.startDate,
+          endDate: event.endDate,
+          unregistered: !teams.some(team => team.event._id === event.id),
+        }));
+
+        this.setState({ events });
       });
     });
 
