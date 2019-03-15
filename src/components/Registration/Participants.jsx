@@ -75,7 +75,7 @@ export default class Events extends React.Component {
       <h2>Participants List</h2>
         <p>{ this.state.participants.length } participant{ this.state.participants.length === 1 ? "" : "s" }</p>
       </div>
-        <div>
+        <div style={{display:'flex'}}>
        {
           this.state.participants.map((participant, i) => (
              <ParticipantCard key={i} participant={participant} />
