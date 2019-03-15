@@ -26,7 +26,7 @@ const styles = {
 };
 
 const TeamCard = ({ team }) => (
-  <Link to={ "/register/" + team.event } css={{
+  <Link to={ "/register/" + team.event._id } css={{
     ...styles.teamCard,
   }}>
     <div css={{

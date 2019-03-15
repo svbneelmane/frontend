@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "gatsby";
 
 import reducer from "../../reducers/commonReducer";
 import { getTeamsForCollege } from "../../services/collegeServices";

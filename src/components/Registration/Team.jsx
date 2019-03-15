@@ -1,29 +1,10 @@
 import React from "react";
-import { navigate, Link } from "gatsby";
+import { navigate } from "gatsby";
 
 import eventsService from "../../services/events";
 import { getUser } from "../../services/userServices";
 import { Input, Button } from "../../commons/Form";
 import { toast } from "../../actions/toastActions";
-
-const styles = {
-  teamCard: {
-    display: "inline-block",
-    marginRight: 20,
-    marginBottom: 20,
-    padding: 20,
-    width: 250,
-    borderRadius: 3,
-    border: "2px solid rgba(0, 0, 0, .1)",
-    color: "inherit",
-    boxShadow: "0px 5px 20px -4px rgba(0, 0, 0, .1)",
-    transition: "box-shadow .2s ease",
-    ":hover": {
-      color: "inherit",
-      boxShadow: "0px 5px 50px -4px rgba(0, 0, 0, .1)",
-    },
-  },
-};
 
 const Participant = (props) => (
   <div>
@@ -45,23 +26,6 @@ const Participant = (props) => (
   </div>
 );
 
-const TeamCard = ({ team }) => (
-  <Link to={ "/register/" + team.event } css={{
-    ...styles.teamCard,
-  }}>
-    <div css={{
-      fontSize: "1.3em",
-    }}>
-      { team.name }
-    </div>
-    <div css={{
-      color: "rgba(0, 0, 0, .5)",
-    }}>
-      { team.members.length } members
-    </div>
-  </Link>
-);
-
 export default class Events extends React.Component {
   REGISTERING="Registering..."
   REGISTER="Register"
@@ -76,7 +40,7 @@ export default class Events extends React.Component {
     };
   }
 
-  
+
   handleChange = (index, e) => {
     let participants = this.state.participants;
     participants[index] = {
@@ -112,7 +76,7 @@ export default class Events extends React.Component {
         pass=false;
         return toast(participant.registrationID+" is cannot participate in a student event");
       }
-      if(!participant.name||participant.name.length==0){
+      if(!participant.name||participant.name.length===0){
         pass=false;
         return toast("Please enter participant name");
       }
@@ -120,6 +84,7 @@ export default class Events extends React.Component {
         pass=false;
         return toast("Participant name cannot contain non alphabetical characters");
       }
+      return participant;
     });
     if(this.state.participants.length<this.state.event.minMembersPerTeam){
       pass=false;
@@ -127,7 +92,7 @@ export default class Events extends React.Component {
     }
     this.state.participants.forEach((Ielem,i)=>{
       this.state.participants.forEach((Jelem,j)=>{
-      if(i!=j&&Ielem.registrationID==Jelem.registrationID)
+      if(i!==j&&Ielem.registrationID===Jelem.registrationID)
       {
         pass=false;
         return toast(Ielem.registrationID+" has been entered more then once");
@@ -149,7 +114,7 @@ export default class Events extends React.Component {
       );
     })
 
-   
+
   };
 
   componentWillMount = () => {

@@ -4,11 +4,9 @@ import { Link } from "gatsby";
 import eventIcon from "../../images/event.png";
 import { get } from "../../services/eventService";
 import reducer from "../../reducers/commonReducer";
-import { toast } from "../../actions/toastActions";
 import { Button } from "../../commons/Form";
 
 const EventCard = ({ event }) => (
-  
     <div css={{
       padding: "15px 0",
       display: "flex",
@@ -62,7 +60,7 @@ const EventCard = ({ event }) => (
         </div>
       </div>
     </div>
- 
+
 );
 
 export default class Events extends React.Component {
@@ -76,7 +74,7 @@ export default class Events extends React.Component {
 
   componentWillMount = async () => {
     get();
-    
+
     reducer.subscribe(() => {
       reducer.getState().then(state => {
         let events = state.data.list.map(event=>({
@@ -94,7 +92,7 @@ export default class Events extends React.Component {
         this.setState({ events });
       });
     });
-    
+
     // if (!response) return toast("Failed to load events, refresh to try again.");
     // if (response.status !== 200) return toast(response.message);
   };

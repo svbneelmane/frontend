@@ -23,7 +23,7 @@ export default class Profile extends React.Component {
         textAlign: "center",
       }}>
         <div>
-          <img src={ avatar } height="200" width="200" />
+          <img src={ avatar } alt="Avatar" height="200" width="200" />
         </div>
         <div>
           <h1>{ data.name || "..." }</h1>
