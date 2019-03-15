@@ -39,8 +39,8 @@ export default () =>
         <PrivateRoute path="/users" component={ Users } type={ 1 } />
         <PrivateRoute path="/users/add" component={ AddUser } type={ 1 } />
         <PrivateRoute path="/events" component={ Events } type={ 1 } />
-        <PrivateRoute path="/events/add" component={ AddEvent } type={ 2 } />
-        <PrivateRoute path="/events/:event/edit" component={ EditEvent } type={ 2 } />
+        <PrivateRoute path="/events/add" component={ AddEvent } type={ 1 } />
+        <PrivateRoute path="/events/:event/edit" component={ EditEvent } type={ 1 } />
         <PrivateRoute path="/colleges" component={ Colleges } type={ 1 } />
         <PrivateRoute path="/colleges/:college/teams" component={ Teams } type={ 1 } />
         <PrivateRoute path="/colleges/add" component={ AddCollege } type={ 1 } />
