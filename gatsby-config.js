@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: "Manipal Utsav",
-    description: "Manipal Utsav 2019",
+    title: "MUCAPP",
+    description: "Manipal Utsav Coordinators' Application",
     image: "",
   },
   plugins: [

@@ -55,7 +55,7 @@ export default class EditEvent extends React.Component {
       return toast("Please enter maximum members per team");
     if(!this.state.maxTeamsPerCollege)
       return toast("Please enter maximum teams per college");
-    
+
     this.setState({
       buttonText:this.ADDING
     },async ()=>{
@@ -126,9 +126,9 @@ export default class EditEvent extends React.Component {
   }
   getCollege(){
     let college = this.state.college;
-    if(!college||this.state.colleges.length==0)
+    if(!college||this.state.colleges.length===0)
       return '';
-    let res = this.state.colleges.find(elem=>elem.value==college)
+    let res = this.state.colleges.find(elem=>elem.value===college)
     console.log('RES',res);
     return res?res:'';
   }
@@ -231,7 +231,7 @@ export default class EditEvent extends React.Component {
             isSearchable={false}
             name="venue"
             placeholder="Venue"
-            
+
              value={{label:this.state.venue,value:this.state.venue}}
             options={ [
               {label:'Dr. TMA Pai Hall, 2nd Floor',value:'Dr. TMA Pai Hall, 2nd Floor'},
@@ -240,7 +240,7 @@ export default class EditEvent extends React.Component {
               {label:'MMMC, Manipal',value:'MMMC, Manipal'},
               {label:'KMC Greens, Main Stage',value:'KMC Greens, Main Stage'},
               {label:'KMC Greens, STEPS',value:'KMC Greens, STEPS'}
-              
+
               ] }
             onChange={ (e) => this.setState({ venue: e.value }) }
             styles={{
@@ -276,7 +276,7 @@ export default class EditEvent extends React.Component {
             onChange={ this.handleChange }
             autoComplete="off"
             name="description"
-            
+
             type="text"
             placeholder="Description"
             styles={{ maxWidth: 300,minWidth:300 }}
@@ -296,20 +296,20 @@ export default class EditEvent extends React.Component {
         </div>
         <div>
         <label>Start Date: </label>
-          <Input 
-            type="datetime-local" 
-            name="startDate" 
+          <Input
+            type="datetime-local"
+            name="startDate"
             value={this.state.startDate}
             onChange={this.handleChange}
             />
-        
+
         </div>
-      
+
         <div>
         <label>End Date: </label>
-        <Input 
-            type="datetime-local" 
-            name="endDate" 
+        <Input
+            type="datetime-local"
+            name="endDate"
             value={this.state.endDate}
             onChange={this.handleChange}
             />
@@ -350,7 +350,7 @@ export default class EditEvent extends React.Component {
             }}
           />
         </div>
-        
+
         <div>
         <label>Criteria 1: </label>
           <Input

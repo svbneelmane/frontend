@@ -9,10 +9,10 @@
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "yarn develop",
     "serve": "gatsby serve",
-    "deploy": "gh-pages -d public -r https://github.com/ManipalUtsav/manipalutsav.github.io -b master -m \"Website Updated\"",
+    "deploy": "gh-pages -d public -r https://github.com/ManipalUtsav/manipalutsav.github.io -b master -m \"Production App Updated\"",
+    "deploy-test": "gh-pages -d public -r https://github.com/ManipalUtsav/test.manipalutsav.com -b master -m \"Testing App Updated\"",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\"",
-    "getip": "node scripts/getip.js",
-    "deploy": "gh-pages -d public -r https://github.com/ManipalUtsav/manipalutsav.github.io -b master -m \"Website Updated\""
+    "getip": "node scripts/getip.js"
   },
   "dependencies": {
     "gatsby": "^2.1.22",

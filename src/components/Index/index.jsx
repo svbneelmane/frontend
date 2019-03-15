@@ -1,6 +1,6 @@
 import React from "react";
 
 export default () => <>
-    <h1>Welcome to Utsav!</h1>
+    <h1>Welcome to MUCAPP!</h1>
   </>
 ;
