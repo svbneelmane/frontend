@@ -145,7 +145,6 @@ export default class Events extends React.Component {
           this.state.participantsInput.map(participants => participants)
         }
         <div css={{marginTop: "20px"}}>
-          {console.log("REF",this.state.button===this.REGISTERING)}
           <Button onClick={ this.handleSubmit } disabled={this.state.button===this.REGISTERING}>{this.state.button}</Button>
           <Button styles={{marginLeft: "10px"}} onClick={() => { navigate("/register")} }>Cancel</Button>
         </div>

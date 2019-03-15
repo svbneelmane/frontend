@@ -30,8 +30,19 @@ const getTeams = async (collegeID) => {
   }
 };
 
+
+const getParticipants = async (collegeID) => {
+  let response = await request("/colleges/" + collegeID + "/participants");
+
+  if (response && response.status === 200) {
+    return response.data;
+  } else {
+    return [];
+  }
+};
 export default {
   create,
   getAll,
   getTeams,
+  getParticipants
 };
