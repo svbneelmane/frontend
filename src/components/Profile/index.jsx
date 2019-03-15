@@ -7,6 +7,7 @@ import usersService from "../../services/users";
 import constants from "../../utils/constants";
 
 import avatar from "../../images/user.svg";
+import { toast } from "../../actions/toastActions";
 
 export default class Profile extends React.Component {
   state = {
@@ -42,10 +43,17 @@ export default class Profile extends React.Component {
       changePassword: !this.state.changePassword,
     });
 
+    if(this.state["password:new"]!==this.state["password:new:confirm"]){
+      return toast("Confirm pasword does not match");
+    }
+
 
     if (this.state.changePassword) {
       let payload = {
-        oldUser: this.state.user,
+        oldUser: {
+          ...this.state.user,
+          password: this.state["password:old"],
+        },
         newUser: {
           ...this.state.user,
           password: this.state["password:new"],
