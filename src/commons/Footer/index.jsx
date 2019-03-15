@@ -16,7 +16,7 @@ export default () => (
       If you've any issues or queries, please feel free to contact
       <br />
       <Contact name="Poornima" number="9980853396" />,&ensp;
-      <Contact name="Sambit" number="9986104763" />,&ensp;
+      <Contact name="Sambit" number="9986104763" />&ensp;
      
     </div>
   </footer>
