@@ -1,9 +1,8 @@
 import React from "react";
-import { navigate, Link } from "gatsby";
+import { navigate } from "gatsby";
 
 import { Button } from "../../commons/Form";
 import collegesService from "../../services/colleges";
-import eventsService from "../../services/events";
 import { getUser } from "../../services/userServices";
 
 const styles = {

@@ -28,10 +28,10 @@ export default {
     dark: "#111111",
     darkGrey: "#aaaaaa",
     lightGrey: "#bbbbbb",
-    light: "#f5f5f5",
+    light: "#f5f5f5", 
     white: "#ffffff",
   },
   //server:"https://api.manipalutsav.com"
-  server:"https://staging.manipalutsav.com"
-  // server:"http://localhost:3003"
+  // server:"https://staging.manipalutsav.com"
+   server:"http://localhost:3003"
 };

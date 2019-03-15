@@ -3,6 +3,6 @@ import utsavLogo from "../../images/utsav.jpg"
 export default () => 
   <div css={{textAlign: "center"}}>
     <h1>Welcome to MUCAPP!</h1>
-    <img css={{width: "50%"}} src={utsavLogo}/>
+    <img css={{width: "50%"}} alt="Logo" src={utsavLogo}/>
   </div>
 ;
