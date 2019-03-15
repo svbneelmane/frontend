@@ -15,10 +15,9 @@ export default () => (
     <div>
       If you've any issues or queries, please feel free to contact
       <br />
-      <Contact name="Abid" number="9902447429" />,&ensp;
-      <Contact name="Adarsh" number="8250362683" />,&ensp;
-      <Contact name="Meghashyam" number="8660852458" />,&ensp;or&ensp;
-      <Contact name="Sankarsan" number="9776774337" />
+      <Contact name="Poornima" number="9980853396" />,&ensp;
+      <Contact name="Sambit" number="9986104763" />,&ensp;
+     
     </div>
   </footer>
 );

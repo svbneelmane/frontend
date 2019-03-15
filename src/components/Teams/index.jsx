@@ -29,6 +29,7 @@ export default class Teams extends React.Component {
           this.state.teams.map((team, i) => (
               <TeamList
                 key={ i }
+                number={i+1}
                 name={team.name}
                 subName={team.event.name}
               />

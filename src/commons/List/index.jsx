@@ -43,7 +43,7 @@ const List = (props) => (
           display : "inline-block",
           marginRight: "8px",
           fontSize : "0.9em"
-        }}>1</div>
+        }}>{props.number}</div>
         <div css={{
           display : "inline-block",
           fontSize : "0.9em"
