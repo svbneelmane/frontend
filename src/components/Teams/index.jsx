@@ -23,7 +23,7 @@ const styles = {
 };
 
 const TeamCard = (props) => (
-  <Link to={ "/colleges/" + props.college + "/teams" } css={{
+  <Link to={ "/colleges/" + props.college + "/teams/" + props.id + "/members" } css={{
     ...styles.teamCard,
   }}>
     <div>{ props.name }</div>
@@ -77,6 +77,7 @@ export default class Teams extends React.Component {
                       this.state.teams[event].map((team, i) => (
                         <TeamCard
                           key={ i }
+                          id = { team.id }
                           college = { this.props.college }
                           name = { team.name }
                           members = { team.members.length }
