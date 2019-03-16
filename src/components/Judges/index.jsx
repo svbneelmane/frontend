@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "gatsby";
+import { FiX } from "react-icons/fi";
 
 import reducer from "../../reducers/commonReducer";
 import { getAll } from "../../services/judgeServices";
@@ -23,17 +24,39 @@ const styles = {
   },
 };
 
-const Judge = (props) => (
-  <Link to={ "/judges/" + props.info.id } css={{
-    ...styles.judgeCard,
-  }}>
-    <div>{ props.info.name }</div>
+const Judge = (props) => {
+  let handleDelete = (judge) => {
+    let surety = typeof window !== "undefined"
+      && window.confirm("Are you sure you want to delete the judge " + judge.name + "?");
+    // if (surety && !judge.rounds.length)
+    // TODO: DELETE /judges/:judge
+  }
+
+  return (
     <div css={{
-      fontSize: ".7em",
-      color: "grey",
-    }}>{ props.info.rounds.length + " round" + (props.info.rounds.length === 1 ? "" : "s") }</div>
-  </Link>
-);
+      ...styles.judgeCard,
+    }}>
+      <div css={{
+        display: "flex",
+        justifyContent: "space-between",
+      }}>
+        <span>{ props.info.name }</span>
+        <span css={{
+          cursor: "pointer",
+          ":hover": {
+            color: "red",
+          },
+        }}>
+          <FiX onClick={ () => handleDelete(props.info) } />
+        </span>
+      </div>
+      <div css={{
+        fontSize: ".7em",
+        color: "grey",
+      }}>{ "Judged " + props.info.rounds.length + " round" + (props.info.rounds.length === 1 ? "" : "s") }</div>
+    </div>
+  )
+};
 
 const JudgesList = (props) => (
   <div css={{
@@ -75,9 +98,11 @@ export default class Judges extends React.Component {
       });
     });
   }
+
   componentWillUnmount(){
     this.unsubscribe();
   }
+
   render = () => (
     <div>
       <h2>Judges</h2>
