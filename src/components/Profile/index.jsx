@@ -61,29 +61,21 @@ export default class Profile extends React.Component {
         },
       };
 
-      // TODO: Check if oldpassword is correct, & new & confirm passwords match
-
       usersService.update(payload);
     }
   }
 
-   componentWillMount() {
-    this.setState(getUser(),this.getCollege);
+  componentWillMount() {
+    this.setState(getUser(), () =>
+      this.state.college && collegeService.get(this.state.college).then(college =>
+        this.setState({ collegeName: college.name + ", " + college.location })
+      )
+    );
   }
 
-   getCollege=async ()=>{
-    let response = await collegeService.getCollege(this.state.college);
-    if(!response)
-      return;
-    this.setState({
-      collegeName: response.name+", "+response.location
-    })
-    }
-
   render() {
-    let {name,email,collegeName,type}=this.state;
-    
-    
+    let { name, email, collegeName, type } = this.state;
+
     return (
       <div css={{
         marginTop: 50,
