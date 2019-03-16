@@ -13,7 +13,17 @@ const create = async (college) => {
 };
 
 
- const getAll=async()=>{
+const get = async (collegeID) => {
+  let response = await request("/colleges/" + collegeID);
+
+  if (response && response.status === 200) {
+    return response.data;
+  } else {
+    return null;
+  }
+};
+
+const getAll = async () => {
   let response = await request("/colleges");
 
   if (response && response.status === 200) {
@@ -37,7 +47,7 @@ const getCollege = async(college)=>{
   catch(err){
     toast(err.message);
   }
-  
+
 }
 
 const getTeams = async (collegeID) => {
@@ -62,6 +72,7 @@ const getParticipants = async (collegeID) => {
 };
 export default {
   create,
+  get,
   getAll,
   getTeams,
   getParticipants,
