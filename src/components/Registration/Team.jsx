@@ -74,7 +74,7 @@ export default class Events extends React.Component {
       }
       if(!this.state.event.faculty&&!participant.registrationID.match(/^[\d]{9}$/i)){
         pass=false;
-        return toast(participant.registrationID+" is cannot participate in a student event");
+        return toast(participant.registrationID+" cannot participate in a student event");
       }
       if(!participant.name||participant.name.length===0){
         pass=false;

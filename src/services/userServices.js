@@ -98,6 +98,18 @@ export const create = async (payload) => {
   return json;
 }
 
+export const updateUser = async (user,payload) => {
+  const requestOptions = {
+    method: 'POST',
+    credentials: "include",
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  };
+  let response = await fetch(`${constants.server}/users/${user}`, requestOptions);
+  let json = await response.json();
+  return json;
+}
+
 export const update = async (payload) => {
   const requestOptions = {
     method: 'PATCH',
@@ -105,7 +117,7 @@ export const update = async (payload) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   };
-  let response = await fetch(`${constants.server}/users`, requestOptions);
+  let response = await fetch(`${constants.server}/users/`, requestOptions);
   let json = await response.json();
   if(json.status&&json.status===200) {
     send({

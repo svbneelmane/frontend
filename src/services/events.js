@@ -1,4 +1,5 @@
 import request from "../utils/request";
+import { toast } from "../actions/toastActions";
 
 const create = async (event) => {
   let response = await request("/events", "POST", event);
@@ -66,6 +67,7 @@ const getAll = async () => {
   if (response && response.status === 200) {
     return response.data;
   } else {
+    toast(response.message);
     return [];
   }
 };

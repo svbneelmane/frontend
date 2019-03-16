@@ -1,5 +1,6 @@
 import constants from '../utils/constants';
 import { send } from '../actions/commonActions';
+import { toast } from '../actions/toastActions';
 
 export const get = async () => {
   const requestOptions = {
@@ -73,6 +74,26 @@ export const getTeams = async (eventId) => {
     });
   } else {
     return null;
+  }
+} 
+
+export const getTeams2 = async (eventId) => {
+  const requestOptions = {
+    method: 'GET',
+    credentials: "include",
+    headers: { 'Content-Type': 'application/json' },
+  };
+  try{
+    let response = await fetch(`${constants.server}/events/${eventId}/teams`, requestOptions);
+    let json = await response.json();
+    if(json.status&&json.status===200) {
+      return json.data;
+    }
+    else
+      toast(json.message);
+  }
+  catch(err){
+    toast(err.message)
   }
 } 
 

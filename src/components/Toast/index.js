@@ -40,7 +40,7 @@ export default class Toast extends Component{
                     color:"#900",
                     maxWidth: 300,                    
                     zIndex: 1000,
-                    fontSize: 12,
+                    fontSize: 16,
                     textAlign: "center",
                     padding: 10,
                     margin:"auto",
