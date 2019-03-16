@@ -12,6 +12,7 @@ import AddUser from "../components/Users/Add";
 import Judges from "../components/Judges";
 import AddJudge from "../components/Judges/Add";
 import Events from '../components/Events';
+import Event from '../components/Events/Event';
 import AddEvent from '../components/Events/Add';
 import EditEvent from '../components/Events/Edit';
 import Leaderboard from "../components/Leaderboard";
@@ -42,6 +43,7 @@ export default () =>
         <PrivateRoute path="/users/add" component={ AddUser } type={ 1 } />
         <PrivateRoute path="/events" component={ Events } type={ 2 } />
         <PrivateRoute path="/events/add" component={ AddEvent } type={ 1 } />
+        <PrivateRoute path="/events/:event" component={ Event } type={ 2 } />
         <PrivateRoute path="/events/:event/edit" component={ EditEvent } type={ 2 } />
         <PrivateRoute path="/colleges" component={ Colleges } type={ 1 } />
         <PrivateRoute path="/colleges/:college/teams" component={ Teams } type={ 1 } />

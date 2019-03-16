@@ -1,66 +1,49 @@
 import React from "react";
 import { Link } from "gatsby";
 
-import eventIcon from "../../images/event.png";
 import { get } from "../../services/eventService";
 import reducer from "../../reducers/commonReducer";
-import { Button } from "../../commons/Form";
+
+const styles = {
+  eventCard: {
+    marginRight: 20,
+    marginBottom: 20,
+    padding: 20,
+    width: 285,
+    borderRadius: 3,
+    border: "2px solid rgba(0, 0, 0, .1)",
+    color: "inherit",
+    boxShadow: "0px 5px 20px -4px rgba(0, 0, 0, .1)",
+    transition: "box-shadow .2s ease",
+    ":hover": {
+      color: "inherit",
+      boxShadow: "0px 5px 50px -4px rgba(0, 0, 0, .1)",
+    },
+  },
+};
 
 const EventCard = ({ event }) => (
+  <Link to={ "/events/" + event.id } css={{
+    ...styles.eventCard,
+  }}>
     <div css={{
-      padding: "15px 0",
-      display: "flex",
-      alignItems: "center",
-      borderBottom: "1px dashed rgba(0, 0, 0, .1)",
+      fontSize: "1.3em",
     }}>
-      <div css={{
-        marginRight: 20,
-      }}>
-        <img
-          src={ event.image }
-          alt={ event.name }
-        />
-      </div>
-      <div>
-        <div css={{
-          fontSize: "1.3em",
-        }}>
-          { event.name }
-        </div>
-        <div css={{
-          color: "rgba(0, 0, 0, .5)",
-          whiteSpace: "pre-wrap"
-        }}>
-          { event.description.replace(/[>]/g,'- ') }
-        </div>
-        <div css={{
-          fontSize: "0.9em",
-          color: "green",
-        }}>
-          { /* TODO: If we know the time the event starts, we should use .toLocaleString() instead. */ }
-          starts {(new Date(event.startDate)).toDateString()} at { (event.venue ? event.venue + " - " : "") + (event.college&&event.college.name) }
-        </div>
-        <div css={{
-          fontSize: "0.8em",
-          color: "rgba(0, 0, 0, .5)",
-        }}>
-          { event.rounds.length } Round{ event.rounds.length === 1 ? "" : "s" }
-        </div>
-        <div>
-        <Link to={ "/events/" + event.id + "/rounds" }>
-          <Button >
-              View Rounds
-            </Button>
-        </Link>
-          <Link to={ "/events/" + event.id + "/edit" }>
-            <Button>
-              Edit Event
-            </Button>
-          </Link>
-        </div>
-      </div>
+      { event.name }
     </div>
-
+    <div css={{
+      fontSize: "0.9em",
+      color: "green",
+    }}>
+      starts {(new Date(event.startDate)).toLocaleString()} at { event.venue }
+    </div>
+    <div css={{
+      fontSize: "0.8em",
+      color: "rgba(0, 0, 0, .5)",
+    }}>
+      { event.rounds.length } Round{ event.rounds.length === 1 ? "" : "s" }
+    </div>
+  </Link>
 );
 
 export default class Events extends React.Component {
@@ -80,13 +63,12 @@ export default class Events extends React.Component {
         let events = state.data.list.map(event=>({
           id: event.id,
           name: event.name,
-          description: event.description || "This is a fantastic event!",
+          description: event.description,
           college: event.college,
           venue: event.venue,
           rounds: event.rounds,
           startDate: event.startDate,
           endDate: event.endDate,
-          image: eventIcon,
         }));
 
         this.setState({ events });
@@ -106,6 +88,8 @@ export default class Events extends React.Component {
       </div>
       <div css={{
         marginTop: 20,
+        display: "flex",
+        flexWrap: "wrap",
       }}>
         { this.state.events.map((event, i) => <EventCard key={i} event={event} />) }
       </div>
