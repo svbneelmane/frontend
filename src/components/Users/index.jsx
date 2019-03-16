@@ -76,11 +76,14 @@ export default class Users extends React.Component {
   componentWillMount() {
     getAll();
 
-    reducer.subscribe(() => {
+    this.unsubscribe=reducer.subscribe(() => {
       reducer.getState().then(state => {
         this.setState({ users: state.data.list });
       });
     });
+  }
+  componentWillUnmount(){
+    this.unsubscribe();
   }
 
   render = () => (

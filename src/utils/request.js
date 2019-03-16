@@ -15,9 +15,7 @@ const request = (path, method = "GET", body = null) => {
 
       if (![ "GET", "HEAD" ].includes(method))
         options.body = typeof body === "object" ? JSON.stringify(body) : body;
-
       let response = await fetch(url, options);
-
       resolve(await response.json());
     } catch (e) {
       reject(e);

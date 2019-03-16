@@ -1,7 +1,6 @@
 import React from "react";
-import { navigate } from "gatsby";
+import { navigate,Link } from "gatsby";
 
-import { Input } from "../../commons/Form";
 import { getUser, logout } from "../../services/userServices";
 import usersService from "../../services/users";
 import collegeService from '../../services/colleges';
@@ -68,10 +67,18 @@ export default class Profile extends React.Component {
   }
 
    componentWillMount() {
-    this.setState(getUser(),this.getCollege);
+     this.getUser();
+    
+  }
+
+  getUser=async()=>{
+    let user = await usersService.get2(this.props.user);
+    this.setState(user,this.getCollege);
   }
 
    getCollege=async ()=>{
+     if(!this.state.college)
+      return;
     let response = await collegeService.getCollege(this.state.college);
     if(!response)
       return;
@@ -99,20 +106,10 @@ export default class Profile extends React.Component {
           <p css={{ color: "rgba(0, 0, 0, .7)" }}>{ collegeName }</p>
         </div>
         <div>
-          <button css={{ margin: 5, }} onClick={ () => this.handleLogout() }>{ this.state.logoutClicks ? "Sure?" : "Logout" }</button>
-          <button css={{ margin: 5, }} onClick={ () => this.handleChangePassword() }>{ this.state.changePassword ? "Change?" : "Change Password" }</button>
+          {getUser().type&&getUser().type===1? <Link to={`users/${this.props.user}/edit`}><button css={{ margin: 5, }}>Edit</button></Link>:''}
+          <Link to="/users"><button css={{ margin: 5, }}>Go Back</button></Link>
         </div>
-        <div>
-          {
-            this.state.changePassword
-            ? <>
-              <Input onChange={this.handleChange} type="password" name="password:old" placeholder="Old Password" />
-              <Input onChange={this.handleChange} type="password" name="password:new" placeholder="New Password" />
-              <Input onChange={this.handleChange} type="password" name="password:new:confirm" placeholder="Confirm Password" />
-            </>
-            : null
-          }
-        </div>
+       
       </div>
     );
   }

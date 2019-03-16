@@ -58,7 +58,7 @@ export default class Events extends React.Component {
   componentWillMount = async () => {
     get();
 
-    reducer.subscribe(() => {
+    this.unsubscribe=reducer.subscribe(() => {
       reducer.getState().then(state => {
         let events = state.data.list.map(event=>({
           id: event.id,
@@ -78,6 +78,9 @@ export default class Events extends React.Component {
     // if (!response) return toast("Failed to load events, refresh to try again.");
     // if (response.status !== 200) return toast(response.message);
   };
+  componentWillUnmount(){
+    this.unsubscribe();
+  }
 
   render = () => (
     <div>

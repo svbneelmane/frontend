@@ -69,11 +69,14 @@ export default class Colleges extends React.Component {
   componentWillMount() {
     getAll();
 
-    reducer.subscribe(() => {
+    this.unsubscribe=reducer.subscribe(() => {
       reducer.getState().then(state => {
         this.setState({ colleges: state.data.list });
       });
     });
+  }
+  componentWillUnmount(){
+    this.unsubscribe();
   }
 
   render = () => (

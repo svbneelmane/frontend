@@ -69,13 +69,15 @@ export default class Judges extends React.Component {
   componentWillMount() {
     getAll();
 
-    reducer.subscribe(() => {
+    this.unsubscribe=reducer.subscribe(() => {
       reducer.getState().then(state => {
         this.setState({ judges: state.data.list });
       });
     });
   }
-
+  componentWillUnmount(){
+    this.unsubscribe();
+  }
   render = () => (
     <div>
       <h2>Judges</h2>

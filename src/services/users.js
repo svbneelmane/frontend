@@ -1,4 +1,6 @@
 import request from "../utils/request";
+import constants from "../utils/constants";
+import { toast } from "../actions/toastActions";
 
 const create = async (user) => {
   let response = await request("/users", "POST", user);
@@ -18,6 +20,22 @@ const get = async (id) => {
   } else {
     return null;
   }
+};
+
+const get2 = async (id) => {
+  try{
+    let response = await fetch(`${constants.server}/users/${id}`,{
+      credentials:"include"
+    });
+    let json = await response.json();
+    if(json.staus)
+      return toast(json.message);
+    return json;
+  }
+  catch(err){
+    toast(err.message);
+  }
+  
 };
 
 const getAll = async () => {
@@ -45,6 +63,7 @@ const update = async (user) => {
 export default {
   create,
   get,
+  get2,
   getAll,
   update,
 };

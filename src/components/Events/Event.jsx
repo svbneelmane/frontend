@@ -93,6 +93,9 @@ export default class Events extends React.Component {
           flexWrap: "wrap",
           justifyContent: "space-around",
         }}>
+          <Link to={ "/events/" + this.props.event + "/teams" }>
+            <button>View Teams</button>
+          </Link>
           <Link to={ "/events/" + this.props.event + "/rounds" }>
             <button>View Rounds</button>
           </Link>

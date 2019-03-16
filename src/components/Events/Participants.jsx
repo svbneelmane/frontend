@@ -3,7 +3,6 @@ import { navigate } from "gatsby";
 
 import { Button } from "../../commons/Form";
 import collegesService from "../../services/colleges";
-import { getUser } from "../../services/userServices";
 
 const styles = {
   participantCard: {
@@ -56,10 +55,11 @@ export default class Events extends React.Component {
   }
 
   componentWillMount = () => {
-    let user = getUser();
-    collegesService.getTeams(user.college).then(teams => {
+   /****WORK TO DO HERE!! */
+    collegesService.getTeams(this.props.college).then(teams => {
+      console.log(teams);
       let team = teams.find(team => team.id === this.props.team );
-      collegesService.getParticipants(user.college).then(participants=>{
+      collegesService.getParticipants(this.props.college).then(participants=>{
         participants=participants.filter(participant=>team.members.includes(participant.id));
         this.setState({ team,participants });
       })

@@ -7,17 +7,17 @@ export default () => (
     color: "white",
     backgroundColor: "black",
     padding: "50px 20px",
+    textAlign:"center"
   }}>
     <div>
-      Copyright &copy; 2019
+      &copy; {(new Date().getFullYear())} MAHE, Manipal.
     </div>
     <br />
     <div>
-      If you've any issues or queries, please feel free to contact
+      If you have any issues or queries, please feel free to contact: 
       <br />
       <Contact name="Poornima" number="9980853396" />,&ensp;
-      <Contact name="Sambit" number="9986104763" />&ensp;
-     
+      <Contact name="Sambit" number="9986104763" />.
     </div>
   </footer>
 );

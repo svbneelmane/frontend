@@ -1,4 +1,6 @@
 import request from "../utils/request";
+import constants from "../utils/constants";
+import { toast } from "../actions/toastActions";
 
 const create = async (college) => {
   let response = await request("/colleges", "POST", college);
@@ -10,7 +12,8 @@ const create = async (college) => {
   }
 };
 
-const getAll = async () => {
+
+ const getAll=async()=>{
   let response = await request("/colleges");
 
   if (response && response.status === 200) {
@@ -19,6 +22,23 @@ const getAll = async () => {
     return [];
   }
 };
+
+const getCollege = async(college)=>{
+  try{
+  let response = await fetch(`${constants.server}/colleges/${college}`,{
+    credentials:"include"
+  });
+  let json = await response.json();
+  if(json.status===200)
+    return json.data;
+  else
+    toast(json.message);
+  }
+  catch(err){
+    toast(err.message);
+  }
+  
+}
 
 const getTeams = async (collegeID) => {
   let response = await request("/colleges/" + collegeID + "/teams");
@@ -44,5 +64,6 @@ export default {
   create,
   getAll,
   getTeams,
-  getParticipants
+  getParticipants,
+  getCollege
 };
