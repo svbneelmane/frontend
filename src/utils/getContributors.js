@@ -16,8 +16,8 @@ export default () => {
           },
         };
 
-        let response = await fetch(url, options);
-        let repositoryContributors = await response.json();
+        let response = typeof window !== "undefined" && await window.fetch(url, options);
+        let repositoryContributors = (response && await response.json()) || [];
 
         for (let contributor of repositoryContributors) {
           if (contributors.hasOwnProperty(contributor.id)) contributors[contributor.id].contributions += contributor.contributions;
