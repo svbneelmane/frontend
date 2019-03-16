@@ -70,7 +70,10 @@ export default class Profile extends React.Component {
 
     this.setState({ user }, () =>
       this.state.user.college && collegeService.get(this.state.user.college).then(college =>
-        this.setState({ user: { college: college.name + ", " + college.location } })
+        this.setState({ user: {
+          ...this.state.user,
+          college: college.name + ", " + college.location
+        } })
       )
     );
   }
@@ -88,7 +91,7 @@ export default class Profile extends React.Component {
           <h1>{ this.state.user.name || "..." }</h1>
           <p css={{ color: "rgba(0, 0, 0, .7)" }}>{ this.state.user.email || "..." }</p>
           <p css={{ color: "truergba(0, 0, 0, .5)" }}>{ this.state.user.type ? constants.getUserType(this.state.user.type) : "..." }</p>
-          <p css={{ color: "rgba(0, 0, 0, .7)" }}>{ this.state.collegeName }</p>
+          <p css={{ color: "rgba(0, 0, 0, .7)" }}>{ this.state.user.college }</p>
         </div>
         <div>
           <button css={{ margin: 5, }} onClick={ () => this.handleLogout() }>{ this.state.logoutClicks ? "Sure?" : "Logout" }</button>
@@ -97,11 +100,14 @@ export default class Profile extends React.Component {
         <div>
           {
             this.state.changePassword
-            ? <>
-              <Input onChange={ this.handleChange } type="password" name="password:old" placeholder="Old Password" />
-              <Input onChange={ this.handleChange } type="password" name="password:new" placeholder="New Password" />
-              <Input onChange={ this.handleChange } type="password" name="password:new:confirm" placeholder="Confirm Password" />
-            </>
+            ? <div>
+                <br />
+                <Input onChange={ this.handleChange } type="password" name="password:old" placeholder="Old Password" />
+                <br />
+                <Input onChange={ this.handleChange } type="password" name="password:new" placeholder="New Password" />
+                <br />
+                <Input onChange={ this.handleChange } type="password" name="password:new:confirm" placeholder="Confirm Password" />
+              </div>
             : null
           }
         </div>
