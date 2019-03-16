@@ -2,36 +2,55 @@ import React from 'react';
 import { RoundCard } from '../../commons/Card';
 import { getRounds } from '../../actions/eventActions';
 import store from '../../reducers/commonReducer';
+import eventsService from "../../services/events";
 
 export default class Rounds extends React.Component{
+  constructor(props){
+    super(props);
 
-	constructor(props){
-		super(props);
-		this.state = {
-			rounds : []
-		}
-	}
+    this.state = {
+      event: {},
+      rounds: [],
+    };
+  }
 
-	componentWillMount = () => {
-		getRounds(this.props.event);
-		store.subscribe(async () => {
-      let state = await store.getState();
-      this.setState({
-        rounds: state.data.list,
-      })
+  componentWillMount = () => {
+    eventsService.get(this.props.event).then(event =>
+      this.setState({ event })
+    );
+
+    getRounds(this.props.event);
+    store.subscribe(() => {
+      store.getState().then(state =>
+        this.setState({
+          rounds: state.data.list,
+        })
+      );
     });
-	}
+  }
 
 
-	render(){
-		return(
-			<div>
-				{this.state.rounds.map((each, i) =>{
-					return(
-						<RoundCard key={i} type={1}  eventId={each.event} roundId={each.id} title={`Round ${i+1}`} />
-					)
-				})}
-			</div>
-		);
-	}
+  render = () => (
+    <div>
+      <div>
+        <h2>{ this.state.event.name }</h2>
+        <p>
+          { this.state.event.faculty ? "Faculty Event" : "Student Event" } organized by { this.state.event.college && this.state.event.college.name + ", " + this.state.event.college.location }
+        </p>
+      </div>
+      <div>
+        <div>
+          <h3>Rounds</h3>
+          <p>A total of { this.state.event.rounds && this.state.event.rounds.length } rounds are there.</p>
+        </div>
+        <div>
+          {
+            this.state.rounds.map((each, i) =>
+              <RoundCard key={i} type={1}  eventId={each.event} roundId={each.id} title={`Round ${i+1}`} />
+            )
+          }
+        </div>
+      </div>
+    </div>
+  );
 }
