@@ -2,14 +2,14 @@ import React from "react";
 import { Link } from "gatsby";
 
 import eventsService from "../../services/events";
-import reducer from "../../reducers/commonReducer";
 
 const styles = {
-  eventCard: {
+  teamCard: {
+    display: "inline-block",
     marginRight: 20,
     marginBottom: 20,
     padding: 20,
-    width: 285,
+    width: 250,
     borderRadius: 3,
     border: "2px solid rgba(0, 0, 0, .1)",
     color: "inherit",
@@ -18,30 +18,20 @@ const styles = {
     ":hover": {
       color: "inherit",
       boxShadow: "0px 5px 50px -4px rgba(0, 0, 0, .1)",
-    },
+    }
   },
 };
 
-const EventCard = ({ event }) => (
-  <Link to={ "/events/" + event.id } css={{
-    ...styles.eventCard,
+const TeamCard = (props) => (
+  <Link to={ "/colleges/" + props.team.college + "/teams/" + props.team.id + "/members" } css={{
+    ...styles.teamCard,
   }}>
+    <div>{ props.team.name }</div>
     <div css={{
-      fontSize: "1.3em",
+      fontSize: ".7em",
+      color: "grey",
     }}>
-      { event.name }
-    </div>
-    <div css={{
-      fontSize: "0.9em",
-      color: "green",
-    }}>
-      starts {(new Date(event.startDate)).toLocaleString()} at { event.venue }
-    </div>
-    <div css={{
-      fontSize: "0.8em",
-      color: "rgba(0, 0, 0, .5)",
-    }}>
-      { event.rounds.length } Round{ event.rounds.length === 1 ? "" : "s" }
+      { props.team.members.length + " member" + (props.team.members.length === 1 ? "" : "s") }
     </div>
   </Link>
 );
@@ -52,6 +42,7 @@ export default class Events extends React.Component {
 
     this.state = {
       event: {},
+      teams: [],
     };
   }
 
@@ -59,6 +50,10 @@ export default class Events extends React.Component {
     eventsService.get(this.props.event).then(event => {
       this.setState({ event });
     });
+
+    eventsService.getTeams(this.props.event).then(teams =>
+      this.setState({ teams }
+    ));
   };
 
   render = () => (
@@ -88,15 +83,10 @@ export default class Events extends React.Component {
         }}>
           { this.state.event.description }
         </p>
-        <div css={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-around",
-        }}>
-          <Link to={ "/events/" + this.props.event + "/teams" }>
-            <button>View Teams</button>
-          </Link>
-          <Link to={ "/events/" + this.props.event + "/rounds" }>
+        <div>
+          <Link to={ "/events/" + this.props.event + "/rounds" } css={{
+            marginRight: 10,
+          }}>
             <button>View Rounds</button>
           </Link>
           <Link to={ "/events/" + this.props.event + "/edit" }>
@@ -104,11 +94,22 @@ export default class Events extends React.Component {
           </Link>
         </div>
       </div>
-      <div css={{
-        marginTop: 20,
-        display: "flex",
-        flexWrap: "wrap",
-      }}>
+      <div>
+        <div>
+          <h3>Participating Teams</h3>
+          <p>A total of { this.state.teams.length } teams are participating.</p>
+        </div>
+        <div css={{
+          marginTop: 20,
+          display: "flex",
+          flexWrap: "wrap",
+        }}>
+          {
+            this.state.teams.map((team, i) =>
+              <TeamCard key={i} team={team} />
+            )
+          }
+        </div>
       </div>
     </div>
   );
