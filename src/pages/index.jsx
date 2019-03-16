@@ -57,7 +57,7 @@ export default () =>
         <PrivateRoute path="/events" component={ Events } type={ 2 } />
         <PrivateRoute path="/events/add" component={ AddEvent } type={ 1 } />
         <PrivateRoute path="/events/:event" component={ Event } type={ 2 } />
-        <PrivateRoute path="/events/:event/edit" component={ EditEvent } type={ 2 } />
+        <PrivateRoute path="/events/:event/edit" component={ EditEvent } type={ 1 } />
         <PrivateRoute path="/events/:event/teams" component={ EventTeams } type={ 1 } />
         <PrivateRoute path="/events/:event/teams/:college/:team" component={ EventParticipants } type={ 1 } />
         <PrivateRoute path="/events/:event/rounds" exact component={ Rounds } type={ 2 } />
