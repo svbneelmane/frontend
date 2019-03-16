@@ -8,12 +8,10 @@ import { CriteriaCard } from "../../commons/Card";
 import { TeamList } from "../../commons/List";
 import events from "../../services/events"
 export default class Judge extends Component {
-
-
-
   constructor(props) {
     super(props)
     this.state = {
+      noteWidth: 0,
       judgeOption: [],
       JudgeId: null,
       judgeSelected: false,
@@ -22,7 +20,7 @@ export default class Judge extends Component {
       criteria: [],
       score: [],
       selectedSlot: null,
-      idx : 0
+      idx: 0
     }
     this.data = [{
       id: "a",
@@ -107,39 +105,87 @@ export default class Judge extends Component {
 
   nextTeam = async () => {
     let idx = this.state.idx + 1
-    if(idx != this.data.length){
+    if (idx != this.data.length) {
       await this.setState({
-        idx : idx,
+        idx: idx,
       })
       this.setState({ selectedSlot: this.data[this.state.idx].number })
-   }
+    }
   }
 
   prevTeam = async () => {
     let idx = this.state.idx - 1;
-    if(idx >= 0){
+    if (idx >= 0) {
       await this.setState({
-        idx : idx,
+        idx: idx,
       })
       this.setState({ selectedSlot: this.data[this.state.idx].number })
     }
   }
   changeTeam = (e) => {
+    let slot = e.target.id.substring(1);
+    this.setState({
+      selectedSlot: slot
+    })
+  }
 
+  toggleNote = () => {
+    console.log("this")
+    if(this.state.noteWidth === 0){
+      this.setState({
+        noteWidth : 350,
+      })
+    } else {
+      this.setState({
+        noteWidth : 0,
+      })
+    }
   }
 
   render() {
     return (
       <div>
-        <div
-          css={{
-            position: "relative",
-            float: "right",
-            margin: "16px"
-          }}
-        >{this.state[`s${this.state.selectedSlot}-total`] || 0} Points</div>
+        
+        
         {(this.state.judgeSelected) ?
           <div>
+            <div
+            css={{
+              position: "relative",
+              float: "right",
+              margin: "16px",
+              fontSize: "1.3em"
+            }}
+          >{this.state[`s${this.state.selectedSlot}-total`] || 0} Points</div>
+          <div css={{
+            position:"absolute",
+            right: 0,
+            zIndex: 10,
+            marginTop: "50px",
+          }}>
+            <div onClick={this.toggleNote} css={{
+              padding: "4px 8px",
+              backgroundColor: "#ff5800",
+              color: "#FFFFFF",
+              borderRadius:"5px",
+              display: "inline-block",
+              verticalAlign: "top",
+            }}>{(this.state.noteWidth) ? "Close" : "Notes"}
+            </div> 
+            <div css={{
+              backgroundColor: "red",
+              height: "250px",
+              width: this.state.noteWidth,
+              display: "inline-block",
+              transition: "1s"
+            }}>
+              <textarea css={{
+                height: "100%",
+                width: "100%",
+                resize : "none",
+              }} ></textarea>
+            </div>
+          </div>
             <div
               css={{
                 boxShadow: "0px 5px 12px -5px rgba(0, 0, 0, .1)",
@@ -151,7 +197,7 @@ export default class Judge extends Component {
             >
               {this.data.map((each, i) => {
                 return (
-                  <TeamList backgroundColor={(each.number == this.state.selectedSlot)? "#EEEEEE" : "#FFFFFF"} onClick={this.changeTeam} key={i} slot={`#${each.number}`} name={each.name} />
+                  <TeamList backgroundColor={(each.number == this.state.selectedSlot) ? "#EEEEEE" : "#FFFFFF"} onClick={this.changeTeam} key={i} slot={`#${each.number}`} name={each.name} />
                 );
               })}
             </div>
@@ -172,11 +218,11 @@ export default class Judge extends Component {
                 <Button
                   onClick={this.prevTeam}
                   styles={{
-                  display: "inline-block",
-                  margin: "16px",
-                  backgroundColor: "white",
-                  color: "black",
-                }}>Prev</Button>
+                    display: "inline-block",
+                    margin: "16px",
+                    backgroundColor: "white",
+                    color: "black",
+                  }}>Prev</Button>
                 <Button onClick={this.nextTeam} styles={{ display: "inline-block" }}>Next</Button>
               </div>
             </div>

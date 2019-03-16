@@ -34,20 +34,24 @@ const List = (props) => (
 );
 
 const TeamList = (props) => (
-  <div id="11" onClick={props.onClick}>
-    <div css={{
+  <div  onClick={props.onClick}>
+    <div id={props.slot} css={{
       padding: "10px",
-      backgroundColor: props.backgroundColor
+      backgroundColor: props.backgroundColor,
+      cursor: "pointer"
     }}>
-      <div css={{
+      <div id={props.slot} css={{
         display : "inline-block",
         marginRight: "8px",
         fontSize : "0.9em"
       }}>{props.slot}</div>
-      <div css={{
+      <div id={props.slot} css={{
         display : "inline-block",
         fontSize : "0.9em"
       }}>{props.name}</div>
+      <div>
+        {props.total}
+      </div>
     </div>
   </div>
 )
