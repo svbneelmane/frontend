@@ -18,6 +18,7 @@ import Leaderboard from "../components/Leaderboard";
 import Teams from "../components/Teams";
 import Register from "../components/Registration";
 import Participants from "../components/Registration/Participants";
+import Members from "../components/Members";
 import RegisterEvent from "../components/Registration/Event";
 import RegisterTeam from "../components/Registration/Team";
 import NotFound from "../components/404";
@@ -44,6 +45,7 @@ export default () =>
         <PrivateRoute path="/events/:event/edit" component={ EditEvent } type={ 2 } />
         <PrivateRoute path="/colleges" component={ Colleges } type={ 1 } />
         <PrivateRoute path="/colleges/:college/teams" component={ Teams } type={ 1 } />
+        <PrivateRoute path="/colleges/:college/teams/:team/members" component={ Members } type={ 1 } />
         <PrivateRoute path="/colleges/add" component={ AddCollege } type={ 1 } />
         <PrivateRoute path="/judges" component={ Judges } type={ 1 } />
         <PrivateRoute path="/judges/add" component={ AddJudge } type={ 1 } />
