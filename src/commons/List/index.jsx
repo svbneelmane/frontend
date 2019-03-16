@@ -33,29 +33,24 @@ const List = (props) => (
   </div>
 );
 
-  const TeamList = (props) => (
-    <div css={{}}>
+const TeamList = (props) => (
+  <div id="11" onClick={props.onClick}>
+    <div css={{
+      padding: "10px",
+      backgroundColor: props.backgroundColor
+    }}>
       <div css={{
-        padding: "10px",
-        backgroundColor: "rgba(0,0,0,0.1)",
-      }}>
-        <div css={{
-          display : "inline-block",
-          marginRight: "8px",
-          fontSize : "0.9em"
-        }}>{props.number}</div>
-        <div css={{
-          display : "inline-block",
-          fontSize : "0.9em"
-        }}>{props.name}</div>
-        <div css={{
-          float: "right",
-        }}>
-          {`Event Name: ${props.subName}`}
-        </div>
-      </div>
+        display : "inline-block",
+        marginRight: "8px",
+        fontSize : "0.9em"
+      }}>{props.slot}</div>
+      <div css={{
+        display : "inline-block",
+        fontSize : "0.9em"
+      }}>{props.name}</div>
     </div>
-  )
+  </div>
+)
 
 export {
   List,

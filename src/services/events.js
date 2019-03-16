@@ -73,7 +73,7 @@ const getAll = async () => {
 };
 
 const getRound = async (eventID, roundID) => {
-  let response = await request("/events/" + eventID + "/rounds" + roundID);
+  let response = await request("/events/" + eventID + "/rounds/" + roundID);
 
   if (response && response.status === 200) {
     return response.data;
@@ -113,7 +113,7 @@ const getTeams = async (eventID) => {
 };
 
 const getTeamsByRound = async (eventID, roundID) => {
-  let response = await request("/events/" + eventID + "/rounds" + roundID + "/teams");
+  let response = await request("/events/" + eventID + "/rounds/" + roundID + "/teams");
 
   if (response && response.status === 200) {
     return response.data;

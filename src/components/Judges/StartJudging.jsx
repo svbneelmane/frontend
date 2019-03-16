@@ -6,7 +6,10 @@ import { get } from '../../actions/judgeActions';
 import store from '../../reducers/commonReducer';
 import { CriteriaCard } from "../../commons/Card";
 import { TeamList } from "../../commons/List";
+import events from "../../services/events"
 export default class Judge extends Component {
+
+
 
   constructor(props) {
     super(props)
@@ -14,8 +17,44 @@ export default class Judge extends Component {
       judgeOption: [],
       JudgeId: null,
       judgeSelected: false,
-      totalPoint: 0
+      totalPoint: 0,
+      teams: [],
+      criteria: [],
+      score: [],
+      selectedSlot: null,
+      idx : 0
     }
+    this.data = [{
+      id: "a",
+      number: 4,
+      round: "5c894e1fba1190463e34ab9d",
+      team: "5c8aa179b002c22001a36388",
+      name: "PSPH (Team A)"
+    }, {
+      id: "b",
+      number: 1,
+      round: "5c894e1fba1190463e34ab9d",
+      team: "5c8aa6e7d0a1c52283f72645",
+      name: "MCODS (Team A)"
+    }, {
+      id: "c",
+      number: 5,
+      round: "5c894e1fba1190463e34ab9d",
+      team: "5c8aa6e7d0a1c52283f72647",
+      name: "KMC (Team A)"
+    }, {
+      id: "d",
+      number: 3,
+      round: "5c894e1fba1190463e34ab9d",
+      team: "5c8ab453a5fe9d244ef0676c",
+      name: "SOAHS (Team A)"
+    }, {
+      id: "e",
+      number: 2,
+      round: "5c894e1fba1190463e34ab9d",
+      team: "5c8ab453a5fe9d244ef0676f",
+      name: "SOAHS (Team B)"
+    }]
   }
 
   componentWillMount = () => {
@@ -40,27 +79,65 @@ export default class Judge extends Component {
   }
 
   selectJudge = () => {
+    if (this.state.JudgeId) {
+      this.setState({
+        judgeSelected: true
+      })
+      // events.getTeamsByRound(this.props.event, this.props.round).then(teams => {
+      //   this.setState({ teams: teams });
+      // })
+      this.setState({ selectedSlot: this.data[this.state.idx].number })
+      events.getRound(this.props.event, this.props.round).then(round => {
+        this.setState({ criteria: round.criteria });
+      })
+    }
+  }
 
-    this.setState({
-      judgeSelected: true
+  handelCritriaChange = async (event) => {
+    let { name, value } = event;
+    await this.setState({ [name]: value }, () => {
+      let slotNo = this.state.selectedSlot;
+      let total = 0;
+      this.state.criteria.map((i, k) => total += Number(this.state[`s${slotNo}-c${k}`] || 0));
+      this.setState({
+        [`s${slotNo}-total`]: total
+      })
     })
   }
 
-  handelCritriaChange = () => {
-    console.log("get")
+  nextTeam = async () => {
+    let idx = this.state.idx + 1
+    if(idx != this.data.length){
+      await this.setState({
+        idx : idx,
+      })
+      this.setState({ selectedSlot: this.data[this.state.idx].number })
+   }
+  }
+
+  prevTeam = async () => {
+    let idx = this.state.idx - 1;
+    if(idx >= 0){
+      await this.setState({
+        idx : idx,
+      })
+      this.setState({ selectedSlot: this.data[this.state.idx].number })
+    }
+  }
+  changeTeam = (e) => {
+
   }
 
   render() {
     return (
       <div>
-
         <div
           css={{
             position: "relative",
             float: "right",
             margin: "16px"
           }}
-        >{`${this.state.totalPoint} Points`}</div>
+        >{this.state[`s${this.state.selectedSlot}-total`] || 0} Points</div>
         {(this.state.judgeSelected) ?
           <div>
             <div
@@ -72,8 +149,11 @@ export default class Judge extends Component {
                 backgroundColor: "#FFFFFF"
               }}
             >
-              <TeamList title="hello" />
-              <TeamList title="hello" />
+              {this.data.map((each, i) => {
+                return (
+                  <TeamList backgroundColor={(each.number == this.state.selectedSlot)? "#EEEEEE" : "#FFFFFF"} onClick={this.changeTeam} key={i} slot={`#${each.number}`} name={each.name} />
+                );
+              })}
             </div>
             <div css={{
               display: "inline-block",
@@ -82,19 +162,22 @@ export default class Judge extends Component {
               marginTop: "32px"
             }}>
               <div>
-                <CriteriaCard onChange={this.handelCritriaChange} title="Criteria 1" />
-                <CriteriaCard onChange={this.handelCritriaChange} title="Criteria 2" />
-                <CriteriaCard onChange={this.handelCritriaChange} title="Criteria 3" />
-                <CriteriaCard onChange={this.handelCritriaChange} title="Criteria 4" />
+                {this.state.criteria.map((each, i) => {
+                  return (
+                    <CriteriaCard name={`s${this.state.selectedSlot}-c${i}`} key={i} onChange={this.handelCritriaChange} title={each} />
+                  );
+                })}
               </div>
               <div>
-                <Button styles={{
+                <Button
+                  onClick={this.prevTeam}
+                  styles={{
                   display: "inline-block",
                   margin: "16px",
                   backgroundColor: "white",
                   color: "black",
                 }}>Prev</Button>
-                <Button styles={{ display: "inline-block" }}>Next</Button>
+                <Button onClick={this.nextTeam} styles={{ display: "inline-block" }}>Next</Button>
               </div>
             </div>
           </div>

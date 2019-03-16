@@ -61,6 +61,8 @@ const CriteriaCard = (props) => (
     }}
     >
       <Input type="number" 
+      value={props.value}
+      name = {props.name}
       onChange={props.onChange}
       styles={{
         width: "100%",
