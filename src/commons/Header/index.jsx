@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "gatsby";
-import { FiMenu, FiArrowLeft,FiUser } from 'react-icons/fi'
+import { FiMenu, FiX, FiUser } from 'react-icons/fi'
 import Logo from "../../../static/favicon.png";
 import sidebarStore from '../../reducers/sidebarReducer';
 import userStore from '../../reducers/userReducer';
@@ -83,7 +83,7 @@ class NavigationToggle extends Component {
       {
         this.state.menu === "close"
         ? <FiMenu />
-        : <FiArrowLeft />
+        : <FiX />
       }
     </button>
   );
