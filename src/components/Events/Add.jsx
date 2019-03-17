@@ -209,8 +209,8 @@ export default class AddEvent extends React.Component {
               {label:'Counselling Hall, manipal.edu',value:'Counselling Hall, manipal.edu'},
               {label:'MMMC, Manipal',value:'MMMC, Manipal'},
               {label:'KMC Greens, Main Stage',value:'KMC Greens, Main Stage'},
-              {label:'KMC Greens, STEPS',value:'KMC Greens, STEPS'}
-              
+              {label:'KMC Greens, STEPS',value:'KMC Greens, STEPS'},
+              {label:'WGSHA Kitchen',value:'WGSHA, Kitchen'}
               ] }
             onChange={ (e) => this.setState({ venue: e.value }) }
             styles={{
