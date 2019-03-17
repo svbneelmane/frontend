@@ -1,10 +1,9 @@
 import request from "../utils/request"
-import constants from '../utils/constants';
 import { send } from '../actions/commonActions';
 import { toast } from '../actions/toastActions';
 
 export const get = async () => {
-  let response = await request(`${constants.server}/events`);
+  let response = await request(`/events`);
 
   if (response.status && response.status === 200) {
     send({
@@ -18,7 +17,7 @@ export const get = async () => {
 }
 
 export const getRounds = async (eventId) => {
-  let response = await request(`${constants.server}/events/${eventId}/rounds`);
+  let response = await request(`/events/${eventId}/rounds`);
 
   if (response.status && response.status === 200) {
     send({
@@ -31,7 +30,7 @@ export const getRounds = async (eventId) => {
 }
 
 export const getSlots = async (eventId, roundId) => {
-  let response = await request(`${constants.server}/events/${eventId}/rounds/${roundId}/slots`);
+  let response = await request(`/events/${eventId}/rounds/${roundId}/slots`);
 
   if (response.status && response.status === 200) {
     send({
@@ -44,7 +43,7 @@ export const getSlots = async (eventId, roundId) => {
 }
 
 export const getTeams = async (eventId) => {
-  let response = await request(`${constants.server}/events/${eventId}/teams`);
+  let response = await request(`/events/${eventId}/teams`);
 
   if (response.status && response.status === 200) {
     send({
@@ -58,7 +57,7 @@ export const getTeams = async (eventId) => {
 
 export const getTeams2 = async (eventId) => {
   try{
-    let response = await request(`${constants.server}/events/${eventId}/teams`);
+    let response = await request(`/events/${eventId}/teams`);
 
     if (response.status && response.status === 200) return response.data;
     toast(response.message);
@@ -69,7 +68,7 @@ export const getTeams2 = async (eventId) => {
 }
 
 export const getRoundTeams = async (eventId, roundId) => {
-  let response = await request(`${constants.server}/events/${eventId}/rounds/${roundId}/teams`);
+  let response = await request(`/events/${eventId}/rounds/${roundId}/teams`);
 
   if (response.status && response.status === 200) {
     send({
@@ -82,20 +81,20 @@ export const getRoundTeams = async (eventId, roundId) => {
 }
 
 export const create = async (payload) => {
-  let response = await request(`${constants.server}/events`, "POST", payload);
+  let response = await request(`/events`, "POST", payload);
 
   return response;
 }
 
 export const edit = async (event,payload) => {
-  let response = await request(`${constants.server}/events/${event}/edit`, "POST", payload);
+  let response = await request(`/events/${event}/edit`, "POST", payload);
 
   return response;
 }
 
 
 export const createRound = async (payload, eventId) => {
-  let response = await request(`${constants.server}/events/${eventId}/rounds`, "POST", payload);
+  let response = await request(`/events/${eventId}/rounds`, "POST", payload);
 
   if (response.status && response.status === 200) {
     send({
@@ -108,7 +107,7 @@ export const createRound = async (payload, eventId) => {
 }
 
 export const createTeam = async (payload, eventId) => {
-  let response = await request(`${constants.server}/events/${eventId}/teams`, "POST", payload);
+  let response = await request(`/events/${eventId}/teams`, "POST", payload);
 
   if (response.status && response.status === 200) {
     send({
@@ -121,7 +120,7 @@ export const createTeam = async (payload, eventId) => {
 }
 
 export const createSlots = async (payload, eventId, roundId) => {
-  let response = await request(`${constants.server}/events/${eventId}/rounds/${roundId}/slots`, "POST", payload);
+  let response = await request(`/events/${eventId}/rounds/${roundId}/slots`, "POST", payload);
 
   if (response.status && response.status === 200) {
     send({
@@ -134,7 +133,7 @@ export const createSlots = async (payload, eventId, roundId) => {
 }
 
 export const submitScore = async (payload, eventId, roundId) => {
-  let response = await request(`${constants.server}/events/${eventId}/rounds/${roundId}/scores`, "POST", payload);
+  let response = await request(`/events/${eventId}/rounds/${roundId}/scores`, "POST", payload);
 
   if (response.status && response.status === 200) {
     send({

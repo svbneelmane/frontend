@@ -1,9 +1,8 @@
 import request from "../utils/request";
-import constants from '../utils/constants';
 import { send } from '../actions/commonActions';
 
 export const getAll = async () => {
-  let response = await request(constants.server + "/judges");
+  let response = await request("/judges");
 
   if (response && response.status === 200 && response.data) {
     send({
@@ -16,7 +15,7 @@ export const getAll = async () => {
 }
 
 export const get = async () => {
-  let response = await request(`${constants.server}/judges`);
+  let response = await request(`/judges`);
 
   if (response.status && response.status === 200) {
     send({
@@ -29,7 +28,7 @@ export const get = async () => {
 }
 
 export const create = async (payload) => {
-  let response = await request(`${constants.server}/judges`, "POST", payload);
+  let response = await request(`/judges`, "POST", payload);
 
   if (response.status && response.status === 200) {
     send({

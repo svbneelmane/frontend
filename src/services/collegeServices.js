@@ -1,10 +1,9 @@
 import request from "../utils/request";
-import constants from '../utils/constants';
 import { send } from '../actions/commonActions';
 import {getUser} from './userServices';
 
 export const getAll = async () => {
-  let response = await request(constants.server + "/colleges");
+  let response = await request("/colleges");
 
   if (response && response.status === 200 && response.data) {
     send({
@@ -17,7 +16,7 @@ export const getAll = async () => {
 };
 
 export const get = async () => {
-  let response = await request(`${constants.server}/colleges`);
+  let response = await request(`/colleges`);
 
   if (response.status && response.status === 200) {
     send({
@@ -30,7 +29,7 @@ export const get = async () => {
 }
 
 export const getParticipants = async (eventId) => {
-  let response = await request(`${constants.server}/colleges/${eventId}/particpants`);
+  let response = await request(`/colleges/${eventId}/particpants`);
 
   if (response.status && response.status === 200) {
     send({
@@ -43,7 +42,7 @@ export const getParticipants = async (eventId) => {
 }
 
 export const getTeams = async () => {
-  let response = await request(`${constants.server}/colleges/${getUser().college}/teams`);
+  let response = await request(`/colleges/${getUser().college}/teams`);
 
   if (response.status && response.status === 200) {
     send({
@@ -56,7 +55,7 @@ export const getTeams = async () => {
 }
 
 export const getTeamsForCollege = async (collegeId) => {
-  let response = await request(`${constants.server}/colleges/${collegeId}/teams`);
+  let response = await request(`/colleges/${collegeId}/teams`);
 
   if (response.status && response.status === 200) {
     send({
@@ -69,7 +68,7 @@ export const getTeamsForCollege = async (collegeId) => {
 }
 
 export const create = async (payload) => {
-  let response = await request(`${constants.server}/colleges`, "POST", payload);
+  let response = await request(`/colleges`, "POST", payload);
 
   return response;
 }

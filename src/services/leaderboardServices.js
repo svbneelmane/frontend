@@ -1,9 +1,8 @@
 import request from "../utils/request";
-import constants from '../utils/constants';
 import { send } from '../actions/commonActions';
 
 export const getEventLeaderboard = async (eventId) => {
-  let response = await request(`${constants.server}/events/${eventId}/leaderboard`);
+  let response = await request(`/events/${eventId}/leaderboard`);
 
   if (response.status && response.status === 200) {
     send({
@@ -16,7 +15,7 @@ export const getEventLeaderboard = async (eventId) => {
 }
 
 export const getRoundLeaderboard = async (eventId, roundId) => {
-  let response = await request(`${constants.server}/events/${eventId}/rounds/${roundId}/leaderboard`);
+  let response = await request(`/events/${eventId}/rounds/${roundId}/leaderboard`);
 
   if (response.status && response.status === 200) {
     send({
@@ -29,7 +28,7 @@ export const getRoundLeaderboard = async (eventId, roundId) => {
 }
 
 export const getLeaderboard = async () => {
-  let response = await request(`${constants.server}/leaderboard`);
+  let response = await request(`/leaderboard`);
 
   if (response.status && response.status === 200) {
     send({
