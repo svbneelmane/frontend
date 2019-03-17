@@ -48,7 +48,7 @@ const EventCard = ({ event }) => (
         overflowY: "auto",
         whiteSpace: "pre-wrap"
       }}>
-        { event.description.replace(/[>]/g,'- ') }
+        { event.description && event.description.replace(/[>]/g,'- ') }
       </div>
     </div>
     <div css={{
