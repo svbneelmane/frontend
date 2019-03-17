@@ -61,7 +61,7 @@ export const getTeams2 = async (eventId) => {
     let response = await request(`${constants.server}/events/${eventId}/teams`);
 
     if (response.status && response.status === 200) return response.data;
-    toast(json.message);
+    toast(response.message);
   }
   catch (err) {
     toast(err.message);
