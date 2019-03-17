@@ -71,6 +71,8 @@ export default class Events extends React.Component {
         <h2>{ this.state.event.name } Registration</h2>
         <p>Register teams for the { this.state.event.name } event in Utsav</p>
         <p>You can register at most { this.state.event.maxTeamsPerCollege } teams for this event.</p>
+        <p>Minimum participants: {this.state.event.minMembersPerTeam} </p>
+        <p>Maximum participants: {this.state.event.maxMembersPerTeam} </p>
       </div>
       <div css={{
         display: "flex",
