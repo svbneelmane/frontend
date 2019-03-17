@@ -1,17 +1,9 @@
+import request from "../utils/request";
 import constants from '../utils/constants';
 import { send } from '../actions/commonActions';
 
 export const getAll = async () => {
-  const requestOptions = {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      Accept: "application/json"
-    },
-  };
-
-  let response = await fetch(constants.server + "/judges", requestOptions);
-  response = await response.json();
+  let response = await request(constants.server + "/judges");
 
   if (response && response.status === 200 && response.data) {
     send({
@@ -24,16 +16,11 @@ export const getAll = async () => {
 }
 
 export const get = async () => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/judges`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`${constants.server}/judges`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'judges'
     });
   } else {
@@ -42,17 +29,11 @@ export const get = async () => {
 }
 
 export const create = async (payload) => {
-  const requestOptions = {
-    method: 'POST',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/judges`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`${constants.server}/judges`, "POST", payload);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'judges'
     });
   } else {
