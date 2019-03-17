@@ -86,6 +86,7 @@ export default class Events extends React.Component {
     this.state = {
       events: [],
       teams: [],
+      loading: true,
     };
   }
 
@@ -114,7 +115,7 @@ export default class Events extends React.Component {
           return new Date(a.startDate) - new Date(b.startDate);
         });
         
-        this.setState({ events });
+        this.setState({ events, loading: false });
       });
     });
 
@@ -131,9 +132,9 @@ export default class Events extends React.Component {
         flexWrap: "wrap",
       }}>
         {
-          this.state.events.length
-          ? this.state.events.map((event, i) => <EventCard key={i} event={event} />)
-          : <Loader />
+          this.state.loading
+          ? <Loader />
+          : this.state.events.map((event, i) => <EventCard key={i} event={event} />)
         }
       </div>
     </div>

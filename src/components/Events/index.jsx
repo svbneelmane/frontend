@@ -3,6 +3,7 @@ import { Link } from "gatsby";
 
 import { get } from "../../services/eventService";
 import reducer from "../../reducers/commonReducer";
+import Loader from "../../commons/Loader";
 
 const styles = {
   eventCard: {
@@ -52,6 +53,7 @@ export default class Events extends React.Component {
 
     this.state = {
       events: [],
+      loading: true,
     };
   }
 
@@ -75,7 +77,7 @@ export default class Events extends React.Component {
           return new Date(a.startDate) - new Date(b.startDate);
         });
 
-        this.setState({ events });
+        this.setState({ events, loading: false });
       });
     });
 
@@ -98,7 +100,11 @@ export default class Events extends React.Component {
         display: "flex",
         flexWrap: "wrap",
       }}>
-        { this.state.events.map((event, i) => <EventCard key={i} event={event} />) }
+        {
+          this.state.loading
+          ? <Loader />
+          : this.state.events.map((event, i) => <EventCard key={i} event={event} />)
+        }
       </div>
     </div>
   );
