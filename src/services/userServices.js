@@ -1,3 +1,4 @@
+import request from "../utils/request";
 import constants from "../utils/constants";
 import { send } from "../actions/commonActions";
 
@@ -19,18 +20,10 @@ export const isLoggedIn = () => {
   return false;
 };
 
-const authorize = async ({ email, password }) => {
-  let response = await fetch(constants.server + "/users/login", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type":"application/json",
-      "Accept":"application/json"
-    },
-    body: JSON.stringify({ email, password }),
-   });
+const authorize = async (partialUser) => {
+  let response = await request(constants.server + "/users/login", "POST", partialUser);
 
-   return await response.json();
+  return response;
 };
 
 export const login = async (partialUser) => {
@@ -46,16 +39,7 @@ export const logout = callback => {
 };
 
 export const getAll = async () => {
-  const requestOptions = {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      Accept: "application/json",
-    },
-  };
-
-  let response = await fetch(constants.server + "/users", requestOptions);
-  response = await response.json();
+  let response = await request(constants.server + "/users");
 
   if (response && response.status === 200 && response.data) {
     send({
@@ -68,16 +52,11 @@ export const getAll = async () => {
 };
 
 export const get = async (id) => {
-  const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: "include",
-  };
-  let response = await fetch(`${constants.server}/users/${id}`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`${constants.server}/users/${id}`);
+
+  if(response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'users',
     });
   } else {
@@ -86,42 +65,21 @@ export const get = async (id) => {
  }
 
 export const create = async (payload) => {
-  console.log('PAYLOAD',payload)
-  const requestOptions = {
-    method: 'POST',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/users`, requestOptions);
-  let json = await response.json();
-  return json;
+  let response = await request(`${constants.server}/users`, "POST", payload);
+  return response;
 }
 
 export const updateUser = async (user,payload) => {
-  const requestOptions = {
-    method: 'POST',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/users/${user}`, requestOptions);
-  let json = await response.json();
-  return json;
+  let response = await request(`${constants.server}/users/${user}`, "POST", payload);
+  return response;
 }
 
 export const update = async (payload) => {
-  const requestOptions = {
-    method: 'PATCH',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/users/`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`${constants.server}/users/`, "PATCH", payload);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'users',
     });
   } else {
