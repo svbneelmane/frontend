@@ -10,6 +10,7 @@ export const getUser = () =>
 
 export const setUser = user => {
   isBrowser() && window.localStorage.setItem("me", JSON.stringify(user));
+  isBrowser() && window.sessionStorage.setItem("me", JSON.stringify(user));
   return user;
 };
 
