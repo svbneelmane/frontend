@@ -92,7 +92,6 @@ export default class Events extends React.Component {
     <div>
       <div>
         <h2>Events</h2>
-        <p>Events in Utsav.</p>
         <Link to="/events/add"><button>Add Event</button></Link>
       </div>
       <div css={{

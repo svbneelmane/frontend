@@ -108,7 +108,6 @@ export default class Judges extends React.Component {
   render = () => (
     <div>
       <h2>Judges</h2>
-      <p>Judges in in Utsav events.</p>
       <div>
       {
         this.state.loading
