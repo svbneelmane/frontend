@@ -1,18 +1,10 @@
+import request from "../utils/request";
 import constants from '../utils/constants';
 import { send } from '../actions/commonActions';
 import {getUser} from './userServices';
 
 export const getAll = async () => {
-  const requestOptions = {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      Accept: "application/json",
-    },
-  };
-
-  let response = await fetch(constants.server + "/colleges", requestOptions);
-  response = await response.json();
+  let response = await request(constants.server + "/colleges");
 
   if (response && response.status === 200 && response.data) {
     send({
@@ -25,16 +17,11 @@ export const getAll = async () => {
 };
 
 export const get = async () => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/colleges`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`${constants.server}/colleges`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'colleges',
     });
   } else {
@@ -43,45 +30,24 @@ export const get = async () => {
 }
 
 export const getParticipants = async (eventId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/colleges/${eventId}/particpants`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`${constants.server}/colleges/${eventId}/particpants`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'colleges'
     });
   } else {
     return null;
   }
 }
-/*
-export const getTeams = async (eventId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/colleges/${eventId}/teams`, requestOptions);
-  let json = await response.json();
-  return json;
-}
-*/
+
 export const getTeams = async () => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/colleges/${getUser().college}/teams`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`${constants.server}/colleges/${getUser().college}/teams`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'colleges'
     });
   } else {
@@ -90,16 +56,11 @@ export const getTeams = async () => {
 }
 
 export const getTeamsForCollege = async (collegeId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/colleges/${collegeId}/teams`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`${constants.server}/colleges/${collegeId}/teams`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'colleges'
     });
   } else {
@@ -108,14 +69,7 @@ export const getTeamsForCollege = async (collegeId) => {
 }
 
 export const create = async (payload) => {
-  const requestOptions = {
-    method: 'POST',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/colleges`, requestOptions);
-  let json = await response.json();
-  
-  return json;
+  let response = await request(`${constants.server}/colleges`, "POST", payload);
+
+  return response;
 }
