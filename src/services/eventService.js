@@ -1,157 +1,104 @@
-import constants from '../utils/constants';
+import request from "../utils/request"
 import { send } from '../actions/commonActions';
 import { toast } from '../actions/toastActions';
 
 export const get = async () => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/events`, requestOptions);
-  let json = await response.json();
+  let response = await request(`/events`);
 
-  if(json.status&&json.status===200) {
-
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'events'
     });
-    return json;
+    return response;
   } else {
     return null;
   }
 }
 
 export const getRounds = async (eventId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/events/${eventId}/rounds`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/events/${eventId}/rounds`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'events'
     });
   } else {
     return null;
   }
-} 
+}
 
 export const getSlots = async (eventId, roundId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/events/${eventId}/rounds/${roundId}/slots`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/events/${eventId}/rounds/${roundId}/slots`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'events'
     });
   } else {
     return null;
   }
-} 
+}
 
 export const getTeams = async (eventId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/events/${eventId}/teams`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/events/${eventId}/teams`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'events'
     });
   } else {
     return null;
   }
-} 
+}
 
 export const getTeams2 = async (eventId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
   try{
-    let response = await fetch(`${constants.server}/events/${eventId}/teams`, requestOptions);
-    let json = await response.json();
-    if(json.status&&json.status===200) {
-      return json.data;
-    }
-    else
-      toast(json.message);
+    let response = await request(`/events/${eventId}/teams`);
+
+    if (response.status && response.status === 200) return response.data;
+    toast(response.message);
   }
-  catch(err){
-    toast(err.message)
+  catch (err) {
+    toast(err.message);
   }
-} 
+}
 
 export const getRoundTeams = async (eventId, roundId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/events/${eventId}/rounds/${roundId}/teams`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/events/${eventId}/rounds/${roundId}/teams`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'events'
     });
   } else {
     return null;
   }
-} 
+}
 
 export const create = async (payload) => {
-  const requestOptions = {
-    method: 'POST',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/events`, requestOptions);
-  let json = await response.json();
-  return json;
+  let response = await request(`/events`, "POST", payload);
+
+  return response;
 }
 
 export const edit = async (event,payload) => {
-  const requestOptions = {
-    method: 'POST',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/events/${event}/edit`, requestOptions);
-  let json = await response.json();
-  return json;
+  let response = await request(`/events/${event}/edit`, "POST", payload);
+
+  return response;
 }
 
 
 export const createRound = async (payload, eventId) => {
-  const requestOptions = {
-    method: 'POST',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/events/${eventId}/rounds`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/events/${eventId}/rounds`, "POST", payload);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'events'
     });
   } else {
@@ -160,17 +107,11 @@ export const createRound = async (payload, eventId) => {
 }
 
 export const createTeam = async (payload, eventId) => {
-  const requestOptions = {
-    method: 'POST',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/events/${eventId}/teams`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/events/${eventId}/teams`, "POST", payload);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'events'
     });
   } else {
@@ -179,17 +120,11 @@ export const createTeam = async (payload, eventId) => {
 }
 
 export const createSlots = async (payload, eventId, roundId) => {
-  const requestOptions = {
-    method: 'POST',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/events/${eventId}/rounds/${roundId}/slots`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/events/${eventId}/rounds/${roundId}/slots`, "POST", payload);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'events'
     });
   } else {
@@ -198,17 +133,11 @@ export const createSlots = async (payload, eventId, roundId) => {
 }
 
 export const submitScore = async (payload, eventId, roundId) => {
-  const requestOptions = {
-    method: 'POST',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/events/${eventId}/rounds/${roundId}/scores`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/events/${eventId}/rounds/${roundId}/scores`, "POST", payload);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'events'
     });
   } else {
