@@ -36,9 +36,15 @@ const EventCard = ({ event }) => (
       <div css={{
         fontSize: "0.8em",
         color: "rgba(0, 0, 0, .7)",
-        marginBottom: 10,
       }}>
         Organized by { event.college.name }
+      </div>
+      <div css={{
+        fontSize: "0.7em",
+        color: "rgba(0, 0, 0, .7)",
+        marginBottom: 10,
+      }}>
+        {new Date(event.startDate).toLocaleString()}
       </div>
       <div css={{
         color: "rgba(0, 0, 0, .5)",
@@ -64,7 +70,10 @@ const EventCard = ({ event }) => (
         <span>{event.unregistered ? "Unregistered" : ""}</span>
       </div>
       <div>
-        <Button>Register</Button>
+        { event.registeredCount !== event.maxTeamsPerCollege 
+          ? <Button>Register</Button>
+          : <span css={{fontSize: "0.9em"}}>Slots full for college</span>
+        }
       </div>
     </div>
   </Link>
@@ -97,9 +106,14 @@ export default class Events extends React.Component {
           rounds: event.rounds,
           startDate: event.startDate,
           endDate: event.endDate,
+          maxTeamsPerCollege: event.maxTeamsPerCollege,
           unregistered: !teams.some(team => team.event._id === event.id),
+          registeredCount: teams.filter(team => team.event._id === event.id).length,
         }));
-
+        events.sort((a,b) => {
+          return new Date(a.startDate) - new Date(b.startDate);
+        });
+        
         this.setState({ events });
       });
     });
