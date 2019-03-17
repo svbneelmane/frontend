@@ -60,7 +60,7 @@ const CriteriaCard = (props) => (
       padding: "16px",
     }}
     >
-      <Input type="number" 
+      <Input 
       value={props.value}
       name = {props.name}
       onChange={props.onChange}
