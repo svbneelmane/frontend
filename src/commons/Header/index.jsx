@@ -16,15 +16,11 @@ const HeaderLogo = () => (
       transform: "translateX(-50%)",
       alignItems: "center",
     }}>
-      <div>
-        <img
-          src = { Logo }
-          alt="Logo"
-          height = "64"
-          css = {{
-            padding: 15,
-          }}
-        />
+      <div css={{
+        fontFamily: "TCFColar",
+        fontSize: "2em",
+      }}>
+        MUCAPP
       </div>
     </div>
   </Link>
