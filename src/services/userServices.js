@@ -4,12 +4,11 @@ import { send } from "../actions/commonActions";
 export const isBrowser = () => typeof window !== "undefined";
 
 export const getUser = () =>
-  isBrowser() && window.localStorage.getItem("me")
-    ? JSON.parse(window.localStorage.getItem("me"))
+  isBrowser() && window.sessionStorage.getItem("me")
+    ? JSON.parse(window.sessionStorage.getItem("me"))
     : {};
 
 export const setUser = user => {
-  isBrowser() && window.localStorage.setItem("me", JSON.stringify(user));
   isBrowser() && window.sessionStorage.setItem("me", JSON.stringify(user));
   return user;
 };
