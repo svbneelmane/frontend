@@ -19,6 +19,7 @@ export default class EditEvent extends React.Component {
     buttonText: this.UPDATE,
     event: {},
     colleges: [],
+    timezoneOffset: new Date().getTimezoneOffset() * 60 * 1000,
   };
 
   handleChange = (e) => {
@@ -49,8 +50,8 @@ export default class EditEvent extends React.Component {
         venue: this.state.event.venue,
         description: this.state.event.description,
         duration: this.state.event.duration,
-        startDate: new Date(this.state.event.startDate).toISOString(),
-        endDate: new Date(this.state.event.endDate).toISOString(),
+        startDate: new Date(new Date(this.state.event.startDate).getTime() + this.state.timezoneOffset).toISOString(),
+        endDate: new Date(new Date(this.state.event.endDate).getTime() + this.state.timezoneOffset).toISOString(),
         faculty: this.state.event.faculty,
       });
 
@@ -74,8 +75,8 @@ export default class EditEvent extends React.Component {
           venue: event.venue,
           description: event.description,
           duration: event.duration,
-          startDate: event.startDate,
-          endDate: event.endDate,
+          startDate: new Date(new Date(event.startDate).getTime() - this.state.timezoneOffset).toISOString(),
+          endDate: new Date(new Date(event.endDate).getTime() - this.state.timezoneOffset).toISOString(),
           faculty: event.faculty,
         },
       });
