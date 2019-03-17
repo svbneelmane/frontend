@@ -71,6 +71,10 @@ export default class Events extends React.Component {
           endDate: event.endDate,
         }));
 
+        events.sort((a,b) => {
+          return new Date(a.startDate) - new Date(b.startDate);
+        });
+
         this.setState({ events });
       });
     });
