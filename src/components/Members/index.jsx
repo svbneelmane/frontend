@@ -40,7 +40,7 @@ const MemberCard = ({ member }) => (
 );
 
 
-export default class Events extends React.Component {
+export default class Members extends React.Component {
   constructor(props) {
     super(props);
 

@@ -3,6 +3,7 @@ import { Link } from "gatsby";
 
 import reducer from "../../reducers/commonReducer";
 import { getAll } from "../../services/collegeServices";
+import Loader from "../../commons/Loader";
 
 const styles = {
   collegeCard: {
@@ -64,6 +65,7 @@ const CollegeList = (props) => (
 export default class Colleges extends React.Component {
   state = {
     colleges: [],
+    loading: true,
   };
 
   componentWillMount() {
@@ -71,7 +73,7 @@ export default class Colleges extends React.Component {
 
     this.unsubscribe=reducer.subscribe(() => {
       reducer.getState().then(state => {
-        this.setState({ colleges: state.data.list });
+        this.setState({ colleges: state.data.list, loading: false });
       });
     });
   }
@@ -84,7 +86,11 @@ export default class Colleges extends React.Component {
       <h2>Colleges</h2>
       <p>Colleges participating in Utsav.</p>
       <div>
-        <CollegeList colleges={ this.state.colleges } />
+        {
+          this.state.loading
+          ? <Loader/>
+          : <CollegeList colleges={ this.state.colleges } />
+        }
       </div>
     </div>
   );

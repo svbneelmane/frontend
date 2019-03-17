@@ -82,7 +82,7 @@ export default class Events extends React.Component {
         }
         </div>
         <div>
-          <Button styles={{marginTop: "10px"}} onClick={() => { navigate("/register")} }>Back</Button>
+          <Button styles={{marginTop: "10px"}} onClick={() => { navigate("/register/"+this.props.event)} }>Back</Button>
         </div>
     </div>
   );

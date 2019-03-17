@@ -4,6 +4,7 @@ import { Link } from "gatsby";
 import reducer from "../../reducers/commonReducer";
 import { getAll } from "../../services/userServices";
 import constants from "../../utils/constants";
+import Loader from "../../commons/Loader";
 
 const styles = {
   userCard: {
@@ -71,6 +72,7 @@ const UsersList = (props) => (
 export default class Users extends React.Component {
   state = {
     users: [],
+    loading: true,
   };
 
   componentWillMount() {
@@ -78,7 +80,7 @@ export default class Users extends React.Component {
 
     this.unsubscribe=reducer.subscribe(() => {
       reducer.getState().then(state => {
-        this.setState({ users: state.data.list });
+        this.setState({ users: state.data.list, loading: false });
       });
     });
   }
@@ -91,7 +93,11 @@ export default class Users extends React.Component {
       <h2>Users</h2>
       <p>Users of MUCAPP.</p>
       <div>
-        <UsersList users={ this.state.users } />
+        {
+          this.state.loading
+          ? <Loader/> 
+          : <UsersList users={ this.state.users } />
+        }
       </div>
     </div>
   );
