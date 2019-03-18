@@ -10,7 +10,7 @@ import { getAll } from "../../services/collegeServices";
 import { toast } from "../../actions/toastActions";
 import usersService from '../../services/users';
 
-export default class AddUser extends React.Component {
+export default class EditUser extends React.Component {
 
   types = (function() {
     let options = [];
@@ -29,7 +29,7 @@ export default class AddUser extends React.Component {
   ADD_USER="Update";
   ADDING_USER="Updating...";
   state = {
-
+    colleges: [],
     buttonText:this.ADD_USER
   };
 
