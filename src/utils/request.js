@@ -12,7 +12,7 @@ const getToken = () => {
   return null;
 };
 
-const request = (path, method = "GET", body = null) => {
+const request = (path, method = "GET", body = {}) => {
   return new Promise(async (resolve, reject) => {
     try {
       let url = path ? constants.server + path : constants.server;

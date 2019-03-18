@@ -51,6 +51,17 @@ const createTeam = async (eventID, team) => {
   }
 };
 
+const deleteTeam = async (eventID, teamID) => {
+  let response = await request("/events/" + eventID + "/teams/" + teamID, "DELETE");
+
+  if (response && response.status === 200) {
+    // return response.data;
+    return true;
+  } else {
+    return null;
+  }
+};
+
 const get = async (eventID) => {
   let response = await request("/events/" + eventID);
 
@@ -128,6 +139,7 @@ export default {
   createScores,
   createSlots,
   createTeam,
+  deleteTeam,
   get,
   getAll,
   getRound,
