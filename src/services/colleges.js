@@ -51,7 +51,13 @@ const getCollege = async(college)=>{
 }
 
 const getTeams = async (collegeID) => {
-  let response = await request("/colleges/" + collegeID + "/teams");
+  let response;
+
+  if (collegeID) {
+    response = await request("/colleges/" + collegeID + "/teams");
+  } else {
+    response = await request("/colleges/teams");
+  }
 
   if (response && response.status === 200) {
     return response.data;
@@ -62,7 +68,13 @@ const getTeams = async (collegeID) => {
 
 
 const getParticipants = async (collegeID) => {
-  let response = await request("/colleges/" + collegeID + "/participants");
+  let response;
+
+  if (collegeID) {
+    response = await request("/colleges/" + collegeID + "/participants");
+  } else {
+    response = await request("/colleges/participants");
+  }
 
   if (response && response.status === 200) {
     return response.data;
