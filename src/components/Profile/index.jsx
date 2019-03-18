@@ -69,7 +69,7 @@ export default class Profile extends React.Component {
     let user = getUser();
 
     this.setState({ user }, () =>
-      this.state.user.college && collegeService.get(this.state.user.college).then(college =>
+      this.state.user.college && collegeService.get(this.state.user.college).then(college =>college&&
         this.setState({ user: {
           ...this.state.user,
           college: college.name + ", " + college.location

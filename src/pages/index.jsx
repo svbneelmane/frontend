@@ -28,6 +28,7 @@ import RegisterEvent from "../components/Registration/Event";
 import RegisterTeam from "../components/Registration/Team";
 import NotFound from "../components/404";
 import Rounds from "../components/Rounds";
+import Slots from "../components/Slots";
 import Judge from "../components/Judges/StartJudging";
 
 
@@ -61,6 +62,7 @@ export default () =>
         <PrivateRoute path="/events/:event/teams" component={ EventTeams } type={ 1 } />
         <PrivateRoute path="/events/:event/teams/:college/:team" component={ EventParticipants } type={ 1 } />
         <PrivateRoute path="/events/:event/rounds" exact component={ Rounds } type={ 2 } />
+        <PrivateRoute path="/events/:event/rounds/:round/slot" exact component={ Slots } type={ 1 } />
 
         <PrivateRoute path="/colleges" component={ Colleges } type={ 1 } />
         <PrivateRoute path="/colleges/add" component={ AddCollege } type={ 1 } />
