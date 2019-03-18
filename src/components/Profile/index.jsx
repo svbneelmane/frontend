@@ -72,7 +72,7 @@ export default class Profile extends React.Component {
       this.state.user.college && collegeService.get(this.state.user.college).then(college =>college&&
         this.setState({ user: {
           ...this.state.user,
-          college: college.name + ", " + college.location
+          collegeName: college.name + ", " + college.location
         } })
       )
     );
@@ -91,7 +91,7 @@ export default class Profile extends React.Component {
           <h1>{ this.state.user.name || "..." }</h1>
           <p css={{ color: "rgba(0, 0, 0, .7)" }}>{ this.state.user.email || "..." }</p>
           <p css={{ color: "truergba(0, 0, 0, .5)" }}>{ this.state.user.type ? constants.getUserType(this.state.user.type) : "..." }</p>
-          <p css={{ color: "rgba(0, 0, 0, .7)" }}>{ this.state.user.college }</p>
+          <p css={{ color: "rgba(0, 0, 0, .7)" }}>{ this.state.user.collegeName }</p>
         </div>
         <div>
           <button css={{ margin: 5, }} onClick={ () => this.handleLogout() }>{ this.state.logoutClicks ? "Sure?" : "Logout" }</button>
