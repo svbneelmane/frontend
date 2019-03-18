@@ -215,6 +215,7 @@ export default class EditEvent extends React.Component {
               { label: "MMMC, Manipal", value: "MMMC, Manipal" },
               { label: "KMC Greens, Main Stage", value: "KMC Greens, Main Stage" },
               { label: "KMC Greens, STEPS", value: "KMC Greens, STEPS" },
+              { label: "WGSHA Kitchen",value: "WGSHA, Kitchen" }
             ]}
             onChange={ (e) => this.setState({ event: { ...this.state.event, venue: e.value } }) }
             styles={{
