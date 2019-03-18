@@ -12,6 +12,16 @@ const create = async (user) => {
   }
 };
 
+const remove = async (id) => {
+  let response = await request("/users/" + id, "DELETE");
+
+  if (response && response.status === 200) {
+    return response.data;
+  } else {
+    return null;
+  }
+};
+
 const get = async (id) => {
   let response = await request("/users/" + id);
 
@@ -35,7 +45,7 @@ const get2 = async (id) => {
   catch(err){
     toast(err.message);
   }
-  
+
 };
 
 const getAll = async () => {
@@ -62,6 +72,7 @@ const update = async (user) => {
 
 export default {
   create,
+  remove,
   get,
   get2,
   getAll,
