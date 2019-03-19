@@ -109,6 +109,7 @@ export default class Judge extends Component {
     let slot = e.target.id.substring(1);
     this.setState({
       selectedSlot: slot,
+      idx: slot - 1
     })
   }
 
