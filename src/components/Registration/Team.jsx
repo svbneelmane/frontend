@@ -64,6 +64,10 @@ export default class Events extends React.Component {
         pass=false;
         return toast("Register number misssing");
       }
+      if(participant.registrationID.match(/\s/)){
+        pass=false;
+        return toast(participant.registrationID+" cannot contain spaces.");
+      }
       if(!participant.registrationID.match(/^(?:(?:MAHE[\d]{7})|(?:[\d]{9}))$/i)){
         pass=false;
         return toast(participant.registrationID+" is invalid register number");
