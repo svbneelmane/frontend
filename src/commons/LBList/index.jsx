@@ -34,8 +34,14 @@ const LBList = (props) => (
       fontSize: "0.9em",
       color: "rgba(0, 0, 0, .5)",
     }}>
-      <div>{ props.points }</div>
-      <div>Points</div>
+      {
+        props.points === undefined
+        ? null
+        : <>
+            <div>{ props.points }</div>
+            <div>Points</div>
+          </>
+      }
     </div>
   </div>
 );
