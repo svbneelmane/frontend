@@ -8,17 +8,33 @@ const create = async (college) => {
   if (response && response.status === 200) {
     return response.data;
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 };
 
 
- const getAll=async()=>{
+const get = async (collegeID) => {
+  let response = await request("/colleges/" + collegeID);
+
+  if (response && response.status === 200) {
+    return response.data;
+  } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
+    return null;
+  }
+};
+
+const getAll = async () => {
   let response = await request("/colleges");
 
   if (response && response.status === 200) {
     return response.data;
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return [];
   }
 };
@@ -37,31 +53,48 @@ const getCollege = async(college)=>{
   catch(err){
     toast(err.message);
   }
-  
+
 }
 
 const getTeams = async (collegeID) => {
-  let response = await request("/colleges/" + collegeID + "/teams");
+  let response;
+
+  if (collegeID) {
+    response = await request("/colleges/" + collegeID + "/teams");
+  } else {
+    response = await request("/colleges/teams");
+  }
 
   if (response && response.status === 200) {
     return response.data;
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return [];
   }
 };
 
 
 const getParticipants = async (collegeID) => {
-  let response = await request("/colleges/" + collegeID + "/participants");
+  let response;
+
+  if (collegeID) {
+    response = await request("/colleges/" + collegeID + "/participants");
+  } else {
+    response = await request("/colleges/participants");
+  }
 
   if (response && response.status === 200) {
     return response.data;
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return [];
   }
 };
 export default {
   create,
+  get,
   getAll,
   getTeams,
   getParticipants,

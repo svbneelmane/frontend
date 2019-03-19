@@ -1,15 +1,16 @@
-import constants from "../utils/constants";
+import request from "../utils/request";
 import { send } from "../actions/commonActions";
+import { toast } from "../actions/toastActions";
 
 export const isBrowser = () => typeof window !== "undefined";
 
 export const getUser = () =>
-  isBrowser() && window.localStorage.getItem("me")
-    ? JSON.parse(window.localStorage.getItem("me"))
+  isBrowser() && window.sessionStorage.getItem("me")
+    ? JSON.parse(window.sessionStorage.getItem("me"))
     : {};
 
 export const setUser = user => {
-  isBrowser() && window.localStorage.setItem("me", JSON.stringify(user));
+  isBrowser() && window.sessionStorage.setItem("me", JSON.stringify(user));
   return user;
 };
 
@@ -19,18 +20,10 @@ export const isLoggedIn = () => {
   return false;
 };
 
-const authorize = async ({ email, password }) => {
-  let response = await fetch(constants.server + "/users/login", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type":"application/json",
-      "Accept":"application/json"
-    },
-    body: JSON.stringify({ email, password }),
-   });
+const authorize = async (partialUser) => {
+  let response = await request("/users/login", "POST", partialUser);
 
-   return await response.json();
+  return response;
 };
 
 export const login = async (partialUser) => {
@@ -46,16 +39,7 @@ export const logout = callback => {
 };
 
 export const getAll = async () => {
-  const requestOptions = {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      Accept: "application/json",
-    },
-  };
-
-  let response = await fetch(constants.server + "/users", requestOptions);
-  response = await response.json();
+  let response = await request("/users");
 
   if (response && response.status === 200 && response.data) {
     send({
@@ -63,68 +47,48 @@ export const getAll = async () => {
       src: 'users',
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     send([]);
   }
 };
 
 export const get = async (id) => {
-  const requestOptions = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: "include",
-  };
-  let response = await fetch(`${constants.server}/users/${id}`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/users/${id}`);
+
+  if(response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'users',
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
  }
 
 export const create = async (payload) => {
-  console.log('PAYLOAD',payload)
-  const requestOptions = {
-    method: 'POST',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/users`, requestOptions);
-  let json = await response.json();
-  return json;
+  let response = await request(`/users`, "POST", payload);
+  return response;
 }
 
 export const updateUser = async (user,payload) => {
-  const requestOptions = {
-    method: 'POST',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/users/${user}`, requestOptions);
-  let json = await response.json();
-  return json;
+  let response = await request(`/users/${user}`, "POST", payload);
+  return response;
 }
 
 export const update = async (payload) => {
-  const requestOptions = {
-    method: 'PATCH',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/users/`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/users/`, "PATCH", payload);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'users',
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }

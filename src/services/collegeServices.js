@@ -1,18 +1,10 @@
-import constants from '../utils/constants';
+import request from "../utils/request";
 import { send } from '../actions/commonActions';
 import {getUser} from './userServices';
+import { toast } from "../actions/toastActions";
 
 export const getAll = async () => {
-  const requestOptions = {
-    method: "GET",
-    credentials: "include",
-    headers: {
-      Accept: "application/json",
-    },
-  };
-
-  let response = await fetch(constants.server + "/colleges", requestOptions);
-  response = await response.json();
+  let response = await request("/colleges");
 
   if (response && response.status === 200 && response.data) {
     send({
@@ -20,102 +12,74 @@ export const getAll = async () => {
       src: 'colleges',
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     send([]);
   }
 };
 
 export const get = async () => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/colleges`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/colleges`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'colleges',
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
 
 export const getParticipants = async (eventId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/colleges/${eventId}/particpants`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/colleges/${eventId}/particpants`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'colleges'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
-/*
-export const getTeams = async (eventId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/colleges/${eventId}/teams`, requestOptions);
-  let json = await response.json();
-  return json;
-}
-*/
+
 export const getTeams = async () => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/colleges/${getUser().college}/teams`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/colleges/${getUser().college}/teams`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'colleges'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
 
 export const getTeamsForCollege = async (collegeId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/colleges/${collegeId}/teams`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/colleges/${collegeId}/teams`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'colleges'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
 
 export const create = async (payload) => {
-  const requestOptions = {
-    method: 'POST',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  };
-  let response = await fetch(`${constants.server}/colleges`, requestOptions);
-  let json = await response.json();
-  
-  return json;
+  let response = await request(`/colleges`, "POST", payload);
+
+  return response;
 }

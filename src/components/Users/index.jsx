@@ -1,9 +1,12 @@
 import React from "react";
-import { Link } from "gatsby";
+import { navigate, Link } from "gatsby";
+import { FiX } from "react-icons/fi";
 
 import reducer from "../../reducers/commonReducer";
-import { getAll } from "../../services/userServices";
+import usersService from "../../services/users";
+import { getUser, getAll } from "../../services/userServices";
 import constants from "../../utils/constants";
+import Loader from "../../commons/Loader";
 
 const styles = {
   userCard: {
@@ -30,17 +33,45 @@ const getUserType = (type) => {
       if (constants.USER_TYPES[userType] === type) return userType.replace(/_/g, " ");
 };
 
-const User = (props) => (
-  <Link to={ "/users/" + props.info.id } css={{
-    ...styles.userCard,
-  }}>
-    <div>{ props.info.name }</div>
-    <div css={{
-      fontSize: ".7em",
-      color: "grey",
-    }}>{ getUserType(props.info.type) }</div>
-  </Link>
-);
+const User = (props) => {
+  let handleDelete = (user) => {
+    let surety = typeof window !== "undefined"
+      && window.confirm("Are you sure you want to delete " + user.name + "?");
+
+    let me = getUser();
+
+    if (me.type === 1 && surety && user.type !== 1) {
+      usersService.remove(user.id).then(() =>
+        navigate("/users")
+      );
+    }
+  }
+
+  return (
+    <Link to={ "/users/" + props.info.id } css={{
+      ...styles.userCard,
+    }}>
+      <div css={{
+        display: "flex",
+        justifyContent: "space-between",
+      }}>
+        <span>{ props.info.name }</span>
+        <span css={{
+          cursor: "pointer",
+          ":hover": {
+            color: "red",
+          },
+        }}>
+          <FiX onClick={ () => handleDelete(props.info) } />
+        </span>
+      </div>
+      <div css={{
+        fontSize: ".7em",
+        color: "grey",
+      }}>{ getUserType(props.info.type) }</div>
+    </Link>
+  )
+};
 
 const UsersList = (props) => (
   <div css={{
@@ -71,6 +102,7 @@ const UsersList = (props) => (
 export default class Users extends React.Component {
   state = {
     users: [],
+    loading: true,
   };
 
   componentWillMount() {
@@ -78,7 +110,7 @@ export default class Users extends React.Component {
 
     this.unsubscribe=reducer.subscribe(() => {
       reducer.getState().then(state => {
-        this.setState({ users: state.data.list });
+        this.setState({ users: state.data.list, loading: false });
       });
     });
   }
@@ -91,7 +123,11 @@ export default class Users extends React.Component {
       <h2>Users</h2>
       <p>Users of MUCAPP.</p>
       <div>
-        <UsersList users={ this.state.users } />
+        {
+          this.state.loading
+          ? <Loader/>
+          : <UsersList users={ this.state.users } />
+        }
       </div>
     </div>
   );

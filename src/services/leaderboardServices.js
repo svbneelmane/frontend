@@ -1,57 +1,47 @@
-import constants from '../utils/constants';
+import request from "../utils/request";
 import { send } from '../actions/commonActions';
 
 export const getEventLeaderboard = async (eventId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/events/${eventId}/leaderboard`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/events/${eventId}/leaderboard`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'leaderboard'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
 
 export const getRoundLeaderboard = async (eventId, roundId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/events/${eventId}/rounds/${roundId}/leaderboard`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+  let response = await request(`/events/${eventId}/rounds/${roundId}/leaderboard`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'leaderboard'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
 
-export const getLeaderboard = async (eventId, roundId) => {
-  const requestOptions = {
-    method: 'GET',
-    credentials: "include",
-    headers: { 'Content-Type': 'application/json' },
-  };
-  let response = await fetch(`${constants.server}/leaderboard`, requestOptions);
-  let json = await response.json();
-  if(json.status&&json.status===200) {
+export const getLeaderboard = async () => {
+  let response = await request(`/leaderboard`);
+
+  if (response.status && response.status === 200) {
     send({
-      list: json.data,
+      list: response.data,
       src: 'leaderboard'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
-

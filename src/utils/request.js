@@ -1,6 +1,18 @@
 import constants from "../utils/constants";
 
-const request = (path, method = "GET", body = null) => {
+const isBrowser = () => typeof window !== "undefined";
+
+const getToken = () => {
+  let me = isBrowser() && window.sessionStorage.getItem("me");
+
+  if (!me) return null;
+  me = JSON.parse(me);
+
+  if ("token" in me) return me.token;
+  return null;
+};
+
+const request = (path, method = "GET", body = {}) => {
   return new Promise(async (resolve, reject) => {
     try {
       let url = path ? constants.server + path : constants.server;
@@ -12,6 +24,9 @@ const request = (path, method = "GET", body = null) => {
         },
         method: method,
       };
+
+      let token = getToken();
+      if (token) options.headers["Authorization"] = token;
 
       if (![ "GET", "HEAD" ].includes(method))
         options.body = typeof body === "object" ? JSON.stringify(body) : body;

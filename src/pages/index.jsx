@@ -28,6 +28,7 @@ import RegisterEvent from "../components/Registration/Event";
 import RegisterTeam from "../components/Registration/Team";
 import NotFound from "../components/404";
 import Rounds from "../components/Rounds";
+import Slots from "../components/Slots";
 import Judge from "../components/Judges/StartJudging";
 
 
@@ -44,35 +45,40 @@ export default () =>
       <Router css = {{
         height: "100%",
       }}>
-        <Login path="/login" />
         <Index path="/" />
+        <Login path="/login" />
+
         <PrivateRoute path="/profile" component={ Profile } />
 
         <PrivateRoute path="/users" component={ Users } type={ 1 } />
         <PrivateRoute path="/users/add" component={ AddUser } type={ 1 } />
         <PrivateRoute path="/users/:user" component={ ViewUser } type={ 1 } />
         <PrivateRoute path="/users/:user/edit" component={ EditUser } type={ 1 } />
+
         <PrivateRoute path="/events" component={ Events } type={ 2 } />
         <PrivateRoute path="/events/add" component={ AddEvent } type={ 1 } />
         <PrivateRoute path="/events/:event" component={ Event } type={ 2 } />
-        <PrivateRoute path="/events/:event/edit" component={ EditEvent } type={ 2 } />
-        <PrivateRoute path="/events/:event/teams" component={ EventTeams } type={ 2 } />
-        <PrivateRoute path="/events/:event/teams/:college/:team" component={ EventParticipants } type={ 2 } />
+        <PrivateRoute path="/events/:event/edit" component={ EditEvent } type={ 1 } />
+        <PrivateRoute path="/events/:event/teams" component={ EventTeams } type={ 1 } />
+        <PrivateRoute path="/events/:event/teams/:college/:team" component={ EventParticipants } type={ 1 } />
+        <PrivateRoute path="/events/:event/rounds" exact component={ Rounds } type={ 2 } />
+        <PrivateRoute path="/events/:event/rounds/:round/slot" exact component={ Slots } type={ 1 } />
+
         <PrivateRoute path="/colleges" component={ Colleges } type={ 1 } />
+        <PrivateRoute path="/colleges/add" component={ AddCollege } type={ 1 } />
         <PrivateRoute path="/colleges/:college/teams" component={ Teams } type={ 1 } />
         <PrivateRoute path="/colleges/:college/teams/:team/members" component={ Members } type={ 1 } />
-        <PrivateRoute path="/colleges/add" component={ AddCollege } type={ 1 } />
+
         <PrivateRoute path="/judges" component={ Judges } type={ 1 } />
         <PrivateRoute path="/judges/add" component={ AddJudge } type={ 1 } />
+        <PrivateRoute path="/judge/:event/rounds/:round" exact component={ Judge } type={ 2 } />
+
         <PrivateRoute path="/leaderboard" component={ Leaderboard } type={ 1 } />
 
         <PrivateRoute path="/register" component={ Register } type={ 4 }  />
         <PrivateRoute path="/register/:event" component={ RegisterEvent } type={ 4 }  />
         <PrivateRoute path="/register/:event/teams" component={ RegisterTeam } type={ 4 }  />
         <PrivateRoute path="/register/:event/teams/:team" component={ Participants } type={ 4 }  />
-
-        <PrivateRoute path="/events/:event/rounds" exact component={ Rounds } type={ 2 } />
-        <PrivateRoute path="/judge/:event/rounds/:round" exact component={ Judge } type={ 2 } />
 
         <NotFound path="/*" component={ NotFound } />
       </Router>

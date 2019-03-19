@@ -1,164 +1,133 @@
 import React from "react";
 import { navigate } from "gatsby";
 import Select from "react-select";
-import eventsService from "../../services/events";
 
-import reducer from "../../reducers/commonReducer";
+import eventsService from "../../services/events";
+import collegesService from "../../services/colleges";
+
 import { edit } from "../../services/eventService";
-import { Input, Button, TextArea } from "../../commons/Form";
-import constants from "../../utils/constants";
-import { getAll } from "../../services/collegeServices";
+import { Button } from "../../commons/Form";
 import { toast } from "../../actions/toastActions";
 // import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import "react-datepicker/dist/react-datepicker.css";
 
 export default class EditEvent extends React.Component {
+  UPDATE = "Update";
+  UPDATING = "Updating...";
 
-  types = (function() {
-    let options = [];
-
-    for (let userType in constants.USER_TYPES) {
-      if (constants.USER_TYPES.hasOwnProperty(userType)) {
-        options.push({
-          label: userType.replace(/_/g, " "),
-          value: constants.USER_TYPES[userType],
-        });
-      }
-    }
-
-    return options;
-  }());
-  ADD="Update";
-  ADDING="Updating...";
   state = {
-    buttonText:this.ADD,
-    minMembersPerTeam:1,
-    maxMembersPerTeam:1,
-    maxTeamsPerCollege:1,
-    colleges:[]
+    buttonText: this.UPDATE,
+    event: {},
+    colleges: [],
+    timezoneOffset: new Date().getTimezoneOffset() * 60 * 1000,
   };
 
   handleChange = (e) => {
-    this.setState({ [e.name]: e.value },()=>{
-      console.log(this.state);
+    this.setState({
+      event: {
+        ...this.state.event,
+        [e.target.name]: e.target.name.endsWith("Date") ? new Date(e.target.value + "Z").toISOString() : e.target.value,
+      },
     });
   };
 
   handleClick = () => {
-    if(!this.state.name)
-      return toast("Please enter name");
-    if(!this.state.college)
-      return toast("Please enter college");
-    if(!this.state.minMembersPerTeam)
-      return toast("Please enter minimum members per team");
-    if(!this.state.maxMembersPerTeam)
-      return toast("Please enter maximum members per team");
-    if(!this.state.maxTeamsPerCollege)
-      return toast("Please enter maximum teams per college");
+    if (!this.state.event.name) return toast("Please enter name");
+    if (!this.state.event.college) return toast("Please enter college");
+    if (!this.state.event.minMembersPerTeam) return toast("Please enter minimum members per team");
+    if (!this.state.event.maxMembersPerTeam) return toast("Please enter maximum members per team");
+    if (!this.state.event.maxTeamsPerCollege) return toast("Please enter maximum teams per college");
 
     this.setState({
-      buttonText:this.ADDING
-    },async ()=>{
-      let response = await edit(this.props.event,{
-        name:this.state.name,
-        college:this.state.college,
-        minMembersPerTeam:this.state.minMembersPerTeam,
-        maxMembersPerTeam:this.state.maxMembersPerTeam,
-        maxTeamsPerCollege:this.state.maxTeamsPerCollege,
-        venue:this.state.venue,
-        description:this.state.description,
-        duration:this.state.duration,
-        startDate:new Date(this.state.startDate),
-        endDate:new Date(this.state.endDate),
-        faculty:this.state.for==="falculty",
-        criteria:[this.state.criteria1,this.state.criteria2,this.state.criteria3,this.state.criteria4],
-        slottable:true
+      buttonText: this.UPDATING
+    }, async () => {
+      let response = await edit(this.props.event, {
+        name: this.state.event.name,
+        college: this.state.event.college,
+        minMembersPerTeam: this.state.event.minMembersPerTeam,
+        maxMembersPerTeam: this.state.event.maxMembersPerTeam,
+        maxTeamsPerCollege: this.state.event.maxTeamsPerCollege,
+        venue: this.state.event.venue,
+        description: this.state.event.description,
+        duration: this.state.event.duration,
+        startDate: new Date(new Date(this.state.event.startDate).getTime() + this.state.timezoneOffset).toISOString(),
+        endDate: new Date(new Date(this.state.event.endDate).getTime() + this.state.timezoneOffset).toISOString(),
+        faculty: this.state.event.faculty,
       });
-      if(!response)
-        toast("Some error occured");
-      else if(response.status===200){
-        this.UNSUB();
-        return navigate("/events");
-      }
-      else
-        toast(response.message);
-      this.setState({buttonText:this.ADD})
 
+      if (!response) toast("Some error occured");
+      else if (response.status === 200) return navigate("/events");
+      else toast(response.message);
 
-    })
+      this.setState({ buttonText: this.UPDATE });
+    });
   };
 
   componentWillMount() {
-    console.log(this.props);
     eventsService.get(this.props.event).then(event => {
-      console.log(91,event);
       this.setState({
-      name:event.name,
-       college:event.college._id,
-       description:event.description,
-       endDate:event.endDate&&event.endDate.substr(0,event.endDate.lastIndexOf(":")),
-       startDate:event.startDate&&event.startDate.substr(0,event.startDate.lastIndexOf(":")),
-       minMembersPerTeam: event.minMembersPerTeam,
-       maxMembersPerTeam:event.maxMembersPerTeam,
-       maxTeamsPerCollege: event.maxTeamsPerCollege,
-       venue: event.venue,
-       duration: event.duration,
-       type:event.faculty?"faculty":"student",
-       criteria1: event.criteria1,
-       criteria2: event.criteria2,
-       criteria3: event.criteria3,
-       criteria4: event.criteria4
-      },()=>{
-        console.log(this.state)
+        event: {
+          name: event.name,
+          college: event.college._id,
+          minMembersPerTeam: event.minMembersPerTeam,
+          maxMembersPerTeam: event.maxMembersPerTeam,
+          maxTeamsPerCollege: event.maxTeamsPerCollege,
+          venue: event.venue,
+          description: event.description,
+          duration: event.duration,
+          startDate: new Date(new Date(event.startDate).getTime() - this.state.timezoneOffset).toISOString(),
+          endDate: new Date(new Date(event.endDate).getTime() - this.state.timezoneOffset).toISOString(),
+          faculty: event.faculty,
+        },
       });
     });
-    getAll();
-    this.UNSUB=reducer.subscribe(() => {
-      reducer.getState().then(state => {
-        this.setState({
-          colleges: state.data.list.map(college => ({
-            value: college.id,
-            label: college.name + ", " + college.location,
-          })),
-        });
-      });
-    });
+
+    collegesService.getAll().then(colleges => this.setState({
+      colleges: colleges.map(college => ({
+        label: college.name + ", " + college.location,
+        value: college.id,
+      })),
+    }));
   }
-  getCollege(){
-    let college = this.state.college;
-    if(!college||this.state.colleges.length===0)
-      return '';
-    let res = this.state.colleges.find(elem=>elem.value===college)
-    console.log('RES',res);
-    return res?res:'';
+
+  getCollege() {
+    let college = this.state.event.college;
+    if (!college || this.state.colleges.length === 0) return "";
+    college = this.state.colleges.find(clg => clg.value === college);
+    return college ? college : '';
   }
+
   render = () => (
     <div>
-      <h2>Edit Event</h2>
-      <p>Edit existing event to MUCAPP.</p>
+      <div>
+        <h2>Edit Event</h2>
+        <p>Editing the event { this.state.event.name }.</p>
+      </div>
+
       <div>
         <div>
-          <label>Name: </label>
-          <Input
-            onChange={ this.handleChange }
+          <div>Name</div>
+          <input
+            onChange = { this.handleChange }
             autoComplete="off"
             name="name"
             type="text"
-            value={this.state.name}
+            value={ this.state.event.name || "" }
             placeholder="Name"
             required
-            styles={{ width: 300 }}
+            css={{ width: 300 }}
           />
         </div>
+
         <div>
-        <label>College: </label>
+          <div>College</div>
           <Select
-            isSearchable={false}
+            isSearchable={ false }
             name="college"
-            value={this.getCollege()}
+            value={ this.getCollege() || "" }
             placeholder="College"
             options={ this.state.colleges }
-            onChange={ (e) => this.setState({ college: e.value }) }
+            onChange={ (e) => this.setState({ event: { ...this.state.event, college: e.value } }) }
             styles={{
               control: (provided, state) => ({
                 ...provided,
@@ -186,63 +155,69 @@ export default class EditEvent extends React.Component {
             }}
           />
         </div>
+
         <div>
-        <label>Minimum Members Per Team: </label>
-          <Input
+          <div>Minimum Members Per Team</div>
+          <input
             onChange={ this.handleChange }
             autoComplete="off"
             name="minMembersPerTeam"
             type="number"
             placeholder="Minimum Members Per Team"
-            required
             min="1"
-            value={this.state.minMembersPerTeam}
-            styles={{ width: 300 }}
+            required
+            value={ this.state.event.minMembersPerTeam || 1 }
+            css={{ width: 300 }}
           />
         </div>
+
         <div>
-        <label>Maximum Members Per Team: </label>
-          <Input
+          <div>Maximum Members Per Team</div>
+          <input
             onChange={ this.handleChange }
             autoComplete="off"
             name="maxMembersPerTeam"
             type="number"
             placeholder="Maximum Members Per Team"
             min="1"
-            value={this.state.maxMembersPerTeam}
-            styles={{ width: 300 }}
+            required
+            value={ this.state.event.maxMembersPerTeam || 1 }
+            css={{ width: 300 }}
           />
         </div>
+
         <div>
-        <label>Maximum Teams Per College: </label>
-          <Input
+          <div>Maximum Teams Per College</div>
+          <input
             onChange={ this.handleChange }
             autoComplete="off"
             name="maxTeamsPerCollege"
             type="number"
-            value={this.state.maxTeamsPerCollege}
-            placeholder="Maximum Teams Per College"
-            styles={{ width: 300 }}
+            placeholder="Maximum Teams Per Team"
+            min="1"
+            required
+            value={ this.state.event.maxTeamsPerCollege || 1 }
+            css={{ width: 300 }}
           />
         </div>
+
         <div>
-        <label>Venue: </label>
-         <Select
-            isSearchable={false}
+          <div>Venue</div>
+          <Select
+            isSearchable={ false }
             name="venue"
             placeholder="Venue"
-
-             value={{label:this.state.venue,value:this.state.venue}}
-            options={ [
-              {label:'Dr. TMA Pai Hall, 2nd Floor',value:'Dr. TMA Pai Hall, 2nd Floor'},
-              {label:'Dr. TMA Pai Hall, 3rd Floor',value:'Dr. TMA Pai Hall, 3rd Floor'},
-              {label:'Counselling Hall, manipal.edu',value:'Counselling Hall, manipal.edu'},
-              {label:'MMMC, Manipal',value:'MMMC, Manipal'},
-              {label:'KMC Greens, Main Stage',value:'KMC Greens, Main Stage'},
-              {label:'KMC Greens, STEPS',value:'KMC Greens, STEPS'}
-
-              ] }
-            onChange={ (e) => this.setState({ venue: e.value }) }
+            value={{ label: this.state.event.venue || "", value: this.state.event.venue || "" }}
+            options={[
+              { label: "Dr. TMA Pai Hall, 2nd Floor", value: "Dr. TMA Pai Hall, 2nd Floor" },
+              { label: "Dr. TMA Pai Hall, 3rd Floor", value: "Dr. TMA Pai Hall, 3rd Floor" },
+              { label: "Counselling Hall, manipal.edu", value: "Counselling Hall, manipal.edu" },
+              { label: "MMMC, Manipal", value: "MMMC, Manipal" },
+              { label: "KMC Greens, Main Stage", value: "KMC Greens, Main Stage" },
+              { label: "KMC Greens, STEPS", value: "KMC Greens, STEPS" },
+              { label: "WGSHA Kitchen",value: "WGSHA, Kitchen" }
+            ]}
+            onChange={ (e) => this.setState({ event: { ...this.state.event, venue: e.value } }) }
             styles={{
               control: (provided, state) => ({
                 ...provided,
@@ -270,59 +245,72 @@ export default class EditEvent extends React.Component {
             }}
           />
         </div>
+
         <div>
-        <label>Description: </label>
-          <TextArea
+          <div>Description</div>
+          <textarea
             onChange={ this.handleChange }
             autoComplete="off"
             name="description"
-
             type="text"
             placeholder="Description"
-            styles={{ maxWidth: 300,minWidth:300 }}
-          >{this.state.description}</TextArea>
+            css={{ width: 300, height: 200, maxWidth: "100%", }}
+            value={ this.state.event.description || "" }
+          />
         </div>
+
         <div>
-        <label>Duration in minutes: </label>
-          <Input
+          <div>Duration per team (minutes)</div>
+          <input
             onChange={ this.handleChange }
             autoComplete="off"
             name="duration"
             type="number"
-            value={this.state.duration}
-            placeholder="Duration in minutes"
-            styles={{ width: 300 ,verticalAlign:"top"}}
+            placeholder="Duration"
+            min="1"
+            required
+            value={ this.state.event.duration || 0 }
+            css={{ width: 300 }}
           />
         </div>
+
         <div>
-        <label>Start Date: </label>
-          <Input
-            type="datetime-local"
+          <div>Start Date</div>
+          <input
+            autoComplete="off"
             name="startDate"
-            value={this.state.startDate}
-            onChange={this.handleChange}
-            />
-
-        </div>
-
-        <div>
-        <label>End Date: </label>
-        <Input
             type="datetime-local"
-            name="endDate"
-            value={this.state.endDate}
-            onChange={this.handleChange}
-            />
+            value={ (this.state.event.startDate && this.state.event.startDate.split("Z")[0]) || "" }
+            onChange={ this.handleChange }
+          />
         </div>
+
         <div>
-        <label>For: </label>
+          <div>End Date</div>
+          <input
+            autoComplete="off"
+            name="endDate"
+            type="datetime-local"
+            value={ (this.state.event.endDate && this.state.event.endDate.split("Z")[0]) || "" }
+            onChange={ this.handleChange }
+          />
+        </div>
+
+        <div>
+          <div>For</div>
           <Select
-            isSearchable={false}
-            name="type"
-            value={{label:this.state.type,value:this.state.type}}
+            isSearchable={ false }
+            name="faculty"
+            value={{
+              label: this.state.event.faculty ? "Faculty" : "Student",
+              value: this.state.event.faculty || false,
+            }}
             placeholder="For"
-            options={ [{label:'Students',value:'students'},{label:'Faculty',value:'faculty'}] }
-            onChange={ (e) => this.setState({ type: e.value }) }
+            options={[
+              { label: 'Students', value: false },
+              { label: 'Faculty', value: true },
+            ]}
+            onChange={ (e) => this.setState({ event: { ...this.state.event, faculty: e.value } }) }
             styles={{
               control: (provided, state) => ({
                 ...provided,
@@ -352,51 +340,12 @@ export default class EditEvent extends React.Component {
         </div>
 
         <div>
-        <label>Criteria 1: </label>
-          <Input
-            onChange={ this.handleChange }
-            autoComplete="off"
-            name="criteria1"
-            value={this.state.criteria1}
-            placeholder="Criteria 1 "
-            styles={{ width: 300 }}
-          />
-        </div>
-        <div>
-        <label>Criteria 2: </label>
-          <Input
-            onChange={ this.handleChange }
-            autoComplete="off"
-            name="criteria2"
-            value={this.state.criteria2}
-            placeholder="Criteria 2 "
-            styles={{ width: 300 }}
-          />
-        </div>
-        <div>
-        <label>Criteria 3: </label>
-          <Input
-            onChange={ this.handleChange }
-            autoComplete="off"
-            name="criteria3"
-            value={this.state.criteria3}
-            placeholder="Criteria 3 "
-            styles={{ width: 300 }}
-          />
-        </div>
-        <div>
-        <label>Criteria 4: </label>
-          <Input
-            onChange={ this.handleChange }
-            autoComplete="off"
-            name="criteria4"
-            value={this.state.criteria4}
-            placeholder="Criteria 4 "
-            styles={{ width: 300 }}
-          />
-        </div>
-        <div>
-          <Button onClick={ this.handleClick } disabled={this.state.buttonText===this.ADDING}>{this.state.buttonText}</Button>
+          <Button
+            onClick={ this.handleClick }
+            disabled={ this.state.buttonText === this.UPDATING }
+          >
+            { this.state.buttonText }
+          </Button>
         </div>
       </div>
     </div>

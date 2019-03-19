@@ -4,6 +4,7 @@ import { FiX } from "react-icons/fi";
 
 import reducer from "../../reducers/commonReducer";
 import { getAll } from "../../services/judgeServices";
+import Loader from "../../commons/Loader";
 
 const styles = {
   judgeCard: {
@@ -87,6 +88,7 @@ const JudgesList = (props) => (
 export default class Judges extends React.Component {
   state = {
     judges: [],
+    loading: true
   };
 
   componentWillMount() {
@@ -94,7 +96,7 @@ export default class Judges extends React.Component {
 
     this.unsubscribe=reducer.subscribe(() => {
       reducer.getState().then(state => {
-        this.setState({ judges: state.data.list });
+        this.setState({ judges: state.data.list, loading: false });
       });
     });
   }
@@ -106,9 +108,12 @@ export default class Judges extends React.Component {
   render = () => (
     <div>
       <h2>Judges</h2>
-      <p>Judges in in Utsav events.</p>
       <div>
-        <JudgesList judges={ this.state.judges } />
+      {
+        this.state.loading
+        ? <Loader />
+        : <JudgesList judges={ this.state.judges } />
+      }
       </div>
     </div>
   );

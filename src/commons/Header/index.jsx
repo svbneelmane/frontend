@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "gatsby";
-import { FiMenu, FiArrowLeft,FiUser } from 'react-icons/fi'
+import { FiMenu, FiX, FiUser } from 'react-icons/fi'
 import Logo from "../../../static/favicon.png";
 import sidebarStore from '../../reducers/sidebarReducer';
 import userStore from '../../reducers/userReducer';
@@ -16,15 +16,11 @@ const HeaderLogo = () => (
       transform: "translateX(-50%)",
       alignItems: "center",
     }}>
-      <div>
-        <img
-          src = { Logo }
-          alt="Logo"
-          height = "64"
-          css = {{
-            padding: 15,
-          }}
-        />
+      <div css={{
+        fontFamily: "TCFColar",
+        fontSize: "2em",
+      }}>
+        MUCAPP
       </div>
     </div>
   </Link>
@@ -83,7 +79,7 @@ class NavigationToggle extends Component {
       {
         this.state.menu === "close"
         ? <FiMenu />
-        : <FiArrowLeft />
+        : <FiX />
       }
     </button>
   );

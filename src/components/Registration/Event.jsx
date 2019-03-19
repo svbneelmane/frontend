@@ -1,5 +1,6 @@
 import React from "react";
 import { navigate, Link } from "gatsby";
+import { FiX } from "react-icons/fi";
 
 import { Button } from "../../commons/Form";
 import collegesService from "../../services/colleges";
@@ -25,22 +26,45 @@ const styles = {
   },
 };
 
-const TeamCard = ({ team }) => (
-  <Link to={ "/register/" + team.event._id+"/teams/"+team.id } css={{
-    ...styles.teamCard,
-  }}>
-    <div css={{
-      fontSize: "1.3em",
+const TeamCard = ({ team }) => {
+  let handleDelete = (team) => {
+    let surety = typeof window !== "undefined"
+      && window.confirm("Are you sure you want to delete " + team.name + "?");
+
+    if (surety) {
+      eventsService.deleteTeam(team.event._id, team.id).then(() =>
+        navigate("/register/" + team.event._id)
+      );
+    }
+  }
+
+  return (
+    <Link to={ "/register/" + team.event._id + "/teams/" + team.id } css={{
+      ...styles.teamCard,
     }}>
-      { team.name }
-    </div>
-    <div css={{
-      color: "rgba(0, 0, 0, .5)",
-    }}>
-      { team.members.length } members
-    </div>
-  </Link>
-);
+      <div css={{
+        display: "flex",
+        justifyContent: "space-between",
+        fontSize: "1.3em",
+      }}>
+        <span>{ team.name }</span>
+        <span css={{
+          cursor: "pointer",
+          ":hover": {
+            color: "red",
+          },
+        }}>
+          <FiX onClick={ () => handleDelete(team) } />
+        </span>
+      </div>
+      <div css={{
+        color: "rgba(0, 0, 0, .5)",
+      }}>
+        { team.members.length } members
+      </div>
+    </Link>
+  )
+};
 
 export default class Events extends React.Component {
   constructor(props) {
@@ -71,6 +95,8 @@ export default class Events extends React.Component {
         <h2>{ this.state.event.name } Registration</h2>
         <p>Register teams for the { this.state.event.name } event in Utsav</p>
         <p>You can register at most { this.state.event.maxTeamsPerCollege } teams for this event.</p>
+        <p>Minimum participants: {this.state.event.minMembersPerTeam} </p>
+        <p>Maximum participants: {this.state.event.maxMembersPerTeam} </p>
       </div>
       <div css={{
         display: "flex",

@@ -12,6 +12,7 @@ import { toast } from "../../actions/toastActions";
 
 export default class Profile extends React.Component {
   state = {
+    user: {},
     logoutClicks: 0,
     changePassword: false,
   };
@@ -48,7 +49,6 @@ export default class Profile extends React.Component {
       return toast("Confirm pasword does not match");
     }
 
-
     if (this.state.changePassword) {
       let payload = {
         oldUser: {
@@ -61,29 +61,24 @@ export default class Profile extends React.Component {
         },
       };
 
-      // TODO: Check if oldpassword is correct, & new & confirm passwords match
-
       usersService.update(payload);
     }
   }
 
-   componentWillMount() {
-    this.setState(getUser(),this.getCollege);
+  componentWillMount() {
+    let user = getUser();
+
+    this.setState({ user }, () =>
+      this.state.user.college && collegeService.get(this.state.user.college).then(college =>college&&
+        this.setState({ user: {
+          ...this.state.user,
+          collegeName: college.name + ", " + college.location
+        } })
+      )
+    );
   }
 
-   getCollege=async ()=>{
-    let response = await collegeService.getCollege(this.state.college);
-    if(!response)
-      return;
-    this.setState({
-      collegeName: response.name+", "+response.location
-    })
-    }
-
   render() {
-    let {name,email,collegeName,type}=this.state;
-    
-    
     return (
       <div css={{
         marginTop: 50,
@@ -93,10 +88,10 @@ export default class Profile extends React.Component {
           <img src={ avatar } alt="Avatar" height="200" width="200" />
         </div>
         <div>
-          <h1>{ name || "..." }</h1>
-          <p css={{ color: "rgba(0, 0, 0, .7)" }}>{ email || "..." }</p>
-          <p css={{ color: "truergba(0, 0, 0, .5)" }}>{ type ? constants.getUserType(type) : "..." }</p>
-          <p css={{ color: "rgba(0, 0, 0, .7)" }}>{ collegeName }</p>
+          <h1>{ this.state.user.name || "..." }</h1>
+          <p css={{ color: "rgba(0, 0, 0, .7)" }}>{ this.state.user.email || "..." }</p>
+          <p css={{ color: "truergba(0, 0, 0, .5)" }}>{ this.state.user.type ? constants.getUserType(this.state.user.type) : "..." }</p>
+          <p css={{ color: "rgba(0, 0, 0, .7)" }}>{ this.state.user.collegeName }</p>
         </div>
         <div>
           <button css={{ margin: 5, }} onClick={ () => this.handleLogout() }>{ this.state.logoutClicks ? "Sure?" : "Logout" }</button>
@@ -105,11 +100,14 @@ export default class Profile extends React.Component {
         <div>
           {
             this.state.changePassword
-            ? <>
-              <Input onChange={this.handleChange} type="password" name="password:old" placeholder="Old Password" />
-              <Input onChange={this.handleChange} type="password" name="password:new" placeholder="New Password" />
-              <Input onChange={this.handleChange} type="password" name="password:new:confirm" placeholder="Confirm Password" />
-            </>
+            ? <div>
+                <br />
+                <Input onChange={ this.handleChange } type="password" name="password:old" placeholder="Old Password" />
+                <br />
+                <Input onChange={ this.handleChange } type="password" name="password:new" placeholder="New Password" />
+                <br />
+                <Input onChange={ this.handleChange } type="password" name="password:new:confirm" placeholder="Confirm Password" />
+              </div>
             : null
           }
         </div>
