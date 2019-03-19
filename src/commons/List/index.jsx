@@ -50,7 +50,7 @@ const TeamList = (props) => (
         fontSize : "0.9em"
       }}>{props.name}</div>
       <div>
-        {props.total}
+        {props.score}
       </div>
     </div>
   </div>

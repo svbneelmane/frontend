@@ -42,7 +42,7 @@ const CriteriaCard = (props) => (
     css={{
       margin: "2%",
       borderRadius: "4px",
-      width: "46%",
+      width: (props.single) ? "100%" : "40%",
       display: "inline-block",
       boxShadow: "0px 5px 12px -5px rgba(0, 0, 0, .1)",
     }}
