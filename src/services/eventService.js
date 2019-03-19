@@ -12,6 +12,8 @@ export const get = async () => {
     });
     return response;
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
@@ -25,6 +27,8 @@ export const getRounds = async (eventId) => {
       src: 'events'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
@@ -38,6 +42,32 @@ export const getSlots = async (eventId, roundId) => {
       src: 'events'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
+    return null;
+  }
+}
+
+export const getSlots2 = async (eventId, roundId) => {
+  let response = await request(`/events/${eventId}/rounds/${roundId}/slots`);
+
+  if (response.status && response.status === 200) {
+    return response.data;
+  } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
+    return null;
+  }
+}
+
+export const deleteSlots2 = async (eventId, roundId) => {
+  let response = await request(`/events/${eventId}/rounds/${roundId}/slots/delete`);
+
+  if (response.status && response.status === 200) {
+    return true;
+  } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
@@ -51,20 +81,19 @@ export const getTeams = async (eventId) => {
       src: 'events'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
 
 export const getTeams2 = async (eventId) => {
-  try{
     let response = await request(`/events/${eventId}/teams`);
 
     if (response.status && response.status === 200) return response.data;
-    toast(response.message);
-  }
-  catch (err) {
-    toast(err.message);
-  }
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
+  
 }
 
 export const getRoundTeams = async (eventId, roundId) => {
@@ -76,6 +105,8 @@ export const getRoundTeams = async (eventId, roundId) => {
       src: 'events'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
@@ -102,6 +133,8 @@ export const createRound = async (payload, eventId) => {
       src: 'events'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
@@ -115,6 +148,8 @@ export const createTeam = async (payload, eventId) => {
       src: 'events'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
@@ -128,6 +163,8 @@ export const createSlots = async (payload, eventId, roundId) => {
       src: 'events'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
@@ -141,6 +178,8 @@ export const submitScore = async (payload, eventId, roundId) => {
       src: 'events'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }

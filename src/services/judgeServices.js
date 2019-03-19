@@ -1,5 +1,6 @@
 import request from "../utils/request";
 import { send } from '../actions/commonActions';
+import { toast } from "../actions/toastActions";
 
 export const getAll = async () => {
   let response = await request("/judges");
@@ -10,6 +11,8 @@ export const getAll = async () => {
       src: 'judges',
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     send([]);
   }
 }
@@ -23,6 +26,8 @@ export const get = async () => {
       src: 'judges'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
@@ -36,6 +41,8 @@ export const create = async (payload) => {
       src: 'judges'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }

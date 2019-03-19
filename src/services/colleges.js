@@ -8,6 +8,8 @@ const create = async (college) => {
   if (response && response.status === 200) {
     return response.data;
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 };
@@ -19,6 +21,8 @@ const get = async (collegeID) => {
   if (response && response.status === 200) {
     return response.data;
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 };
@@ -29,6 +33,8 @@ const getAll = async () => {
   if (response && response.status === 200) {
     return response.data;
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return [];
   }
 };
@@ -62,6 +68,8 @@ const getTeams = async (collegeID) => {
   if (response && response.status === 200) {
     return response.data;
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return [];
   }
 };
@@ -79,6 +87,8 @@ const getParticipants = async (collegeID) => {
   if (response && response.status === 200) {
     return response.data;
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return [];
   }
 };

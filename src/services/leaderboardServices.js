@@ -10,6 +10,8 @@ export const getEventLeaderboard = async (eventId) => {
       src: 'leaderboard'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
@@ -23,6 +25,8 @@ export const getRoundLeaderboard = async (eventId, roundId) => {
       src: 'leaderboard'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
@@ -36,6 +40,8 @@ export const getLeaderboard = async () => {
       src: 'leaderboard'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }

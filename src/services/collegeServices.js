@@ -1,6 +1,7 @@
 import request from "../utils/request";
 import { send } from '../actions/commonActions';
 import {getUser} from './userServices';
+import { toast } from "../actions/toastActions";
 
 export const getAll = async () => {
   let response = await request("/colleges");
@@ -11,6 +12,8 @@ export const getAll = async () => {
       src: 'colleges',
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     send([]);
   }
 };
@@ -24,6 +27,8 @@ export const get = async () => {
       src: 'colleges',
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
@@ -37,6 +42,8 @@ export const getParticipants = async (eventId) => {
       src: 'colleges'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
@@ -50,6 +57,8 @@ export const getTeams = async () => {
       src: 'colleges'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
@@ -63,6 +72,8 @@ export const getTeamsForCollege = async (collegeId) => {
       src: 'colleges'
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }

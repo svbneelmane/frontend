@@ -1,5 +1,6 @@
 import request from "../utils/request";
 import { send } from "../actions/commonActions";
+import { toast } from "../actions/toastActions";
 
 export const isBrowser = () => typeof window !== "undefined";
 
@@ -46,6 +47,8 @@ export const getAll = async () => {
       src: 'users',
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     send([]);
   }
 };
@@ -59,6 +62,8 @@ export const get = async (id) => {
       src: 'users',
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
  }
@@ -82,6 +87,8 @@ export const update = async (payload) => {
       src: 'users',
     });
   } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
     return null;
   }
 }
