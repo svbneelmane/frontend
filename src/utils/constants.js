@@ -6,6 +6,11 @@ const userTypes = {
 };
 
 export default {
+  // Whether the registrations are open for the following type of events.
+  registrations: {
+    facultyEvents: true,
+    studentEvents: true,
+  },
   USER_TYPES: userTypes,
   getUserType: (type) => {
     for (let userType in userTypes)
