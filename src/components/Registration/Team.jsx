@@ -1,6 +1,7 @@
 import React from "react";
 import { navigate } from "gatsby";
 
+import constants from "../../utils/constants";
 import eventsService from "../../services/events";
 import { getUser } from "../../services/userServices";
 import { Input, Button } from "../../commons/Form";
@@ -36,7 +37,8 @@ export default class Events extends React.Component {
       event: [],
       participantsInput: [],
       participants: [],
-      button: this.REGISTER
+      button: this.REGISTER,
+      registrationStatus: null,
     };
   }
 
@@ -133,26 +135,31 @@ export default class Events extends React.Component {
       this.setState({
         event,
         participantsInput,
+        registrationStatus: event.faculty ? constants.registrations.facultyEvents : constants.registrations.studentEvents,
       });
     });
   };
 
   render = () => (
-    <div>
-      <div>
-        <h2>Team Registration</h2>
-        <p>Register a team for the { this.state.event.name } event in Utsav.</p>
+    this.state.registrationStatus === false
+    ? <div>
+        <h2>{ this.state.event.name }</h2>
+        <div css={{ color: "red", }}>Registrations are now closed!</div>
       </div>
-      <div css={{
-      }}>
-        {
-          this.state.participantsInput.map(participants => participants)
-        }
-        <div css={{marginTop: "20px"}}>
-          <Button onClick={ this.handleSubmit } disabled={this.state.button===this.REGISTERING}>{this.state.button}</Button>
-          <Button styles={{marginLeft: "10px"}} onClick={() => { navigate("/register")} }>Cancel</Button>
+    : <div>
+        <div>
+          <h2>Team Registration</h2>
+          <p>Register a team for the { this.state.event.name } event in Utsav.</p>
+        </div>
+        <div>
+          {
+            this.state.participantsInput.map(participants => participants)
+          }
+          <div css={{marginTop: "20px"}}>
+            <Button onClick={ this.handleSubmit } disabled={this.state.button===this.REGISTERING}>{this.state.button}</Button>
+            <Button styles={{marginLeft: "10px"}} onClick={() => { navigate("/register")} }>Cancel</Button>
+          </div>
         </div>
       </div>
-    </div>
   );
 };
