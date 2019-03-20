@@ -25,6 +25,18 @@ const createRound = async (eventID, round) => {
   }
 };
 
+const deleteRound = async (eventID, roundID) => {
+  let response = await request("/events/" + eventID + "/rounds/" + roundID, "DELETE");
+
+  if (response && response.status === 200) {
+    return response.data;
+  } else {
+    if (response && response.status==="401")
+      toast("Your session has expired, please logout and login again.")
+    return null;
+  }
+};
+
 const createScores = async (eventID, roundID, scores) => {
   let response = await request("/events/" + eventID + "/rounds/" + roundID + "/scores", "POST", scores);
 
@@ -45,7 +57,7 @@ const createSlots = async (eventID, roundID) => {
   } else {
     if(response&&response.status==="401")
       toast("Your session has expired, please logout and login again.")
-    
+
     return [];
   }
 };
@@ -59,17 +71,17 @@ const createSlots2 = async (eventID, roundID) => {
 
   if (response.status === 200)
     return response.data;
-  
+
   if(response.status==="401"){
     toast("Your session has expired, please logout and login again.")
     if(response&&response.status===404)
       toast("API not found")
     return [];
   }
-    
+
   toast(response.message)
   return [];
-  
+
 };
 
 const createTeam = async (eventID, team) => {
@@ -150,7 +162,7 @@ const getSlots = async (eventID, roundID) => {
   if (response && response.status === 200) {
     return response.data;
   } else {
-    
+
     if(response&&response.status==="401")
       toast("Your session has expired, please logout and login again.")
     return [];
@@ -215,6 +227,7 @@ export default {
   createSlots,
   createSlots2,
   createTeam,
+  deleteRound,
   deleteTeam,
   get,
   getAll,
