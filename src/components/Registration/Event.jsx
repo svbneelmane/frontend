@@ -2,6 +2,7 @@ import React from "react";
 import { navigate, Link } from "gatsby";
 import { FiX } from "react-icons/fi";
 
+import constants from "../../utils/constants";
 import { Button } from "../../commons/Form";
 import collegesService from "../../services/colleges";
 import eventsService from "../../services/events";
@@ -70,15 +71,19 @@ export default class Events extends React.Component {
   constructor(props) {
     super(props);
 
+
     this.state = {
-      event: [],
+      event: {},
       teams: [],
+      registrationStatus: null,
     };
   }
 
   componentWillMount = () => {
     eventsService.get(this.props.event).then(event => {
-      this.setState({ event });
+      let registrationStatus = event.faculty ? constants.registrations.facultyEvents : constants.registrations.studentEvents;
+
+      this.setState({ event, registrationStatus });
     });
     let user = getUser();
     collegesService.getTeams(user.college).then(teams => {
@@ -97,6 +102,11 @@ export default class Events extends React.Component {
         <p>You can register at most { this.state.event.maxTeamsPerCollege } teams for this event.</p>
         <p>Minimum participants: {this.state.event.minMembersPerTeam} </p>
         <p>Maximum participants: {this.state.event.maxMembersPerTeam} </p>
+        {
+          this.state.registrationStatus
+          ? null
+          : <p css={{ textTransform: "uppercase", color: "red", }}>Registrations are now closed!</p>
+        }
       </div>
       <div css={{
         display: "flex",
@@ -104,17 +114,19 @@ export default class Events extends React.Component {
       }}>
         {
           this.state.teams.length < this.state.event.maxTeamsPerCollege
-          ? <Link to={ "/register/" + this.props.event + "/teams" } css={{
-              ...styles.teamCard,
-              backgroundColor: "#ff5800",
-              color: "white",
-              ":hover": {
+          ? this.state.registrationStatus
+            ? <Link to={ "/register/" + this.props.event + "/teams" } css={{
+                ...styles.teamCard,
+                backgroundColor: "#ff5800",
                 color: "white",
-                boxShadow: "0px 5px 50px -4px rgba(0, 0, 0, .1)",
-              }
-            }}>
-              Register Team { this.state.teams.length + 1 }
-            </Link>
+                ":hover": {
+                  color: "white",
+                  boxShadow: "0px 5px 50px -4px rgba(0, 0, 0, .1)",
+                }
+              }}>
+                Register Team { this.state.teams.length + 1 }
+              </Link>
+            : null
           : null
         }
         { this.state.teams.map((team, i) => <TeamCard key={i} team={team} />) }
