@@ -193,7 +193,7 @@ export default class Judge extends Component {
           </div>
             <div
               css={{
-                boxShadow: "0px 5px 12px -5px rgba(0, 0, 0, .1)",
+                // boxShadow: "0px 5px 12px -5px rgba(0, 0, 0, .1)",
                 width: "25%",
                 height: "94vh",
                 display: "inline-block",
@@ -203,7 +203,7 @@ export default class Judge extends Component {
             >
               {this.state.teams.map((each, i) => {
                 return (
-                  <TeamList backgroundColor={(each.number == this.state.selectedSlot) ? "#EEEEEE" : "#FFFFFF"} onClick={this.changeTeam} key={i} slot={`#${each.number}`} name={each.teamName} />
+                  <TeamList score={this.state[`${i + 1}-total`] || 0} backgroundColor={(each.number == this.state.selectedSlot) ? "#EEEEEE" : "#FFFFFF"} onClick={this.changeTeam} key={i} slot={`#${each.number}`} name={each.teamName} />
                 );
               })}
             </div>
