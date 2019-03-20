@@ -30,6 +30,8 @@ import NotFound from "../components/404";
 import Rounds from "../components/Rounds";
 import AddRound from "../components/Rounds/Add";
 import Slots from "../components/Slots";
+import PublicSlotsEvents from "../components/PublicSlots";
+import PublicSlots from "../components/PublicSlots/Slots";
 import Judge from "../components/Judges/StartJudging";
 
 
@@ -78,6 +80,8 @@ export default () =>
         <PrivateRoute path="/leaderboard" component={ Leaderboard } type={ 1 } />
 
         <PrivateRoute path="/register" component={ Register } type={ 4 }  />
+        <PrivateRoute path="/slots" component={ PublicSlotsEvents } type={ 4 }  />
+        <PrivateRoute path="/slots/:event" component={ PublicSlots } type={ 4 }  />
         <PrivateRoute path="/register/:event" component={ RegisterEvent } type={ 4 }  />
         <PrivateRoute path="/register/:event/teams" component={ RegisterTeam } type={ 4 }  />
         <PrivateRoute path="/register/:event/teams/:team" component={ Participants } type={ 4 }  />
