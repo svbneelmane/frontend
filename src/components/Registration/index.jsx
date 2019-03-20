@@ -9,12 +9,7 @@ import { Button } from "../../commons/Form";
 import Loader from "../../commons/Loader";
 
 const EventCard = ({ event }) => {
-  let registrations;
-  if (event.faculty) {
-    registrations = constants.registrations.facultyEvents;
-  } else {
-    registrations = constants.registrations.studentEvents;
-  }
+  let registrationStatus = event.faculty ? constants.registrations.facultyEvents : constants.registrations.studentEvents;
 
   return (
     <Link to={"/register/" + event.id } css={{
@@ -80,11 +75,11 @@ const EventCard = ({ event }) => {
         </div>
         <div>
           {
-            registrations
-            ? event.registeredCount !== event.maxTeamsPerCollege
+            registrationStatus === false
+            ? <span css={{fontSize: "0.9em"}}>Registrations closed</span>
+            : event.registeredCount !== event.maxTeamsPerCollege
               ? <Button>Register</Button>
               : <span css={{fontSize: "0.9em"}}>Slots full for college</span>
-            : <span css={{fontSize: "0.9em"}}>Registrations closed</span>
           }
         </div>
       </div>

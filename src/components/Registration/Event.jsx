@@ -81,10 +81,12 @@ export default class Events extends React.Component {
 
   componentWillMount = () => {
     eventsService.get(this.props.event).then(event => {
-      let registrationStatus = event.faculty ? constants.registrations.facultyEvents : constants.registrations.studentEvents;
-
-      this.setState({ event, registrationStatus });
+      this.setState({
+        event,
+        registrationStatus: event.faculty ? constants.registrations.facultyEvents : constants.registrations.studentEvents,
+      });
     });
+
     let user = getUser();
     collegesService.getTeams(user.college).then(teams => {
       teams = teams.filter(team => team.event._id === this.props.event );
@@ -103,9 +105,9 @@ export default class Events extends React.Component {
         <p>Minimum participants: {this.state.event.minMembersPerTeam} </p>
         <p>Maximum participants: {this.state.event.maxMembersPerTeam} </p>
         {
-          this.state.registrationStatus
-          ? null
-          : <p css={{ textTransform: "uppercase", color: "red", }}>Registrations are now closed!</p>
+          this.state.registrationStatus === false
+          ? <p css={{ textTransform: "uppercase", color: "red", }}>Registrations are now closed!</p>
+          : null
         }
       </div>
       <div css={{
@@ -114,8 +116,9 @@ export default class Events extends React.Component {
       }}>
         {
           this.state.teams.length < this.state.event.maxTeamsPerCollege
-          ? this.state.registrationStatus
-            ? <Link to={ "/register/" + this.props.event + "/teams" } css={{
+          ? this.state.registrationStatus === false
+            ? null
+            : <Link to={ "/register/" + this.props.event + "/teams" } css={{
                 ...styles.teamCard,
                 backgroundColor: "#ff5800",
                 color: "white",
@@ -126,7 +129,6 @@ export default class Events extends React.Component {
               }}>
                 Register Team { this.state.teams.length + 1 }
               </Link>
-            : null
           : null
         }
         { this.state.teams.map((team, i) => <TeamCard key={i} team={team} />) }
