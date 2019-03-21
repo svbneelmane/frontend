@@ -51,6 +51,24 @@ export default class extends React.Component {
     );
   }
 
+  showPDF = () => {
+    if (typeof document !== "undefined") {
+      let slots = document.getElementById("slots").innerHTML;
+      let printWindow = window.open("", "", "height=500,width=800");
+
+      printWindow.document.write("<html><head>");
+      printWindow.document.write("<title>" + this.state.event.name + " Round " + (this.state.event.rounds && (this.state.event.rounds.indexOf(this.state.round) + 1)) + " - Slots</title>");
+      printWindow.document.write("<style>body{font-family:sans-serif;}body>div{display:flex;justify-content:space-between;padding:5px;border-bottom:1px dashed #bbb;}h1{text-align:center;}</style>");
+      printWindow.document.write("</head><body>");
+      printWindow.document.write("<h1>" + this.state.event.name + " Round " + (this.state.event.rounds && (this.state.event.rounds.indexOf(this.state.round) + 1)) + " - Slots</h1>");
+      printWindow.document.write(slots);
+      printWindow.document.write("</body></html>");
+      printWindow.document.close();
+
+      printWindow.print();
+    }
+  }
+
   render = () => (
     <div>
       <div css={{
@@ -91,7 +109,7 @@ export default class extends React.Component {
             css = {{
               fontSize: "16px",
               width: 200,
-              display:'inline-block'
+              display: "inline-block",
             }}
           />
         </div>
@@ -102,7 +120,13 @@ export default class extends React.Component {
           this.state.loaded
           ? this.state.slotted
             ? <div>
-                <div>
+                <div css={{
+                  textAlign: "center",
+                  marginBottom: 30,
+                }}>
+                  <button onClick={ this.showPDF }>Generate PDF</button>
+                </div>
+                <div id="slots">
                   {
                     this.state.slots.map((slot, i) =>
                       <LBList
