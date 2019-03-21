@@ -39,8 +39,6 @@ export default class Judge extends Component {
       })
 
     });
-
-    console.log(this.state)
   }
 
   handleJudgeChange = (value) => {
@@ -66,23 +64,27 @@ export default class Judge extends Component {
 
   handelCritriaChange = async (event) => {
     let { name, value } = event;
+    
     if(value<0||value>10){
       toast("Score cannot be above 10 or below 0");
       return;
     }
-    await this.setState({ [name]: value }, () => {
-      let slotNo = this.state.selectedSlot;
-      let total = 0;
-      (this.state.criteria.length == 0) ? 
-        total += Number(this.state[`s${slotNo}-c${0}`] || 0)
-      :
-        this.state.criteria.map((i, k) => total += Number(this.state[`s${slotNo}-c${k}`] || 0));
-      console.log(total)
-      this.setState({
-        [`${slotNo}-total`]: total
-      }, () => {
-        sessionStorage.setItem('judgeScoresheet',JSON.stringify(this.state));
-      });
+    //s1-c0
+    let teams = await this.state.teams;
+    let slotNo = this.state.selectedSlot;
+    teams[slotNo - 1].score = {...teams[slotNo - 1].score, [name.substr(name.indexOf('c'))] : value}
+    let total = 0;
+
+    Object.values(this.state.teams[slotNo - 1].score).map((each) => {
+      total += parseInt(each);
+    });
+    
+    teams[slotNo - 1].total = total;
+    
+    await this.setState({
+      teams
+    }, () => {
+      sessionStorage.setItem('judgeScoresheet',JSON.stringify(this.state));
     })
   }
 
