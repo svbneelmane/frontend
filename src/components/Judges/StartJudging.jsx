@@ -49,16 +49,17 @@ export default class Judge extends Component {
 
   selectJudge = async () => {
     if (this.state.JudgeId) {
-      this.setState({
-        judgeSelected: true
-      })
-      await events.getSlots2(this.props.event, this.props.round).then(teams => {
-        this.setState({ teams: teams });
+      await events.getSlots2(this.props.event, this.props.round).then(async teams => {
+        teams.map(each => {each.score = {}})
+        await this.setState({ teams: teams });
       })
       await events.getRound(this.props.event, this.props.round).then(round => {
         this.setState({ criteria: round.criteria });
       })
       this.setState({ selectedSlot: this.state.teams[this.state.idx].number })
+      this.setState({
+        judgeSelected: true
+      })
     }
   }
 
@@ -69,7 +70,6 @@ export default class Judge extends Component {
       toast("Score cannot be above 10 or below 0");
       return;
     }
-    //s1-c0
     let teams = await this.state.teams;
     let slotNo = this.state.selectedSlot;
     teams[slotNo - 1].score = {...teams[slotNo - 1].score, [name.substr(name.indexOf('c'))] : value}
@@ -161,7 +161,7 @@ export default class Judge extends Component {
               margin: "16px",
               fontSize: "1.3em"
             }}
-          >{this.state[`${this.state.selectedSlot}-total`] || 0} Points</div>
+          >{this.state.teams[this.state.selectedSlot - 1].total | 0} Points</div>
           <div css={{
             position:"absolute",
             right: 0,
@@ -205,7 +205,7 @@ export default class Judge extends Component {
             >
               {this.state.teams.map((each, i) => {
                 return (
-                  <TeamList score={this.state[`${i + 1}-total`] || 0} backgroundColor={(each.number == this.state.selectedSlot) ? "#EEEEEE" : "#FFFFFF"} onClick={this.changeTeam} key={i} slot={`#${each.number}`} name={each.teamName} />
+                  <TeamList score={each.total || 0} backgroundColor={(each.number == this.state.selectedSlot) ? "#EEEEEE" : "#FFFFFF"} onClick={this.changeTeam} key={i} slot={`#${each.number}`} name={each.teamName} />
                 );
               })}
             </div>
@@ -222,15 +222,15 @@ export default class Judge extends Component {
                     transform: "translateX(-25%)",
                     marginTop: "50px"
                   }}>
-                   <CriteriaCard value={this.state[`s${this.state.selectedSlot}-c${0}`] | 0} name={`s${this.state.selectedSlot}-c${0}`} onChange={this.handelCritriaChange} title={"Score"} />
+                   <CriteriaCard value={this.state.teams[this.state.selectedSlot - 1 ].score[`c${0}`] | 0} name={`s${this.state.selectedSlot}-c${0}`} onChange={this.handelCritriaChange} title={"Score"} />
                   </div>
                   :
                   this.state.criteria.map((each, i) => {
                     return (
-                      <CriteriaCard value={this.state[`s${this.state.selectedSlot}-c${i}`] | 0} name={`s${this.state.selectedSlot}-c${i}`} key={i} onChange={this.handelCritriaChange} title={each} />
+                      <CriteriaCard value={this.state.teams[this.state.selectedSlot - 1 ].score[`c${i}`] | 0} name={`s${this.state.selectedSlot}-c${i}`} key={i} onChange={this.handelCritriaChange} title={each} />
                     );
-                  })
-                }
+                    })
+                  }
               </div>
               <div>
                 <Button
