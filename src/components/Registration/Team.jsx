@@ -61,7 +61,7 @@ export default class Events extends React.Component {
     e.preventDefault();
     let participants = this.state.participants.map(participant => ({
       ...participant,
-      faculty: participant.registrationID&&participant.registrationID.match(/(MAHE|MSS|MAGE)/) ? true : false,
+      faculty: participant.registrationID&&participant.registrationID.match(/(MAHE|MSS|MAGE|EC)/) ? true : false,
     }));
 
     //VALIDATIONS
@@ -79,7 +79,7 @@ export default class Events extends React.Component {
       if(participant.registrationID.match(/\s/))
         return toast(`Participant ${i+1}: Registration id cannot contain spaces.`);
       
-      if(!participant.registrationID.match(/^(?:(?:MAHE[\d]{7})|(?:MSS[\d]{4,5})|(?:MAGE[\d]{8})|(?:[\d]{9}))$/))
+      if(!participant.registrationID.match(/^(?:(?:MAHE[\d]{7})|(?:MSS[\d]{4,5})|(?:MAGE[\d]{8})|(?:EC[\d]{4,5})|(?:[\d]{9}))$/))
         return toast(`Participant ${i+1}: Registration id is invalid`);
       
       if(this.state.event.faculty&&participant.registrationID.match(/^[\d]{9}$/))
