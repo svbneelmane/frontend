@@ -71,34 +71,34 @@ export default class Events extends React.Component {
 
       if(!participant)
         return toast(`Participant ${i+1}: Please fill register number and name`);
-      
+
 
       if(!participant.registrationID)
         return toast(`Participant ${i+1}: Register number missing`);
-      
+
       if(participant.registrationID.match(/\s/))
         return toast(`Participant ${i+1}: Registration id cannot contain spaces.`);
-      
+
       if(!participant.registrationID.match(/^(?:(?:MAHE[\d]{7})|(?:MSS[\d]{4,5})|(?:MAGE[\d]{8})|(?:EC[\d]{4,5})|(?:[\d]{9}))$/))
         return toast(`Participant ${i+1}: Registration id is invalid`);
-      
+
       if(this.state.event.faculty&&participant.registrationID.match(/^[\d]{9}$/))
         return toast(`Participant ${i+1}: Registration id not accepted for faculty events`);
-      
+
       if(!this.state.event.faculty&&!participant.registrationID.match(/^[\d]{9}$/))
         return toast(`Participant ${i+1}: Registration id not accepted for student events`);
-      
+
       if(!participant.name||participant.name.length===0)
         return toast(`Participant ${i+1}: Name is missing`);
-      
+
       if(!participant.name.match(/^[A-Z\.\s]*$/i))
         return toast(`Participant ${i+1}:  Name cannot contain only alphabets, spaces and .`);
-      
+
     }
 
     if(this.state.participants.length<this.state.event.minMembersPerTeam)
       return toast("Minimum of "+this.state.event.minMembersPerTeam+" participants are required to register for this event.");
-    
+
     for(let i=0;i<this.state.participants.length;i++)
       for(let j=0;j<this.state.participants.length;j++)
       if(i!==j&&this.state.participants[i]===this.state.participants[j])
@@ -110,7 +110,7 @@ export default class Events extends React.Component {
     },()=>{
       eventsService.createTeam(this.state.event.id, {
         college: user.college,
-        participants,
+        participants: this.state.participants,
       }).then(team =>
         navigate("/register/" + this.state.event.id)
       );
@@ -124,7 +124,7 @@ export default class Events extends React.Component {
       if (!event.maxMembersPerTeam) event.maxMembersPerTeam = 1;
 
       let participantsInput = [];
-     
+
       for (let i = 0; i < event.maxMembersPerTeam; i++) {
         participantsInput.push(<Participant handleChange={ this.handleChange } key={ i } count={ i + 1 }/>);
       }
