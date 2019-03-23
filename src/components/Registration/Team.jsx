@@ -100,7 +100,7 @@ export default class Events extends React.Component {
       return toast("Minimum of "+this.state.event.minMembersPerTeam+" participants are required to register for this event.");
     
     for(let i=0;i<this.state.participants.length;i++)
-      for(let j=0;j<this.state.participants.length;i++)
+      for(let j=0;j<this.state.participants.length;j++)
       if(i!==j&&this.state.participants[i]===this.state.participants[j])
         return toast(this.state.participants[i]+" has been entered more then once");
 
