@@ -142,23 +142,22 @@ export default class Judge extends Component {
       return {
         judges: [{
           id: this.state.JudgeId,
-          points: each.total
+          points: each.total | 0
         }],
         team: each.id,
         round: each.round,
       }
     });
 
-    // console.log(this.props.event, this.props.round, score)
-    let response = events.createScores(this.props.event, this.props.round, score);
-    console.log(response)
+    let response = await events.createScores(this.props.event, this.props.round, score);
     if (response) {
-      console.log("hhh")
       sessionStorage.removeItem('judgeScoresheet');
       // navigate("/events"); 
     }
   }
 
+
+  
   render() {
     return (
       <div>
