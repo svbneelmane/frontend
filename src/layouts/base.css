@@ -79,3 +79,9 @@ input, button, option, textarea {
 a, input, button {
   outline: 0;
 }
+
+@media print {
+  .no-print, .no-print * {
+    display: none !important;
+  }
+}
