@@ -58,6 +58,7 @@ const SidebarItems = () => (
     <SidebarItem to="/judges" title="Judges" />
     <SidebarSeparator />
     <SidebarItem to="/leaderboard" title="Leaderboard" />
+    <SidebarItem to="/stats" title="Stats" />
   </ul>
 );
 
