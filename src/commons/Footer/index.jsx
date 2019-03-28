@@ -4,7 +4,7 @@ import { Link } from "gatsby";
 const Contact = (props) => <a href={ "tel:+91" + props.number }>{ props.name } ({ props.number })</a>
 
 export default () => (
-  <footer css = {{
+  <footer className="no-print" css = {{
     color: "white",
     backgroundColor: "black",
     padding: "50px 20px",

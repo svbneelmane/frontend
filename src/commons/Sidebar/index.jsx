@@ -74,7 +74,7 @@ export default class Sidebar extends Component {
   }
 
   render = () => (
-    <div css = {{
+    <div className="no-print" css = {{
       display: "block",
       height: "100vh",
       overflow: "hidden",
