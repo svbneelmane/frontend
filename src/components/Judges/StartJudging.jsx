@@ -1,58 +1,49 @@
 import React, { Component } from "react";
 import { Button } from "../../commons/Form";
-import Select from 'react-select';
-import { get } from '../../actions/judgeActions';
-// import { getTeams } from '../../actions/eventActions';
-import store from '../../reducers/commonReducer';
+import Select from "react-select";
 import { CriteriaCard } from "../../commons/Card";
 import { TeamList } from "../../commons/List";
+import judges from "../../services/judges";
 import events from "../../services/events";
 import { toast } from "../../actions/toastActions";
 
 
 export default class Judge extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+
     this.state = {
       showConfirmBox : false,
       judgeOption: [],
       JudgeId: null,
       judgeSelected: false,
       criteria: [],
-      selectedSlot: null,
+      // selectedSlot: null,
+      selectedSlot: 1,
       idx: 0,
       teams: [],
-      ...JSON.parse(sessionStorage.getItem('judgeScoresheet')) || {}
-    }
+      ...JSON.parse(sessionStorage.getItem("scoresheet" + this.props.round)) || {}
+    };
   }
 
   componentWillMount = () => {
-    get();
-    store.subscribe(async () => {
-      let data = await store.getState();
-      let judge = [];
-      judge = data.data.list.map(each => {
-        return { value: each.id, label: each.name }
-      });
-      this.setState({
-        judgeOption: judge,
-      })
-
-    });
-  }
+    judges.getAll().then(judges => this.setState({
+      judgeOption: judges.map(judge => ({ value: judge.id, label: judge.name }))
+    }));
+  };
 
   handleJudgeChange = (value) => {
     this.setState({
       JudgeId: value,
-    })
-  }
+    });
+  };
 
   selectJudge = async () => {
     if (this.state.JudgeId) {
       await events.getSlots2(this.props.event, this.props.round).then(async teams => {
-        teams.map(each => { each.score = {} })
+        // HACK: @Abid, why? xD
+        // teams.map(each => { each.score = {} })
         await this.setState({ teams: teams });
-        console.log(teams)
       })
       await events.getRound(this.props.event, this.props.round).then(round => {
         this.setState({ criteria: round.criteria });
@@ -62,7 +53,7 @@ export default class Judge extends Component {
         judgeSelected: true
       })
     }
-  }
+  };
 
   handelCritriaChange = async (event) => {
     let { name, value } = event;
@@ -73,31 +64,31 @@ export default class Judge extends Component {
     }
     let teams = await this.state.teams;
     let slotNo = this.state.selectedSlot;
-    teams[slotNo - 1].score = { ...teams[slotNo - 1].score, [name.substr(name.indexOf('c'))]: value }
+    teams[slotNo - 1].score = { ...teams[slotNo - 1].score, [name.substr(name.indexOf("c"))]: value }
     let total = 0;
 
-    Object.values(this.state.teams[slotNo - 1].score).map((each) => {
-      total += parseInt(each);
-    });
+    for (let score of Object.values(this.state.teams[slotNo - 1].score)) {
+      total += parseInt(score);
+    }
 
     teams[slotNo - 1].total = total;
 
     await this.setState({
       teams
     }, () => {
-      sessionStorage.setItem('judgeScoresheet', JSON.stringify(this.state));
+      sessionStorage.setItem("scoresheet" + this.props.round, JSON.stringify(this.state));
     })
-  }
+  };
 
   nextTeam = async () => {
     let idx = this.state.idx + 1
-    if (idx != this.state.teams.length) {
+    if (idx !== this.state.teams.length) {
       await this.setState({
         idx: idx,
       })
       this.setState({ selectedSlot: this.state.teams[this.state.idx].number })
     }
-  }
+  };
 
   prevTeam = async () => {
     let idx = this.state.idx - 1;
@@ -107,14 +98,15 @@ export default class Judge extends Component {
       })
       this.setState({ selectedSlot: this.state.teams[this.state.idx].number })
     }
-  }
+  };
+
   changeTeam = (e) => {
     let slot = e.target.id.substring(1);
     this.setState({
       selectedSlot: slot,
       idx: slot - 1
     })
-  }
+  };
 
   toggleConfirmBox = () => {
     if(this.state.showConfirmBox){
@@ -122,7 +114,7 @@ export default class Judge extends Component {
     } else {
       this.setState({ showConfirmBox : true })
     }
-  }
+  };
 
   submitScore = async () => {
     let score = await this.state.teams.map(each => {
@@ -138,28 +130,25 @@ export default class Judge extends Component {
 
     let response = await events.createScores(this.props.event, this.props.round, score);
     if (response) {
-      sessionStorage.removeItem('judgeScoresheet');
+      sessionStorage.removeItem("scoresheet" + this.props.round);
       // navigate("/events");
     }
-  }
+  };
 
 
-
-  render() {
-    return (
-      <div>
-        {(this.state.showConfirmBox) ?
-          <div
-            css={{
-              position: "absolute",
-              width: "100vw",
-              height: "100vh",
-              left: "0px",
-              top: "60px",
-              zIndex: 2,
-              backgroundColor: "rgba(0,0,0,0.4)"
-            }}
-          >
+  render = () => (
+    <div>
+      {
+        this.state.showConfirmBox
+        ? <div css={{
+            position: "absolute",
+            width: "100vw",
+            height: "100vh",
+            left: "0px",
+            top: "60px",
+            zIndex: 2,
+            backgroundColor: "rgba(0,0,0,0.4)"
+          }}>
             <div css={{
               padding: "16px",
               backgroundColor: "#FFFFFF",
@@ -173,13 +162,14 @@ export default class Judge extends Component {
             }}>
               <div css={{
                 textAlign: "center",
+              }}>Are you sure?</div>
 
-              }}>Are you sure ?</div>
               <div css={{
                 textAlign: "center",
                 color: "rgba(0,0,0,0.6)",
-                marginTop: "8px"
-              }}> Once you submit you cannot change the scores </div>
+                marginTop: "8px",
+              }}>Once you submit you cannot change the scores</div>
+
               <div css={{
                 paddingTop: "16px",
                 textAlign: "center"
@@ -189,59 +179,57 @@ export default class Judge extends Component {
               </div>
             </div>
           </div>
-          :
-          null
-        }
+        : null
+      }
 
-        {(this.state.judgeSelected) ?
-          <div>
-            <div
-              css={{
-                position: "relative",
-                float: "right",
-                margin: "16px",
-                fontSize: "1.3em"
-              }}
-            >{this.state.teams[this.state.selectedSlot - 1].total | 0} Points</div>
-            <div
-              css={{
-                // boxShadow: "0px 5px 12px -5px rgba(0, 0, 0, .1)",
-                width: "25%",
-                height: "94vh",
-                display: "inline-block",
-                backgroundColor: "#FFFFFF",
-                overflow: "scroll"
-              }}
-            >
-              {this.state.teams.map((each, i) => {
-                return (
-                  <TeamList score={each.total || 0} backgroundColor={(each.number == this.state.selectedSlot) ? "#EEEEEE" : "#FFFFFF"} onClick={this.changeTeam} key={i} slot={`#${each.number}`} name={each.teamName} />
-                );
-              })}
+      {
+        this.state.judgeSelected
+        ? <div>
+            <div css={{
+              position: "relative",
+              float: "right",
+              margin: "16px",
+              fontSize: "1.3em"
+            }}>
+              { this.state.teams[this.state.selectedSlot - 1].total | 0 } Points
             </div>
+
+            <div css={{
+              width: "25%",
+              height: "94vh",
+              display: "inline-block",
+              backgroundColor: "#FFFFFF",
+              overflow: "scroll"
+            }}>
+              {
+                this.state.teams.map((each, i) => (
+                  <TeamList score={each.total || 0} backgroundColor={(each.number.toString() === this.state.selectedSlot) ? "#EEEEEE" : "#FFFFFF"} onClick={this.changeTeam} key={i} slot={`#${each.number}`} name={each.teamName} />
+                ))
+              }
+            </div>
+
             <div css={{
               display: "inline-block",
               position: "absolute",
               marginTop: "32px",
             }}>
               <div>
-                {(this.state.criteria.length == 0) ?
-                  <div css={{
-                    left: "50%",
-                    position: "relative",
-                    transform: "translateX(-25%)",
-                    marginTop: "50px"
-                  }}>
-                    <CriteriaCard value={this.state.teams[this.state.selectedSlot - 1].score[`c${0}`] | 0} name={`s${this.state.selectedSlot}-c${0}`} onChange={this.handelCritriaChange} title={"Score"} />
-                  </div>
-                  :
-                  this.state.criteria.map((each, i) => {
-                    return (
+                {
+                  this.state.criteria.length === 0
+                  ? <div css={{
+                      left: "50%",
+                      position: "relative",
+                      transform: "translateX(-25%)",
+                      marginTop: "50px"
+                    }}>
+                      <CriteriaCard value={this.state.teams[this.state.selectedSlot - 1].score[`c${0}`] | 0} name={`s${this.state.selectedSlot}-c${0}`} onChange={this.handelCritriaChange} title={"Score"} />
+                    </div>
+                  : this.state.criteria.map((each, i) => (
                       <CriteriaCard value={this.state.teams[this.state.selectedSlot - 1].score[`c${i}`] | 0} name={`s${this.state.selectedSlot}-c${i}`} key={i} onChange={this.handelCritriaChange} title={each} />
-                    );
-                  })
+                    ))
                 }
               </div>
+
               <div>
                 <Button
                   onClick={this.prevTeam}
@@ -256,8 +244,7 @@ export default class Judge extends Component {
               </div>
             </div>
           </div>
-          :
-          <div css={{
+        : <div css={{
             width: "100%",
             height: "100%",
             display: "flex",
@@ -274,6 +261,7 @@ export default class Judge extends Component {
                 textAlign: "center",
                 marginBottom: "16px",
               }}>Select Judge</div>
+
               <div css={{
                 display: "flex",
                 flexDirection: "column",
@@ -308,18 +296,18 @@ export default class Judge extends Component {
                   isSearchable={true}
                   name="Judge"
                 />
-
               </div>
+
               <div>
                 <Button
                   disabled={!this.state.JudgeId}
                   onClick={this.selectJudge}
-                  styles={{ width: "100%" }}> Start Round </Button>
+                  styles={{ width: "100%" }}
+                >Start Round</Button>
               </div>
             </div>
           </div>
-        }
-      </div>
-    )
-  }
-}
+      }
+    </div>
+  )
+};
