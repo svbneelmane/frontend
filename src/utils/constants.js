@@ -8,8 +8,8 @@ const userTypes = {
 export default {
   // Whether the registrations are open for the following type of events.
   registrations: {
-    facultyEvents: true,
-    studentEvents: true,
+    facultyEvents: false,
+    studentEvents: false,
   },
   USER_TYPES: userTypes,
   getUserType: (type) => {
@@ -37,6 +37,6 @@ export default {
     white: "#ffffff",
   },
   // server:"http://localhost:3003",
-  server:"https://staging.manipalutsav.com",
-  // server:"https://api.manipalutsav.com",
+  //server:"https://staging.manipalutsav.com",
+   server:"https://api.manipalutsav.com",
 };
