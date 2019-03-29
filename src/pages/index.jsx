@@ -39,6 +39,7 @@ import Judge from "../components/Judges/StartJudging";
 // import configureStore from "../store";
 
 import Layout from "../layouts/app";
+import EditRound from "../components/Rounds/Edit";
 
 if(typeof(document)!='undefined')
   document.title="MUCAPP";
@@ -69,6 +70,7 @@ export default () =>
         <PrivateRoute path="/events/:event/rounds" exact component={ Rounds } type={ 2 } />
         <PrivateRoute path="/events/:event/rounds/add" exact component={ AddRound } type={ 1 } />
         <PrivateRoute path="/events/:event/rounds/:round/slot" exact component={ Slots } type={ 1 } />
+        <PrivateRoute path="/events/:event/rounds/:round/edit" exact component={ EditRound } type={ 1 } />
 
         <PrivateRoute path="/colleges" component={ Colleges } type={ 1 } />
         <PrivateRoute path="/colleges/add" component={ AddCollege } type={ 1 } />

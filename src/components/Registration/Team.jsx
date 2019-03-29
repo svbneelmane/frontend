@@ -89,7 +89,7 @@ export default class Events extends React.Component {
       if(!participant.name||participant.name.length===0)
         return toast(`Participant ${i+1}: Name is missing`);
 
-      if(!participant.name.match(/^[A-Z\.\s]*$/i))
+      if(!participant.name.match(/^[A-Z.\s]*$/i))
         return toast(`Participant ${i+1}:  Name cannot contain only alphabets, spaces and .`);
 
     }
