@@ -157,7 +157,7 @@ const getRounds = async (eventID) => {
 };
 
 const getSlots = async (eventID, roundID) => {
-  let response = await request("/events/" + eventID + "/rounds" + roundID + "/slots");
+  let response = await request("/events/" + eventID + "/rounds/" + roundID + "/slots");
 
   if (response && response.status === 200) {
     return response.data;
