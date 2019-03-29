@@ -41,8 +41,8 @@ export default class Judge extends Component {
   selectJudge = async () => {
     if (this.state.JudgeId) {
       await events.getSlots2(this.props.event, this.props.round).then(async teams => {
-        // HACK: @Abid, why? xD
-        // teams.map(each => { each.score = {} })
+        // HACK: ~~@Abid, why? xD~~ Now I know why
+        teams.map(each => { each.score = {} })
         await this.setState({ teams: teams });
       })
       await events.getRound(this.props.event, this.props.round).then(round => {
