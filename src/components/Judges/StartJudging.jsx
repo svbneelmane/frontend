@@ -15,7 +15,6 @@ export default class Judge extends Component {
     super(props)
     this.state = {
       showConfirmBox : false,
-      noteWidth: 0,
       judgeOption: [],
       JudgeId: null,
       judgeSelected: false,
@@ -117,18 +116,6 @@ export default class Judge extends Component {
     })
   }
 
-  toggleNote = () => {
-    if (this.state.noteWidth === 0) {
-      this.setState({
-        noteWidth: 350,
-      })
-    } else {
-      this.setState({
-        noteWidth: 0,
-      })
-    }
-  }
-
   toggleConfirmBox = () => {
     if(this.state.showConfirmBox){
       this.setState({ showConfirmBox : false })
@@ -216,37 +203,6 @@ export default class Judge extends Component {
                 fontSize: "1.3em"
               }}
             >{this.state.teams[this.state.selectedSlot - 1].total | 0} Points</div>
-            <div css={{
-              position: "absolute",
-              right: 0,
-              zIndex: 1,
-              marginTop: "70px",
-            }}>
-              <div onClick={this.toggleNote}
-                css={{
-                  padding: "4px 8px",
-                  backgroundColor: "#ff5800",
-                  color: "#FFFFFF",
-                  borderRadius: "5px",
-                  display: "inline-block",
-                  verticalAlign: "top",
-                }}>{(this.state.noteWidth) ? "Close" : "Notes"}
-              </div>
-              <div css={{
-                backgroundColor: "red",
-                height: "250px",
-                width: this.state.noteWidth,
-                display: "inline-block",
-                transition: "1s",
-                overflow: "hidden"
-              }}>
-                <textarea onChange={this.handelNoteChange} css={{
-                  height: "100%",
-                  width: "100%",
-                  resize: "none",
-                }}></textarea>
-              </div>
-            </div>
             <div
               css={{
                 // boxShadow: "0px 5px 12px -5px rgba(0, 0, 0, .1)",
