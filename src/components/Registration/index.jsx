@@ -1,83 +1,91 @@
 import React from "react";
 import { Link } from "gatsby";
 
+import constants from "../../utils/constants";
 import eventsService from "../../services/events";
 import collegesService from "../../services/colleges";
 import { getUser } from "../../services/userServices";
 import { Button } from "../../commons/Form";
 import Loader from "../../commons/Loader";
 
-const EventCard = ({ event }) => (
-  <Link to={ "/register/" + event.id } css={{
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    marginRight: 20,
-    marginBottom: 20,
-    padding: 20,
-    width: 350,
-    borderRadius: 3,
-    border: "2px solid rgba(0, 0, 0, .1)",
-    color: "inherit",
-    boxShadow: "0px 5px 20px -4px rgba(0, 0, 0, .1)",
-    transition: "box-shadow .2s ease",
-    ":hover": {
-      color: "inherit",
-      boxShadow: "0px 5px 50px -4px rgba(0, 0, 0, .1)",
-    }
-  }}>
-    <div>
-      <div css={{
-        fontSize: "1.3em",
-        marginBottom: "8px"
-      }}>
-        { event.name }
-      </div>
-      <div css={{
-        fontSize: "0.8em",
-        color: "rgba(0, 0, 0, .7)",
-      }}>
-        Organized by { event.college.name }
-      </div>
-      <div css={{
-        fontSize: "0.7em",
-        color: "rgba(0, 0, 0, .7)",
-        marginBottom: 10,
-      }}>
-        {new Date(event.startDate).toLocaleString()}
-      </div>
-      <div css={{
-        color: "rgba(0, 0, 0, .5)",
-        fontSize: "0.9em",
-        marginBottom: "8px",
-        maxHeight: 200,
-        overflowY: "auto",
-        whiteSpace: "pre-wrap"
-      }}>
-        { event.description && event.description.replace(/[>]/g,'- ') }
-      </div>
-    </div>
-    <div css={{
+const EventCard = ({ event }) => {
+  let registrationStatus = event.faculty ? constants.registrations.facultyEvents : constants.registrations.studentEvents;
+
+  return (
+    <Link to={"/register/" + event.id } css={{
       display: "flex",
+      flexDirection: "column",
       justifyContent: "space-between",
-      alignItems: "center",
-      marginTop:10,
+      marginRight: 20,
+      marginBottom: 20,
+      padding: 20,
+      width: 350,
+      borderRadius: 3,
+      border: "2px solid rgba(0, 0, 0, .1)",
+      color: "inherit",
+      boxShadow: "0px 5px 20px -4px rgba(0, 0, 0, .1)",
+      transition: "box-shadow .2s ease",
+      ":hover": {
+        color: "inherit",
+        boxShadow: "0px 5px 50px -4px rgba(0, 0, 0, .1)",
+      }
     }}>
-      <div css={{
-        color: "red",
-        fontSize: "0.8em",
-      }}>
-        <span>{event.unregistered ? "Unregistered" : ""}</span>
-      </div>
       <div>
-        { event.registeredCount !== event.maxTeamsPerCollege 
-          ? <Button>Register</Button>
-          : <span css={{fontSize: "0.9em"}}>Slots full for college</span>
-        }
+        <div css={{
+          fontSize: "1.3em",
+          marginBottom: "8px"
+        }}>
+          { event.name }
+        </div>
+        <div css={{
+          fontSize: "0.8em",
+          color: "rgba(0, 0, 0, .7)",
+        }}>
+          Organized by { event.college.name }
+        </div>
+        <div css={{
+          fontSize: "0.7em",
+          color: "rgba(0, 0, 0, .7)",
+          marginBottom: 10,
+        }}>
+          {new Date(event.startDate).toLocaleString()}
+        </div>
+        <div css={{
+          color: "rgba(0, 0, 0, .5)",
+          fontSize: "0.9em",
+          marginBottom: "8px",
+          maxHeight: 200,
+          overflowY: "auto",
+          whiteSpace: "pre-wrap"
+        }}>
+          { event.description && event.description.replace(/[>]/g,'- ') }
+        </div>
       </div>
-    </div>
-  </Link>
-);
+      <div css={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginTop:10,
+      }}>
+        <div css={{
+          color: "red",
+          fontSize: "0.8em",
+        }}>
+          <span>{event.unregistered ? "Unregistered" : ""}</span>
+        </div>
+        <div>
+          {
+            registrationStatus === false
+            ? <span css={{fontSize: "0.9em"}}>Registrations closed</span>
+            : event.registeredCount !== event.maxTeamsPerCollege
+              ? <Button>Register</Button>
+              : <span css={{fontSize: "0.9em"}}>Slots full for college</span>
+          }
+        </div>
+      </div>
+    </Link>
+  )
+};
 
 export default class Events extends React.Component {
   constructor(props) {
@@ -110,11 +118,12 @@ export default class Events extends React.Component {
           maxTeamsPerCollege: event.maxTeamsPerCollege,
           unregistered: !teams.some(team => team.event._id === event.id),
           registeredCount: teams.filter(team => team.event._id === event.id).length,
+          faculty: event.faculty,
         }));
         events.sort((a,b) => {
           return new Date(a.startDate) - new Date(b.startDate);
         });
-        
+
         this.setState({ events, loading: false });
       });
     });

@@ -1,346 +1,175 @@
-// TODO: This is just a temporary component to test login.
+import React from "react";
+import Scramble from "react-scramble";
 
-import React,{Component} from "react";
-import './style.css';
-import { Button } from "../../commons/Form";
 import eventsService from "../../services/events";
-import { navigate } from "gatsby";
+import LBList from "../../commons/LBList";
+import Shuffle from "../../commons/Shuffle";
 
-function WordShuffler(holder,opt){
-  var that = this;
-  var time = 0;
-  this.then = Date.now();
-  
-  this.currentTimeOffset = 0;
-  
-  this.word = null;
-  this.currentWord = null;
-  this.currentCharacter = 0;
-  this.currentWordLength = 0;
-
-
-  var options = {
-    fps : 20,
-    timeOffset : 5,
-    textColor : '#000',
-    fontSize : "50px",
-    useCanvas : false,
-    mixCapital : false,
-    mixSpecialCharacters : false,
-    needUpdate : true,
-    colors : [
-      '#f44336','#e91e63','#9c27b0',
-      '#673ab7','#3f51b5','#2196f3',
-      '#03a9f4','#00bcd4','#009688',
-      '#4caf50','#8bc34a','#cddc39',
-      '#ffeb3b','#ffc107','#ff9800',
-      '#ff5722','#795548','#9e9e9e',
-      '#607d8b'
-    ]
-  }
-
-  if(typeof opt != "undefined"){
-    for(let key in opt){
-      options[key] = opt[key];
-    }
-  }
-
-
-  
-  this.needUpdate = true;
-  this.fps = options.fps;
-  this.interval = 1000/this.fps;
-  this.timeOffset = options.timeOffset;
-  this.textColor = options.textColor;
-  this.fontSize = options.fontSize;
-  this.mixCapital = options.mixCapital;
-  this.mixSpecialCharacters = options.mixSpecialCharacters;
-  this.colors = options.colors;
-
-   this.useCanvas = options.useCanvas;
-  
-  this.chars = [
-    'A','B','C','D',
-    'E','F','G','H',
-    'I','J','K','L',
-    'M','N','O','P',
-    'Q','R','S','T',
-    'U','V','W','X',
-    'Y','Z'
-  ];
-  this.specialCharacters = [
-    '!','§','$','%',
-    '&','/','(',')',
-    '=','?','_','<',
-    '>','^','°','*',
-    '#','-',':',';','~'
-  ]
-
-  if(this.mixSpecialCharacters){
-    this.chars = this.chars.concat(this.specialCharacters);
-  }
-
-  this.getRandomColor = function () {
-    var randNum = Math.floor( Math.random() * this.colors.length );
-    return this.colors[randNum];
-  }
-
-  //if Canvas
- 
-  this.position = {
-    x : 0,
-    y : 50
-  }
-
-  //if DOM
-  if(typeof holder != "undefined"){
-    this.holder = holder;
-  }
-
- 
-
-
-  this.getRandCharacter = function(characterToReplace){    
-    if(characterToReplace === " "){
-      return ' ';
-    }
-    var randNum = Math.floor(Math.random() * this.chars.length);
-    var lowChoice =  -.5 + Math.random();
-    var picketCharacter = this.chars[randNum];
-    var choosen = picketCharacter.toLowerCase();
-    if(this.mixCapital){
-      choosen = lowChoice < 0 ? picketCharacter.toLowerCase() : picketCharacter;
-    }
-    return choosen;
-    
-  }
-
-  this.writeWord = function(word){
-    this.word = word;
-    console.log("WORD",word);
-    this.currentWord = word.split('');
-    this.currentWordLength = this.currentWord.length;
-
-  }
-
-  this.generateSingleCharacter = function (color,character) {
-    var span = document.createElement('span');
-    span.style.color = color;
-    span.innerHTML = character;
-    return span;
-  }
-
-  this.updateCharacter = function (time) {
-    
-      this.now = Date.now();
-      this.delta = this.now - this.then;
-
-       
-
-      if (this.delta > this.interval) {
-        this.currentTimeOffset++;
-      
-        var word = [];
-
-        if(this.currentTimeOffset === this.timeOffset && this.currentCharacter !== this.currentWordLength){
-          this.currentCharacter++;
-          this.currentTimeOffset = 0;
-        }
-        for(var k=0;k<this.currentCharacter;k++){
-          word.push(this.currentWord[k]);
-        }
-
-        for(var i=0;i<this.currentWordLength - this.currentCharacter;i++){
-          word.push(this.getRandCharacter(this.currentWord[this.currentCharacter+i]));
-        }
-
-
-        if(that.useCanvas){
-         
-        }else{
-
-          if(that.currentCharacter === that.currentWordLength){
-            that.needUpdate = false;
-          }
-          this.holder.innerHTML = '';
-          word.forEach(function (w,index) {
-            var color = null
-            if(index > that.currentCharacter){
-              color = that.getRandomColor();
-            }else{
-              color = that.textColor;
-            }
-            that.holder.appendChild(that.generateSingleCharacter(color, w));
-          }); 
-        }
-        this.then = this.now - (this.delta % this.interval);
-      }
-  }
-
-  this.restart = function () {
-    this.currentCharacter = 0;
-    this.needUpdate = true;
-  }
-
-  function update(time) {
-    time++;
-    if(that.needUpdate){
-      that.updateCharacter(time);
-    }
-    requestAnimationFrame(update);
-  }
-
-  this.writeWord(options.word);
-
-
-  update(time);
-}
-
-export default class GenerateSlots extends Component {
-  
+export default class extends React.Component {
   constructor(props){
     super(props);
-    this.startSlotting=this.startSlotting.bind(this);
-    this.deleteSlots=this.deleteSlots.bind(this);
-    this.state={
-      slotted:false,
-      loaded:false,
-      slottingStarted:false,
-      columns:[],
-      dataSource:[],
-      slots:[]
+
+    this.slots = [];
+    this.timer = null;
+
+    this.animate = this.animate.bind(this);
+    this.startSlotting = this.startSlotting.bind(this);
+    this.deleteSlots = this.deleteSlots.bind(this);
+
+    this.state = {
+      loaded: false,
+      event: {},
+      slots: [],
+      newSlots: [],
+      slotting: false,
+      slotted: false,
     }
   }
-  teams=[];
-  async componentDidMount(){
-    
-    let slots = await eventsService.getSlots2(this.props.event,this.props.round);
-    let event = await eventsService.get(this.props.event);
-    console.log(event);
-    this.setState({
-      loaded:true,
-      slotted:slots.length>0,
-      slots,
-      eventName:event.name
-    });
+
+  componentWillMount() {
+    eventsService.get(this.props.event).then(event =>
+      this.setState({ event })
+    );
+
+    eventsService.getSlots2(this.props.event, this.props.round).then(slots =>
+      this.setState({ slotted: !!slots.length, slots }, () =>
+        this.setState({ loaded: true })
+      )
+    );
   }
 
+  animate(slots) {
+    this.slots = Object.assign([], slots);
+    // this.slots = slots;
 
-  async startSlotting(){
-    let slottable = document.querySelector(".slottable");
-    slottable.classList.add("rotate");
+    this.timer = setInterval(() => {
+      let slot = this.slots.shift();
 
-    let slots = await eventsService.createSlots2(this.props.event,this.props.round);
-    this.setState({slots},()=>{
-      setTimeout(()=>this.animate(0),2000);
-    })
+      if (!slot) {
+        return clearTimeout(this.timer);
+      }
+
+      let newSlots = this.state.newSlots;
+      newSlots.push(slot);
+
+      this.setState({ newSlots, });
+    }, 1000);
   }
-    animate=(i)=>{
-      if(i>=this.state.slots.length)
-        return;
-      let teamName = this.state.slots[i].teamName;
-    let wordLen = teamName.length;
-    let element = document.querySelector('#team-'+this.state.slots[i].number);
-    let fps = 50;
-    let timeOffset = 10;
-    let tpc = timeOffset/fps;
-    new WordShuffler(element,{
-      textColor : '#000',
-      timeOffset,
-      fps,
-      word:teamName,
-      mixCapital : true,
-      mixSpecialCharacters : true
-    });
-    console.log(element);
-    this.scroll(element.offsetTop)
-    setTimeout(()=>{
-      this.animate(++i);
-    },tpc*wordLen*1000);  
-  };
-  scroll(y){
-    let slotWrapper = document.querySelector("#slotWrapper");
-    console.log(slotWrapper);
-    let currentY = slotWrapper.scrollTop;
-    let part = (y-currentY)/100;
-    let timer = setInterval(()=>{
-      currentY = slotWrapper.scrollTop;
-      if(currentY>=y)
-        clearInterval(timer);
-        slotWrapper.scrollTo(0,currentY+part);
-    },10);
-    setTimeout(()=>{
-      clearInterval(timer)
-    },1000)
+
+  startSlotting() {
+    this.setState({ slotting: true, });
+
+    eventsService.createSlots2(this.props.event, this.props.round).then(slots =>
+      this.setState({ slots }, () =>
+        this.animate(this.state.slots)
+      )
+    )
   }
-  notLoaded=()=>(<div>Please wait while we check for slots...</div>);
-  async deleteSlots(){
-      if(typeof(window)=="undefined")
-        return;
-      if(!window.confirm("Are you sure?"))
-        return;
-      console.log(this);
-      await eventsService.deleteSlots2(this.props.event,this.props.round);
-      
-      navigate(`/events/${this.props.event}/rounds/`);
+
+  deleteSlots() {
+    if (typeof window !== "undefined" && window.confirm("Are you sure you want to reset slots?")) {
+      eventsService.deleteSlots2(this.props.event, this.props.round).then(() => {
+        this.slots = [];
+        this.timer = null;
+
+        this.setState({
+          slots: [],
+          newSlots: [],
+          slotting: false,
+          slotted: false,
+        })
+      });
+    }
   }
-  notSlotted=()=>(
-    <div id="slotWrapper">
-      <div className="slottable">
-        <div id="intro">
-            <h1>{this.state.eventName}</h1>
-            <h2>Click to generate slots now</h2>
-            
-            <button className="slotButton" onClick={this.startSlotting}>START</button>
-            <div><Button>View Teams</Button></div>
+
+  render = () => (
+    this.state.loaded
+    ? this.state.slotted
+      ? <div>
+          <div css={{
+            textAlign: "center",
+            marginBottom: 30,
+          }}>
+            <h2>
+              { this.state.event.name } Round { this.state.event.rounds && (this.state.event.rounds.indexOf(this.props.round) + 1) } Slots
+            </h2>
+            <button onClick={ this.deleteSlots }>Reset Slots</button>
           </div>
-          <div className="table">
-          <table>
-            <caption>Slots for {this.state.eventName}</caption>
-            <thead>
-              <tr><th>Slot. No. </th><th>Team Name</th></tr>
-              </thead>
-              <tbody>
+          <div>
+            {
+              this.state.slots.map((slot, i) =>
+                <LBList
+                  key={ i }
+                  position={ slot.number }
+                  title={ slot.teamName }
+                />
+              )
+            }
+          </div>
+        </div>
+      : this.state.slotting
+        ? <div>
+            <div css={{
+              textAlign: "center",
+              marginBottom: 30,
+            }}>
+              <h2>
+                Slotting teams for { this.state.event.name } Round { this.state.event.rounds && (this.state.event.rounds.indexOf(this.props.round) + 1) }
+              </h2>
+              <button onClick={ this.deleteSlots }>Reset Slots</button>
+            </div>
+            <div>
               {
-                this.state.slots.map((slot, k) => {
-                  return (
-                    <tr key={k}>
-                      <th>{slot.number}</th>
-                      <th id={"team-"+slot.number} ></th>
-                    </tr>
-                  )
-                })
+                this.state.newSlots.map((slot, i) =>
+                  <LBList
+                    key={ i }
+                    position={ slot.number }
+                    title={
+                      <Scramble
+                        autoStart
+                        preScramble
+                        speed="slow"
+                        text={ slot.teamName }
+                        steps={[
+                          {
+                            action: "-",
+                            type: "random",
+                          },
+                        ]}
+                      />
+                    }
+                  />
+                )
               }
-              </tbody>
-          </table>
-         
+            </div>
+            <div>
+              {
+                this.state.slots.length !== this.slots.length && this.slots.length
+                ? <Shuffle />
+                : null
+              }
+            </div>
           </div>
-      </div>
-      
-    </div>);
-
-  slotted=()=>(
-    <div>
-      <table className="afterSlotTable">
-      <caption>Event</caption>
-        <thead>
-          <tr>
-            <th>Slot No.</th>
-            <th>Team Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this.state.slots.map((slot,index)=><tr key={index}><td>{slot.number}</td><td>{slot.teamName}</td></tr>)}
-        </tbody>
-      </table>
-      <div style={{textAlign:"center",padding:20}}>
-      <Button onClick={this.deleteSlots}>Reslot</Button>
-      </div>
-    </div>);
-  render=()=>
-    this.state.loaded?
-      (this.state.slotted?
-          this.slotted()
-          :this.notSlotted())
-      :this.notLoaded();
-}
+        : <div css={{
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}>
+            <h2>{ this.state.event.name }</h2>
+            <div css={{ color: "rgba(0, 0, 0, .5)" }}>
+              Teams haven't been slotted for Round { this.state.event.rounds && (this.state.event.rounds.indexOf(this.props.round) + 1) }
+            </div>
+            <p css={{ color: "green" }}>Generate slots now!</p>
+            <button onClick={ this.startSlotting }>
+              {
+                this.state.slotting
+                ? "Slotting..."
+                : "Slot Teams"
+              }
+            </button>
+          </div>
+    : <div>Please wait while we check for slots...</div>
+  );
+};

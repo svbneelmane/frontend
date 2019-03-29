@@ -152,12 +152,12 @@ export default class Judge extends Component {
     let response = await events.createScores(this.props.event, this.props.round, score);
     if (response) {
       sessionStorage.removeItem('judgeScoresheet');
-      // navigate("/events"); 
+      // navigate("/events");
     }
   }
 
 
-  
+
   render() {
     return (
       <div>

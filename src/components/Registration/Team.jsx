@@ -1,6 +1,7 @@
 import React from "react";
 import { navigate } from "gatsby";
 
+import constants from "../../utils/constants";
 import eventsService from "../../services/events";
 import { getUser } from "../../services/userServices";
 import { Input, Button } from "../../commons/Form";
@@ -36,7 +37,8 @@ export default class Events extends React.Component {
       event: [],
       participantsInput: [],
       participants: [],
-      button: this.REGISTER
+      button: this.REGISTER,
+      registrationStatus: null,
     };
   }
 
@@ -53,58 +55,52 @@ export default class Events extends React.Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault();
     let participants = this.state.participants.map(participant => ({
       ...participant,
-      faculty: participant.registrationID&&participant.registrationID.startsWith("MAHE") ? true : false,
+      faculty: participant.registrationID&&participant.registrationID.match(/(MAHE|MSS|MAGE|EC)/) ? true : false,
     }));
-    let pass=true;
-    this.state.participants.map(participant => {
-      if(!participant.registrationID){
-        pass=false;
-        return toast("Register number misssing");
-      }
-      if(participant.registrationID.match(/\s/)){
-        pass=false;
-        return toast(participant.registrationID+" cannot contain spaces.");
-      }
-      if(!participant.registrationID.match(/^(?:(?:MAHE[\d]{7})|(?:[\d]{9}))$/i)){
-        pass=false;
-        return toast(participant.registrationID+" is invalid register number");
-      }
-      if(this.state.event.faculty&&participant.registrationID.match(/^[\d]{9}$/i)){
-        pass=false;
-        return toast(participant.registrationID+" cannot participate in a faculty event");
-      }
-      if(!this.state.event.faculty&&!participant.registrationID.match(/^[\d]{9}$/i)){
-        pass=false;
-        return toast(participant.registrationID+" cannot participate in a student event");
-      }
-      if(!participant.name||participant.name.length===0){
-        pass=false;
-        return toast("Please enter participant name");
-      }
-      if(!participant.name.match(/^[A-Z\s]*$/i)){
-        pass=false;
-        return toast("Participant name cannot contain non alphabetical characters");
-      }
-      return participant;
-    });
-    if(this.state.participants.length<this.state.event.minMembersPerTeam){
-      pass=false;
-      return toast("Minimum of "+this.state.event.minMembersPerTeam+" participants are required to register for this event.");
+
+    //VALIDATIONS
+    for(let i=0;i<this.state.participants.length;i++){
+
+      let participant = this.state.participants[i];
+
+      if(!participant)
+        return toast(`Participant ${i+1}: Please fill register number and name`);
+
+
+      if(!participant.registrationID)
+        return toast(`Participant ${i+1}: Register number missing`);
+
+      if(participant.registrationID.match(/\s/))
+        return toast(`Participant ${i+1}: Registration id cannot contain spaces.`);
+
+      if(!participant.registrationID.match(/^(?:(?:MAHE[\d]{7})|(?:MSS[\d]{4,5})|(?:MAGE[\d]{8})|(?:EC[\d]{4,5})|(?:[\d]{9}))$/))
+        return toast(`Participant ${i+1}: Registration id is invalid`);
+
+      if(this.state.event.faculty&&participant.registrationID.match(/^[\d]{9}$/))
+        return toast(`Participant ${i+1}: Registration id not accepted for faculty events`);
+
+      if(!this.state.event.faculty&&!participant.registrationID.match(/^[\d]{9}$/))
+        return toast(`Participant ${i+1}: Registration id not accepted for student events`);
+
+      if(!participant.name||participant.name.length===0)
+        return toast(`Participant ${i+1}: Name is missing`);
+
+      if(!participant.name.match(/^[A-Z\.\s]*$/i))
+        return toast(`Participant ${i+1}:  Name cannot contain only alphabets, spaces and .`);
+
     }
-    this.state.participants.forEach((Ielem,i)=>{
-      this.state.participants.forEach((Jelem,j)=>{
-      if(i!==j&&Ielem.registrationID===Jelem.registrationID)
-      {
-        pass=false;
-        return toast(Ielem.registrationID+" has been entered more then once");
-      }
-    })
-  });
-   if(!pass)
-    return;
+
+    if(this.state.participants.length<this.state.event.minMembersPerTeam)
+      return toast("Minimum of "+this.state.event.minMembersPerTeam+" participants are required to register for this event.");
+
+    for(let i=0;i<this.state.participants.length;i++)
+      for(let j=0;j<this.state.participants.length;j++)
+      if(i!==j&&this.state.participants[i]===this.state.participants[j])
+        return toast(this.state.participants[i]+" has been entered more then once");
 
     let user = getUser();
     this.setState({
@@ -126,33 +122,39 @@ export default class Events extends React.Component {
       if (!event.maxMembersPerTeam) event.maxMembersPerTeam = 1;
 
       let participantsInput = [];
+
       for (let i = 0; i < event.maxMembersPerTeam; i++) {
-        participantsInput.push(<Participant handleChange={ this.handleChange } key={ i } count={ i + 1 } />);
+        participantsInput.push(<Participant handleChange={ this.handleChange } key={ i } count={ i + 1 }/>);
       }
 
       this.setState({
         event,
         participantsInput,
+        registrationStatus: event.faculty ? constants.registrations.facultyEvents : constants.registrations.studentEvents,
       });
     });
   };
 
   render = () => (
-    <div>
-      <div>
-        <h2>Team Registration</h2>
-        <p>Register a team for the { this.state.event.name } event in Utsav.</p>
+    this.state.registrationStatus === false
+    ? <div>
+        <h2>{ this.state.event.name }</h2>
+        <div css={{ color: "red", }}>Registrations are now closed!</div>
       </div>
-      <div css={{
-      }}>
-        {
-          this.state.participantsInput.map(participants => participants)
-        }
-        <div css={{marginTop: "20px"}}>
-          <Button onClick={ this.handleSubmit } disabled={this.state.button===this.REGISTERING}>{this.state.button}</Button>
-          <Button styles={{marginLeft: "10px"}} onClick={() => { navigate("/register")} }>Cancel</Button>
+    : <div>
+        <div>
+          <h2>Team Registration</h2>
+          <p>Register a team for the { this.state.event.name } event in Utsav.</p>
+        </div>
+        <div>
+          {
+            this.state.participantsInput.map(participants => participants)
+          }
+          <div css={{marginTop: "20px"}}>
+            <Button onClick={ this.handleSubmit } disabled={this.state.button===this.REGISTERING}>{this.state.button}</Button>
+            <Button styles={{marginLeft: "10px"}} onClick={() => { navigate("/register")} }>Cancel</Button>
+          </div>
         </div>
       </div>
-    </div>
   );
 };
