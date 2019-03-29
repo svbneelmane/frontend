@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "gatsby";
 import { FiMenu, FiX, FiUser } from 'react-icons/fi'
-import Logo from "../../../static/favicon.png";
 import sidebarStore from '../../reducers/sidebarReducer';
 import userStore from '../../reducers/userReducer';
 import {open,close} from '../../actions/sidebarActions';

@@ -38,6 +38,7 @@ const RoundCard = (props) => (
               margin: 16,
             }} type={props.type}/>*/}
     <div>
+      <Button onClick={ event => { navigate(`/events/${props.eventId}/rounds/${props.roundId}/edit`) }} styles={{ marginBottom: "16px",color:"black", backgroundColor : "#f5f5f5", width: "100%"}}  color="#f5f5f5">Edit rounds</Button>
       <Button onClick={ event => { navigate(`/events/${props.eventId}/rounds/${props.roundId}/slot`) }} styles={{color:"black", backgroundColor : "#f5f5f5", width: "100%"}}  color="#f5f5f5" value="View Slots" >View Slots</Button>
       <Button onClick={ event => { navigate(`/judge/${props.eventId}/rounds/${props.roundId}`); }} styles={{marginTop: "16px", width: "100%"}} value="Start Round" >Start Round</Button>
     </div>

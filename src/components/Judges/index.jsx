@@ -27,7 +27,7 @@ const styles = {
 
 const Judge = (props) => {
   let handleDelete = (judge) => {
-    let surety = typeof window !== "undefined"
+     typeof window !== "undefined"
       && window.confirm("Are you sure you want to delete the judge " + judge.name + "?");
     // if (surety && !judge.rounds.length)
     // TODO: DELETE /judges/:judge

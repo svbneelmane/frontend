@@ -22,7 +22,8 @@ export default class Login extends Component {
   	})
   }
 
-  login = () => {
+  login = (event) => {
+		event.preventDefault();
 	if(!this.state.email)
 		return toast("Please enter email");
 	if(!this.state.password)
@@ -54,6 +55,7 @@ export default class Login extends Component {
 		alignItems: "center",
 		justifyContent: "center",
 	  }}>
+		<form onSubmit={this.login}>
 		<div css = {{
 		  width: 350,
 		  padding: 20,
@@ -76,12 +78,13 @@ export default class Login extends Component {
 			  styles = {{
 				width: "100%",
 			  }}
-			  onClick = {this.login}
+			 
 			>
 			  {this.state.loginButton}
 			</Button>
 		  </div>
 		</div>
+		</form>
 	  </div>
 	)
   }
