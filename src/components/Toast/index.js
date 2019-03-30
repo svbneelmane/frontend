@@ -34,7 +34,9 @@ export default class Toast extends Component{
                 top:"-10%",
                 width:"100%",
                 animation:this.state.animation
-            }}>
+            }}
+            className="no-print"
+            >
                 <div css={{
                     background: "#fff",
                     color:"#900",
