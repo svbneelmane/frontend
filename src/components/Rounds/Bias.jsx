@@ -75,6 +75,7 @@ export default class Bias extends React.PureComponent {
             <th>Team Name</th>
             <th>Judge's Score</th>
             <th>Bias</th>
+            <th>Action</th>
             <th>Total</th>
           </tr>
           {
