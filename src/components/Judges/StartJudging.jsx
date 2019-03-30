@@ -13,42 +13,41 @@ export default class Judge extends Component {
     super(props);
 
     this.state = {
-      showConfirmBox : false,
-      judgeOption: [],
-      JudgeId: null,
+      judgeOptions: [],
+      judge: null,
+      slots: [],
+      selection: null,
+
       judgeSelected: false,
       criteria: [],
-      // selectedSlot: null,
-      selectedSlot: 1,
-      idx: 0,
-      teams: [],
-      ...JSON.parse(sessionStorage.getItem("scoresheet" + this.props.round)) || {}
+
+      ...JSON.parse(sessionStorage.getItem("scoresheet:" + this.props.round)) || {}
     };
   }
 
   componentWillMount = () => {
     judges.getAll().then(judges => this.setState({
-      judgeOption: judges.map(judge => ({ value: judge.id, label: judge.name }))
+      judgeOptions: judges.map(judge => ({ value: judge.id, label: judge.name }))
     }));
   };
 
-  handleJudgeChange = (value) => {
+  handleJudgeChange = (id) => {
     this.setState({
-      JudgeId: value,
+      judge: id,
     });
   };
 
   selectJudge = async () => {
-    if (this.state.JudgeId) {
-      await events.getSlots2(this.props.event, this.props.round).then(async teams => {
-        // HACK: ~~@Abid, why? xD~~ Now I know why
-        teams.map(each =>  each.score = {} )
-        await this.setState({ teams: teams });
-      })
-      await events.getRound(this.props.event, this.props.round).then(round => {
+    if (this.state.judge) {
+      events.getSlots(this.props.event, this.props.round).then(slots => {
+        slots.map(team =>  team.points = []);
+        this.setState({ slots });
+      });
+
+      events.getRound(this.props.event, this.props.round).then(round => {
         this.setState({ criteria: round.criteria });
-      })
-      this.setState({ selectedSlot: this.state.teams[this.state.idx].number })
+      });
+
       this.setState({
         judgeSelected: true
       })
@@ -59,78 +58,57 @@ export default class Judge extends Component {
     let { name, value } = event;
 
     if (value < 0 || value > 10) {
-      toast("Score cannot be above 10 or below 0");
-      return;
+      return toast("Score cannot be above 10 or below 0");
     }
-    let teams = await this.state.teams;
-    let slotNo = this.state.selectedSlot;
-    teams[slotNo - 1].score = { ...teams[slotNo - 1].score, [name.substr(name.indexOf("c"))]: value }
+
+    let teams = this.state.slots;
+
+    if (!teams[this.getSlotIndex(this.state.selection)].points.length) teams[this.getSlotIndex(this.state.selection)].points = new Array(this.state.criteria.length).fill(0);
+
+    teams[this.getSlotIndex(this.state.selection)].points[name] = value;
+
     let total = 0;
 
-    for (let score of Object.values(this.state.teams[slotNo - 1].score)) {
-      total += parseInt(score);
+    for (let score of this.state.slots[this.getSlotIndex(this.state.selection)].points) {
+      if (score) total += parseInt(score);
     }
 
-    teams[slotNo - 1].total = total;
+    teams[this.getSlotIndex(this.state.selection)].total = total;
 
     await this.setState({
-      teams
+      slots: teams
     }, () => {
-      sessionStorage.setItem("scoresheet" + this.props.round, JSON.stringify(this.state));
+      sessionStorage.setItem("scoresheet:" + this.props.round, JSON.stringify(this.state));
     })
   };
 
-  nextTeam = async () => {
-    let idx = this.state.idx + 1
-    if (idx !== this.state.teams.length) {
-      await this.setState({
-        idx: idx,
-      })
-      this.setState({ selectedSlot: this.state.teams[this.state.idx].number })
-    }
-  };
-
-  prevTeam = async () => {
-    let idx = this.state.idx - 1;
-    if (idx >= 0) {
-      await this.setState({
-        idx: idx,
-      })
-      this.setState({ selectedSlot: this.state.teams[this.state.idx].number })
-    }
-  };
-
-  changeTeam = (e) => {
-    let slot = e.target.id.substring(1);
+  changeTeam = (team) => {
     this.setState({
-      selectedSlot: slot,
-      idx: slot - 1
-    })
+      selection: team.number,
+    });
   };
 
-  toggleConfirmBox = () => {
-    if(this.state.showConfirmBox){
-      this.setState({ showConfirmBox : false })
-    } else {
-      this.setState({ showConfirmBox : true })
+  getSlotIndex = (number) => {
+    let index = 0;
+    for (let slot of this.state.slots) {
+      if (slot.number === number) return index;
+      index++;
     }
-  };
+  }
 
   submitScore = async () => {
-    let score = await this.state.teams.map(each => {
-      return {
-        judges: [{
-          id: this.state.JudgeId,
-          points: each.total | 0
-        }],
-        team: each.id,
-        round: each.round,
-      }
-    });
+    let score = this.state.slots.map(team => ({
+      judges: [{
+        id: this.state.judge,
+        points: team.points
+      }],
+      team: team.id,
+      round: team.round,
+    }));
 
     let response = await events.createScores(this.props.event, this.props.round, score);
     if (response) {
-      sessionStorage.removeItem("scoresheet" + this.props.round);
+      sessionStorage.removeItem("scoresheet:" + this.props.round);
       // navigate("/events");
     }
   };
@@ -138,50 +116,6 @@ export default class Judge extends Component {
 
   render = () => (
     <div>
-      {
-        this.state.showConfirmBox
-        ? <div css={{
-            position: "absolute",
-            width: "100vw",
-            height: "100vh",
-            left: "0px",
-            top: "60px",
-            zIndex: 2,
-            backgroundColor: "rgba(0,0,0,0.4)"
-          }}>
-            <div css={{
-              padding: "16px",
-              backgroundColor: "#FFFFFF",
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              boxShadow: "0px 5px 20px -4px rgba(0, 0, 0, .1)",
-              maxWidth: "400px",
-              transform: "translate(-50%, -50%)",
-              borderRadius: 5
-            }}>
-              <div css={{
-                textAlign: "center",
-              }}>Are you sure?</div>
-
-              <div css={{
-                textAlign: "center",
-                color: "rgba(0,0,0,0.6)",
-                marginTop: "8px",
-              }}>Once you submit you cannot change the scores</div>
-
-              <div css={{
-                paddingTop: "16px",
-                textAlign: "center"
-              }}>
-                <Button onClick={this.toggleConfirmBox} styles={{ marginRight: "8%", backgroundColor: "#ffffff", color: "#000000" }}>Cancel</Button>
-                <Button onClick={this.submitScore} styles={{ marginLeft: "8%" }}>Submit</Button>
-              </div>
-            </div>
-          </div>
-        : null
-      }
-
       {
         this.state.judgeSelected
         ? <div>
@@ -191,7 +125,7 @@ export default class Judge extends Component {
               margin: "16px",
               fontSize: "1.3em"
             }}>
-              { this.state.teams[this.state.selectedSlot - 1].total | 0 } Points
+              { (this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].total) || 0 } Points
             </div>
 
             <div css={{
@@ -202,8 +136,15 @@ export default class Judge extends Component {
               overflow: "scroll"
             }}>
               {
-                this.state.teams.map((each, i) => (
-                  <TeamList score={each.total || 0} backgroundColor={(each.number.toString() === this.state.selectedSlot) ? "#EEEEEE" : "#FFFFFF"} onClick={this.changeTeam} key={i} slot={`#${each.number}`} name={each.teamName} />
+                this.state.slots.map((team, i) => (
+                  <TeamList
+                    key={ i }
+                    score={ team.total || 0 }
+                    slot={ "#" + team.number }
+                    name={ team.team && team.team.name }
+                    backgroundColor={ team.number === this.state.selection ? "#ffd100" : "" }
+                    onClick={ () => this.changeTeam(team) }
+                  />
                 ))
               }
             </div>
@@ -222,25 +163,27 @@ export default class Judge extends Component {
                       transform: "translateX(-25%)",
                       marginTop: "50px"
                     }}>
-                      <CriteriaCard value={this.state.teams[this.state.selectedSlot - 1].score[`c${0}`] | 0} name={`s${this.state.selectedSlot}-c${0}`} onChange={this.handelCritriaChange} title={"Score"} />
+                      <CriteriaCard
+                        title="Score"
+                        onChange={ this.handelCritriaChange }
+                        value={ (this.state.selection && this.state.slots[this.getSlotIndex(this.state.selection)].points[0]) || 0 }
+                        name={ 0 }
+                      />
                     </div>
-                  : this.state.criteria.map((each, i) => (
-                      <CriteriaCard value={this.state.teams[this.state.selectedSlot - 1].score[`c${i}`] | 0} name={`s${this.state.selectedSlot}-c${i}`} key={i} onChange={this.handelCritriaChange} title={each} />
+                  : this.state.criteria.map((criterion, i) => (
+                      <CriteriaCard
+                        key={ i }
+                        title={ criterion }
+                        onChange={ this.handelCritriaChange }
+                        value={ (this.state.selection && this.state.slots[this.getSlotIndex(this.state.selection)].points[i]) || 0 }
+                        name={ i }
+                      />
                     ))
                 }
               </div>
 
               <div>
-                <Button
-                  onClick={this.prevTeam}
-                  styles={{
-                    display: "inline-block",
-                    margin: "16px",
-                    backgroundColor: "white",
-                    color: "black",
-                  }}>Prev</Button>
-                <Button onClick={this.nextTeam} styles={{ display: "inline-block" }}>Next</Button>
-                <Button styles={{ float: "right", marginTop: "16px", marginRight: "18px" }} onClick={this.toggleConfirmBox} >Submit</Button>
+                <Button styles={{ float: "right", marginTop: "16px", marginRight: "18px" }} onClick={this.submitScore} >Submit</Button>
               </div>
             </div>
           </div>
@@ -267,9 +210,9 @@ export default class Judge extends Component {
                 flexDirection: "column",
               }}>
                 <Select
-                  value={this.state.Judge}
+                  // value={this.state.Judge}
                   onChange={(selected) => this.handleJudgeChange(selected.value)}
-                  options={this.state.judgeOption}
+                  options={this.state.judgeOptions}
                   styles={{
                     control: (provided, state) => ({
                       ...provided,
@@ -300,7 +243,7 @@ export default class Judge extends Component {
 
               <div>
                 <Button
-                  disabled={!this.state.JudgeId}
+                  disabled={!this.state.judge}
                   onClick={this.selectJudge}
                   styles={{ width: "100%" }}
                 >Start Round</Button>
