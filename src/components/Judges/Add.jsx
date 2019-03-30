@@ -1,8 +1,7 @@
 import React from "react";
 import { navigate } from "gatsby";
 
-import reducer from "../../reducers/commonReducer";
-import { create } from "../../services/judgeServices";
+import judgesService from "../../services/judges";
 import { Input, Button } from "../../commons/Form";
 
 export default class AddJudge extends React.Component {
@@ -12,14 +11,13 @@ export default class AddJudge extends React.Component {
     this.setState({ [e.name]: e.value });
   };
 
-  handleClick = () => {
-    create({
+  handleClick = async () => {
+    let response = judgesService.create({
       name: this.state.name,
     });
-
-    reducer.subscribe(() => {
-      navigate("/judges");
-    });
+    if(!response)
+      return;
+    navigate("/judges");
   };
 
   render = () => (
