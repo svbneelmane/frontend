@@ -41,7 +41,10 @@ export default class Judge extends Component {
     if (this.state.judge) {
       events.getSlots(this.props.event, this.props.round).then(slots => {
         slots.map(team =>  team.points = []);
-        this.setState({ slots });
+        this.setState({
+          slots,
+          selection: slots[0] && slots[0].number
+        });
       });
 
       events.getRound(this.props.event, this.props.round).then(round => {
@@ -118,22 +121,14 @@ export default class Judge extends Component {
     <div>
       {
         this.state.judgeSelected
-        ? <div>
-            <div css={{
-              position: "relative",
-              float: "right",
-              margin: "16px",
-              fontSize: "1.3em"
-            }}>
-              { (this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].total) || 0 } Points
-            </div>
-
+        ? <div css={{
+            display: "flex",
+          }}>
             <div css={{
               width: "25%",
-              height: "94vh",
-              display: "inline-block",
-              backgroundColor: "#FFFFFF",
-              overflow: "scroll"
+              maxHeight: "calc(100vh - 100px)",
+              overflowY: "auto",
+              flex: 1,
             }}>
               {
                 this.state.slots.map((team, i) => (
@@ -142,7 +137,7 @@ export default class Judge extends Component {
                     score={ team.total || 0 }
                     slot={ "#" + team.number }
                     name={ team.team && team.team.name }
-                    backgroundColor={ team.number === this.state.selection ? "#ffd100" : "" }
+                    backgroundColor={ team.number === this.state.selection ? "rgba(255, 209, 0, .2)" : "" }
                     onClick={ () => this.changeTeam(team) }
                   />
                 ))
@@ -150,26 +145,32 @@ export default class Judge extends Component {
             </div>
 
             <div css={{
-              display: "inline-block",
-              position: "absolute",
-              marginTop: "32px",
+              display: "flex",
+              flexDirection: "column",
+              textAlign: "center",
+              flex: 3,
             }}>
-              <div>
+              <div css={{
+                color: "#ff5800",
+                fontSize: "1.5em"
+              }}>
+                { (this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].total) || 0 } Points
+              </div>
+
+              <div css={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                alignItems: "center",
+              }}>
                 {
                   this.state.criteria.length === 0
-                  ? <div css={{
-                      left: "50%",
-                      position: "relative",
-                      transform: "translateX(-25%)",
-                      marginTop: "50px"
-                    }}>
-                      <CriteriaCard
-                        title="Score"
-                        onChange={ this.handelCritriaChange }
-                        value={ (this.state.selection && this.state.slots[this.getSlotIndex(this.state.selection)].points[0]) || 0 }
-                        name={ 0 }
-                      />
-                    </div>
+                  ? <CriteriaCard
+                      title="Score"
+                      onChange={ this.handelCritriaChange }
+                      value={ (this.state.selection && this.state.slots[this.getSlotIndex(this.state.selection)].points[0]) || 0 }
+                      name={ 0 }
+                    />
                   : this.state.criteria.map((criterion, i) => (
                       <CriteriaCard
                         key={ i }
@@ -183,7 +184,7 @@ export default class Judge extends Component {
               </div>
 
               <div>
-                <Button styles={{ float: "right", marginTop: "16px", marginRight: "18px" }} onClick={this.submitScore} >Submit</Button>
+                <Button styles={{ marginTop: 16, }} onClick={this.submitScore} >Submit</Button>
               </div>
             </div>
           </div>
@@ -210,7 +211,7 @@ export default class Judge extends Component {
                 flexDirection: "column",
               }}>
                 <Select
-                  // value={this.state.Judge}
+                  // value={this.state.judge}
                   onChange={(selected) => this.handleJudgeChange(selected.value)}
                   options={this.state.judgeOptions}
                   styles={{
