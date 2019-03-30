@@ -34,9 +34,15 @@ const EventCard = ({ event }) => (
     </div>
     <div css={{
       fontSize: "0.9em",
-      color: "green",
+      color: new Date() > new Date(event.endDate) ? "red" : "green",
     }}>
-      starts {(new Date(event.startDate)).toLocaleString()} at { event.venue }
+      {
+        new Date() > new Date(event.endDate)
+        ? "ended " + (new Date(event.endDate)).toLocaleString()
+        : new Date() >= new Date(event.startDate) && new Date() < new Date(event.endDate)
+          ? "ends " + (new Date(event.endDate)).toLocaleString()
+          : "starts " + (new Date(event.startDate)).toLocaleString() + " at " + event.venue
+      }
     </div>
     <div css={{
       fontSize: "0.8em",
