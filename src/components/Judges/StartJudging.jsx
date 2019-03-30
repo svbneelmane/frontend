@@ -15,6 +15,9 @@ export default class Judge extends Component {
     super(props);
 
     this.state = {
+      event: {},
+      round: {},
+
       judgeOptions: [],
       judge: null,
       slots: [],
@@ -49,8 +52,12 @@ export default class Judge extends Component {
         });
       });
 
+      events.get(this.props.event).then(event => {
+        this.setState({ event });
+      });
+
       events.getRound(this.props.event, this.props.round).then(round => {
-        this.setState({ criteria: round.criteria });
+        this.setState({ round, criteria: round.criteria });
       });
 
       this.setState({
@@ -135,6 +142,7 @@ export default class Judge extends Component {
             display: "flex",
           }}>
             <div css={{
+              position: "sticky",
               width: "25%",
               maxHeight: "calc(100vh - 100px)",
               overflowY: "auto",
@@ -160,6 +168,12 @@ export default class Judge extends Component {
               textAlign: "center",
               flex: 3,
             }}>
+              <div css={{
+
+              }}>
+                <h2>{ this.state.event.name } - { "Round" + (this.state.event.rounds && (this.state.event.rounds.indexOf(this.props.round) + 1)) }</h2>
+              </div>
+
               <div css={{
                 color: "#ff5800",
                 fontSize: "1.5em"
