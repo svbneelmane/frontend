@@ -7,8 +7,10 @@ const create = async (judge) => {
   if (response && response.status === 200) {
     return response.data;
   } else {
-    if(response&&response.status==="401")
+    if(response&&response.status===401)
       toast("Your session has expired, please logout and login again.")
+    else
+      toast(response.message);
     return null;
   }
 };
@@ -19,7 +21,7 @@ const getAll = async () => {
   if (response && response.status === 200) {
     return response.data;
   } else {
-    if(response&&response.status==="401")
+    if(response&&response.status===401)
       toast("Your session has expired, please logout and login again.")
     return [];
   }
