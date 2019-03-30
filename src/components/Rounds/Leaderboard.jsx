@@ -10,33 +10,7 @@ export default class extends React.PureComponent {
 
     this.state = {
       title:"Event",
-      leaderboard: [
-        {points:12,
-          college:{
-            name:"MIT Team A",
-            location:"Manipal"
-          }
-        },
-        {points:48,
-          college:{
-            name:"KMC Team B",
-            location:"Manipal"
-          }
-        },
-        {points:12,
-          college:{
-            name:"MCODS Team B",
-            location:"Manipal"
-          }
-        },
-        {points:24,
-          college:{
-            name:"Sikkim Team A",
-            location:"Manipal"
-          }
-        },
-        
-      ],
+      leaderboard: [],
     };
   }
 
@@ -55,6 +29,7 @@ export default class extends React.PureComponent {
     })
     
     let response = await leaderboardService.getRound(this.props.event,this.props.round);
+    console.log(response);
     if(response.length)
       this.setState({
         leaderboard: response.sort((a, b) => parseFloat(b.points) - parseFloat(a.points)),
@@ -66,13 +41,13 @@ export default class extends React.PureComponent {
       <h1 style={{textAlign:"center"}}>{this.state.title}</h1>
       {
         this.state.leaderboard.length>0
-        ? this.state.leaderboard.map((team, i) => (
+        ? this.state.leaderboard.map((slot, i) => (
             <LBList
               key={ i }
               position={ i + 1 }
-              title={ team.college.name }
-              description={ team.college.location }
-              points={ team.points }
+              title={ slot.team.name }
+              description={ "" }
+              points={ slot.points }
             />
           ))
         : <h1 style={{textAlign:"center"}}>No results</h1>
