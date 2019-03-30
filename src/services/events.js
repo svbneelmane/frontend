@@ -25,6 +25,18 @@ const createRound = async (eventID, round) => {
   }
 };
 
+const updateRound = async (eventID, roundID, round) => {
+  let response = await request("/events/" + eventID + "/rounds/"+ roundID, "POST", round);
+
+  if (response && response.status === 200) {
+    return response.data;
+  } else {
+    if(response&&response.status==="401")
+      toast("Your session has expired, please logout and login again.")
+    return null;
+  }
+};
+
 const deleteRound = async (eventID, roundID) => {
   let response = await request("/events/" + eventID + "/rounds/" + roundID, "DELETE");
 
@@ -238,4 +250,5 @@ export default {
   deleteSlots2,
   getTeams,
   getTeamsByRound,
+  updateRound,
 };
