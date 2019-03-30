@@ -1,6 +1,6 @@
 import React from "react";
 
-import Layout from "../layouts/blank";
+import Layout from "../layouts/app";
 
 export default class extends React.PureComponent {
   handleSubmit = (event) => {
