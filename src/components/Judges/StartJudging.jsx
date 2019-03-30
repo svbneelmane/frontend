@@ -8,6 +8,7 @@ import { TeamList } from "../../commons/List";
 import judges from "../../services/judges";
 import events from "../../services/events";
 import { toast } from "../../actions/toastActions";
+import { getIteratorMethod } from "iterall";
 
 
 export default class Judge extends Component {
@@ -171,9 +172,13 @@ export default class Judge extends Component {
               <div css={{
 
               }}>
+              
                 <h2>{ this.state.event.name } - { "Round" + (this.state.event.rounds && (this.state.event.rounds.indexOf(this.props.round) + 1)) }</h2>
               </div>
-
+              <h3>
+                #{(this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].number)} - 
+                {(this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].team.name)}
+              </h3>
               <div css={{
                 color: "#ff5800",
                 fontSize: "1.5em"
@@ -192,7 +197,7 @@ export default class Judge extends Component {
                   ? <CriteriaCard
                       title="Score"
                       onChange={ this.handelCritriaChange }
-                      value={ ( this.state.slots[this.getSlotIndex(this.state.selection)].points[0]) || 0 }
+                      value={ (this.state.selection &&  this.state.slots[this.getSlotIndex(this.state.selection)].points[0]) || 0 }
                       name={ 0 }
                     />
                   : this.state.criteria.map((criterion, i) => (
@@ -200,7 +205,7 @@ export default class Judge extends Component {
                         key={ i }
                         title={ criterion }
                         onChange={ this.handelCritriaChange }
-                        value={ ( this.state.slots[this.getSlotIndex(this.state.selection)].points[i]) || 0 }
+                        value={ (this.state.selection &&  this.state.slots[this.getSlotIndex(this.state.selection)].points[i]) || 0 }
                         name={ i }
                       />
                     ))
