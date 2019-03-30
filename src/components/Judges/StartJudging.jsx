@@ -82,7 +82,7 @@ export default class Judge extends Component {
     let total = 0;
 
     for (let score of this.state.slots[this.getSlotIndex(this.state.selection)].points) {
-      if (score) total += parseFloat(score);
+      if (score) total += parseFloat(parseFloat(score).toFixed(2));
     }
 
     teams[this.getSlotIndex(this.state.selection)].total = total;
@@ -178,7 +178,7 @@ export default class Judge extends Component {
                 color: "#ff5800",
                 fontSize: "1.5em"
               }}>
-                { (this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].total) || 0 } Points
+                { (this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].total.toFixed(2)) || 0 } Points
               </div>
 
               <div css={{
