@@ -26,7 +26,7 @@ export default class Judge extends Component {
       judgeSelected: false,
       criteria: [],
 
-      ...JSON.parse(sessionStorage.getItem("scoresheet:" + this.props.round)) || {}
+      ...JSON.parse(localStorage.getItem("scoresheet:" + this.props.round)) || {}
     };
   }
 
@@ -90,7 +90,7 @@ export default class Judge extends Component {
     await this.setState({
       slots: teams
     }, () => {
-      sessionStorage.setItem("scoresheet:" + this.props.round, JSON.stringify(this.state));
+      localStorage.setItem("scoresheet:" + this.props.round, JSON.stringify(this.state));
     })
   };
 
@@ -127,7 +127,7 @@ export default class Judge extends Component {
 
     events.createScores(this.props.event, this.props.round, scores).then(res => {
       if (res) {
-        sessionStorage.removeItem("scoresheet:" + this.props.round);
+        localStorage.removeItem("scoresheet:" + this.props.round);
         navigate("/events/" + this.props.event + "/rounds");
       }
     })
