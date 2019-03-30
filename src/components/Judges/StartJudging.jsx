@@ -1,105 +1,250 @@
 import React, { Component } from "react";
 import { Button } from "../../commons/Form";
-import Select from 'react-select';
-import { get } from '../../actions/judgeActions';
-// import { getTeams } from '../../actions/eventActions';
-import store from '../../reducers/commonReducer';
+import Select from "react-select";
 import { CriteriaCard } from "../../commons/Card";
 import { TeamList } from "../../commons/List";
-export default class Judge extends Component {
+import judges from "../../services/judges";
+import events from "../../services/events";
+import { toast } from "../../actions/toastActions";
 
+
+export default class Judge extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+
     this.state = {
+      showConfirmBox : false,
       judgeOption: [],
       JudgeId: null,
       judgeSelected: false,
-      totalPoint: 0
-    }
+      criteria: [],
+      // selectedSlot: null,
+      selectedSlot: 1,
+      idx: 0,
+      teams: [],
+      ...JSON.parse(sessionStorage.getItem("scoresheet" + this.props.round)) || {}
+    };
   }
 
   componentWillMount = () => {
-    get();
-    store.subscribe(async () => {
-      let data = await store.getState();
-      let judge = [];
-      judge = data.data.list.map(each => {
-        return { value: each.id, label: each.name }
-      });
-      this.setState({
-        judgeOption: judge,
-      })
-
-    });
-  }
+    judges.getAll().then(judges => this.setState({
+      judgeOption: judges.map(judge => ({ value: judge.id, label: judge.name }))
+    }));
+  };
 
   handleJudgeChange = (value) => {
     this.setState({
       JudgeId: value,
+    });
+  };
+
+  selectJudge = async () => {
+    if (this.state.JudgeId) {
+      await events.getSlots2(this.props.event, this.props.round).then(async teams => {
+        // HACK: ~~@Abid, why? xD~~ Now I know why
+        teams.map(each => { each.score = {} })
+        await this.setState({ teams: teams });
+      })
+      await events.getRound(this.props.event, this.props.round).then(round => {
+        this.setState({ criteria: round.criteria });
+      })
+      this.setState({ selectedSlot: this.state.teams[this.state.idx].number })
+      this.setState({
+        judgeSelected: true
+      })
+    }
+  };
+
+  handelCritriaChange = async (event) => {
+    let { name, value } = event;
+
+    if (value < 0 || value > 10) {
+      toast("Score cannot be above 10 or below 0");
+      return;
+    }
+    let teams = await this.state.teams;
+    let slotNo = this.state.selectedSlot;
+    teams[slotNo - 1].score = { ...teams[slotNo - 1].score, [name.substr(name.indexOf("c"))]: value }
+    let total = 0;
+
+    for (let score of Object.values(this.state.teams[slotNo - 1].score)) {
+      total += parseInt(score);
+    }
+
+    teams[slotNo - 1].total = total;
+
+    await this.setState({
+      teams
+    }, () => {
+      sessionStorage.setItem("scoresheet" + this.props.round, JSON.stringify(this.state));
     })
-  }
+  };
 
-  selectJudge = () => {
+  nextTeam = async () => {
+    let idx = this.state.idx + 1
+    if (idx !== this.state.teams.length) {
+      await this.setState({
+        idx: idx,
+      })
+      this.setState({ selectedSlot: this.state.teams[this.state.idx].number })
+    }
+  };
 
+  prevTeam = async () => {
+    let idx = this.state.idx - 1;
+    if (idx >= 0) {
+      await this.setState({
+        idx: idx,
+      })
+      this.setState({ selectedSlot: this.state.teams[this.state.idx].number })
+    }
+  };
+
+  changeTeam = (e) => {
+    let slot = e.target.id.substring(1);
     this.setState({
-      judgeSelected: true
+      selectedSlot: slot,
+      idx: slot - 1
     })
-  }
+  };
 
-  handelCritriaChange = () => {
-    console.log("get")
-  }
+  toggleConfirmBox = () => {
+    if(this.state.showConfirmBox){
+      this.setState({ showConfirmBox : false })
+    } else {
+      this.setState({ showConfirmBox : true })
+    }
+  };
 
-  render() {
-    return (
-      <div>
+  submitScore = async () => {
+    let score = await this.state.teams.map(each => {
+      return {
+        judges: [{
+          id: this.state.JudgeId,
+          points: each.total | 0
+        }],
+        team: each.id,
+        round: each.round,
+      }
+    });
 
-        <div
-          css={{
-            position: "relative",
-            float: "right",
-            margin: "16px"
-          }}
-        >{`${this.state.totalPoint} Points`}</div>
-        {(this.state.judgeSelected) ?
-          <div>
-            <div
-              css={{
-                boxShadow: "0px 5px 12px -5px rgba(0, 0, 0, .1)",
-                width: "25%",
-                height: "94vh",
-                display: "inline-block",
-                backgroundColor: "#FFFFFF"
-              }}
-            >
-              <TeamList title="hello" />
-              <TeamList title="hello" />
-            </div>
+    let response = await events.createScores(this.props.event, this.props.round, score);
+    if (response) {
+      sessionStorage.removeItem("scoresheet" + this.props.round);
+      // navigate("/events");
+    }
+  };
+
+
+  render = () => (
+    <div>
+      {
+        this.state.showConfirmBox
+        ? <div css={{
+            position: "absolute",
+            width: "100vw",
+            height: "100vh",
+            left: "0px",
+            top: "60px",
+            zIndex: 2,
+            backgroundColor: "rgba(0,0,0,0.4)"
+          }}>
             <div css={{
-              display: "inline-block",
-              width: "",
+              padding: "16px",
+              backgroundColor: "#FFFFFF",
               position: "absolute",
-              marginTop: "32px"
+              left: "50%",
+              top: "50%",
+              boxShadow: "0px 5px 20px -4px rgba(0, 0, 0, .1)",
+              maxWidth: "400px",
+              transform: "translate(-50%, -50%)",
+              borderRadius: 5
             }}>
-              <div>
-                <CriteriaCard onChange={this.handelCritriaChange} title="Criteria 1" />
-                <CriteriaCard onChange={this.handelCritriaChange} title="Criteria 2" />
-                <CriteriaCard onChange={this.handelCritriaChange} title="Criteria 3" />
-                <CriteriaCard onChange={this.handelCritriaChange} title="Criteria 4" />
-              </div>
-              <div>
-                <Button styles={{
-                  display: "inline-block",
-                  margin: "16px",
-                  backgroundColor: "white",
-                  color: "black",
-                }}>Prev</Button>
-                <Button styles={{ display: "inline-block" }}>Next</Button>
+              <div css={{
+                textAlign: "center",
+              }}>Are you sure?</div>
+
+              <div css={{
+                textAlign: "center",
+                color: "rgba(0,0,0,0.6)",
+                marginTop: "8px",
+              }}>Once you submit you cannot change the scores</div>
+
+              <div css={{
+                paddingTop: "16px",
+                textAlign: "center"
+              }}>
+                <Button onClick={this.toggleConfirmBox} styles={{ marginRight: "8%", backgroundColor: "#ffffff", color: "#000000" }}>Cancel</Button>
+                <Button onClick={this.submitScore} styles={{ marginLeft: "8%" }}>Submit</Button>
               </div>
             </div>
           </div>
-          :
-          <div css={{
+        : null
+      }
+
+      {
+        this.state.judgeSelected
+        ? <div>
+            <div css={{
+              position: "relative",
+              float: "right",
+              margin: "16px",
+              fontSize: "1.3em"
+            }}>
+              { this.state.teams[this.state.selectedSlot - 1].total | 0 } Points
+            </div>
+
+            <div css={{
+              width: "25%",
+              height: "94vh",
+              display: "inline-block",
+              backgroundColor: "#FFFFFF",
+              overflow: "scroll"
+            }}>
+              {
+                this.state.teams.map((each, i) => (
+                  <TeamList score={each.total || 0} backgroundColor={(each.number.toString() === this.state.selectedSlot) ? "#EEEEEE" : "#FFFFFF"} onClick={this.changeTeam} key={i} slot={`#${each.number}`} name={each.teamName} />
+                ))
+              }
+            </div>
+
+            <div css={{
+              display: "inline-block",
+              position: "absolute",
+              marginTop: "32px",
+            }}>
+              <div>
+                {
+                  this.state.criteria.length === 0
+                  ? <div css={{
+                      left: "50%",
+                      position: "relative",
+                      transform: "translateX(-25%)",
+                      marginTop: "50px"
+                    }}>
+                      <CriteriaCard value={this.state.teams[this.state.selectedSlot - 1].score[`c${0}`] | 0} name={`s${this.state.selectedSlot}-c${0}`} onChange={this.handelCritriaChange} title={"Score"} />
+                    </div>
+                  : this.state.criteria.map((each, i) => (
+                      <CriteriaCard value={this.state.teams[this.state.selectedSlot - 1].score[`c${i}`] | 0} name={`s${this.state.selectedSlot}-c${i}`} key={i} onChange={this.handelCritriaChange} title={each} />
+                    ))
+                }
+              </div>
+
+              <div>
+                <Button
+                  onClick={this.prevTeam}
+                  styles={{
+                    display: "inline-block",
+                    margin: "16px",
+                    backgroundColor: "white",
+                    color: "black",
+                  }}>Prev</Button>
+                <Button onClick={this.nextTeam} styles={{ display: "inline-block" }}>Next</Button>
+                <Button styles={{ float: "right", marginTop: "16px", marginRight: "18px" }} onClick={this.toggleConfirmBox} >Submit</Button>
+              </div>
+            </div>
+          </div>
+        : <div css={{
             width: "100%",
             height: "100%",
             display: "flex",
@@ -116,6 +261,7 @@ export default class Judge extends Component {
                 textAlign: "center",
                 marginBottom: "16px",
               }}>Select Judge</div>
+
               <div css={{
                 display: "flex",
                 flexDirection: "column",
@@ -150,18 +296,18 @@ export default class Judge extends Component {
                   isSearchable={true}
                   name="Judge"
                 />
-
               </div>
+
               <div>
                 <Button
                   disabled={!this.state.JudgeId}
                   onClick={this.selectJudge}
-                  styles={{ width: "100%" }}> Start Round </Button>
+                  styles={{ width: "100%" }}
+                >Start Round</Button>
               </div>
             </div>
           </div>
-        }
-      </div>
-    )
-  }
-}
+      }
+    </div>
+  )
+};

@@ -3,6 +3,7 @@ import { Router } from "@reach/router";
 
 import PrivateRoute from "../components/PrivateRoute";
 import Index from "../components/Index";
+import Stats from "../components/Stats";
 import Login from "../components/Login";
 import Profile from "../components/Profile";
 import Colleges from "../components/Colleges";
@@ -52,6 +53,7 @@ export default () =>
         <Login path="/login" />
 
         <PrivateRoute path="/profile" component={ Profile } />
+        <PrivateRoute path="/stats" component={ Stats } />
 
         <PrivateRoute path="/users" component={ Users } type={ 1 } />
         <PrivateRoute path="/users/add" component={ AddUser } type={ 1 } />

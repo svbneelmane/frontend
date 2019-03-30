@@ -31,7 +31,7 @@ export default class extends React.Component {
       this.setState({ event })
     );
 
-    eventsService.getSlots2(this.props.event, this.props.round).then(slots =>
+    eventsService.getSlots(this.props.event, this.props.round).then(slots =>
       this.setState({ slotted: !!slots.length, slots }, () =>
         this.setState({ loaded: true })
       )
@@ -93,7 +93,8 @@ export default class extends React.Component {
             <h2>
               { this.state.event.name } Round { this.state.event.rounds && (this.state.event.rounds.indexOf(this.props.round) + 1) } Slots
             </h2>
-            <button onClick={ this.deleteSlots }>Reset Slots</button>
+            {/* NOTE: Removed for precautionary measures. */}
+            {/* <button onClick={ this.deleteSlots }>Reset Slots</button> */}
           </div>
           <div>
             {
@@ -101,7 +102,7 @@ export default class extends React.Component {
                 <LBList
                   key={ i }
                   position={ slot.number }
-                  title={ slot.teamName }
+                  title={ slot.team && slot.team.name }
                 />
               )
             }

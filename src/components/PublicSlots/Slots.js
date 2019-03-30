@@ -30,7 +30,7 @@ export default class extends React.Component {
           value: round,
         }))
       }, () =>
-        eventsService.getSlots2(this.props.event, this.state.round).then(slots =>
+        eventsService.getSlots(this.props.event, this.state.round).then(slots =>
           this.setState({ slotted: !!slots.length, slots }, () =>
             this.setState({ loaded: true })
           )
@@ -43,7 +43,7 @@ export default class extends React.Component {
     this.setState(
       { round: e.value, loaded: false, },
       () =>
-        eventsService.getSlots2(this.props.event, this.state.round).then(slots =>
+        eventsService.getSlots(this.props.event, this.state.round).then(slots =>
           this.setState({ slotted: !!slots.length, slots }, () =>
             this.setState({ loaded: true })
           )
@@ -132,7 +132,7 @@ export default class extends React.Component {
                       <LBList
                         key={ i }
                         position={ slot.number }
-                        title={ slot.teamName }
+                        title={ slot.team && slot.team.name }
                       />
                     )
                   }

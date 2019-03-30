@@ -86,7 +86,7 @@ class NavigationToggle extends Component {
 
 export default class Header extends Component{
   render = () => (
-    <header css = {{
+    <header className="no-print" css = {{
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",

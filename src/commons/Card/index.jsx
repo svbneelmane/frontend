@@ -50,7 +50,7 @@ const CriteriaCard = (props) => (
     css={{
       margin: "2%",
       borderRadius: "4px",
-      width: "46%",
+      width: (props.single) ? "100%" : "40%",
       display: "inline-block",
       boxShadow: "0px 5px 12px -5px rgba(0, 0, 0, .1)",
     }}
@@ -68,13 +68,16 @@ const CriteriaCard = (props) => (
       padding: "16px",
     }}
     >
-      <Input type="number"
-      onChange={props.onChange}
-      styles={{
-        width: "100%",
-        textAlign: "center",
-        fontSize: "200%"
-      }}/>
+      <Input
+        value={props.value}
+        name = {props.name}
+        onChange={props.onChange}
+        styles={{
+          width: "100%",
+          textAlign: "center",
+          fontSize: "200%"
+        }}
+      />
     </div>
   </div>
 );
