@@ -101,7 +101,14 @@ export default class Judge extends Component {
     }
   }
 
-  submitScore = async () => {
+  submitScore = () => {
+    let surity = typeof window !== "undefined"
+      && window.confirm("Are you sure you want to submit the scores?\nOnce submitted, scores can't be edited.");
+
+    if (!surity) {
+      return;
+    }
+
     let scores = this.state.slots.map(slot => ({
       judges: [{
         id: this.state.judge,
@@ -111,11 +118,12 @@ export default class Judge extends Component {
       round: slot.round,
     }));
 
-    let response = await events.createScores(this.props.event, this.props.round, scores);
-    if (response) {
-      sessionStorage.removeItem("scoresheet:" + this.props.round);
-      navigate("/events/" + this.props.event + "/rounds");
-    }
+    events.createScores(this.props.event, this.props.round, scores).then(res => {
+      if (res) {
+        sessionStorage.removeItem("scoresheet:" + this.props.round);
+        navigate("/events/" + this.props.event + "/rounds");
+      }
+    })
   };
 
 
@@ -186,7 +194,7 @@ export default class Judge extends Component {
               </div>
 
               <div>
-                <Button styles={{ marginTop: 16, }} onClick={this.submitScore} >Submit</Button>
+                <Button styles={{ marginTop: 16, }} onClick={ this.submitScore }>Submit</Button>
               </div>
             </div>
           </div>
