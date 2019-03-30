@@ -82,7 +82,7 @@ export default class Judge extends Component {
     let total = 0;
 
     for (let score of this.state.slots[this.getSlotIndex(this.state.selection)].points) {
-      if (score) total += parseInt(score);
+      if (score) total += parseFloat(score);
     }
 
     teams[this.getSlotIndex(this.state.selection)].total = total;
