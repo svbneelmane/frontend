@@ -21,7 +21,7 @@ import EventTeams from '../components/Events/Teams';
 import EventParticipants from '../components/Events/Participants';
 import EditEvent from '../components/Events/Edit';
 import Leaderboard from "../components/Leaderboard";
-import Teams from "../components/Teams";
+import Teams from "../components/Participants";
 import Register from "../components/Registration";
 import Participants from "../components/Registration/Participants";
 import Members from "../components/Members";
