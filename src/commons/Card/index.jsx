@@ -58,7 +58,7 @@ const CriteriaCard = (props) => (
     <div
       css={{
         padding: "16px",
-        fontSize: "1.2em",
+        fontSize: "1em",
         textAlign: "center"
       }}
     >{props.title} </div>
@@ -75,7 +75,8 @@ const CriteriaCard = (props) => (
         styles={{
           width: "100%",
           textAlign: "center",
-          fontSize: "200%"
+          fontSize: "1.3em",
+          margin: 0,
         }}
       />
     </div>
