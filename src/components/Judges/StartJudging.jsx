@@ -178,7 +178,7 @@ export default class Judge extends Component {
                 color: "#ff5800",
                 fontSize: "1.5em"
               }}>
-                { (this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].total.toFixed(2)) || 0 } Points
+                { (this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].total && this.state.slots[this.getSlotIndex(this.state.selection)].total.toFixed(2)) || 0 } Points
               </div>
 
               <div css={{
@@ -192,7 +192,7 @@ export default class Judge extends Component {
                   ? <CriteriaCard
                       title="Score"
                       onChange={ this.handelCritriaChange }
-                      value={ (this.state.selection && this.state.slots[this.getSlotIndex(this.state.selection)].points[0]) || 0 }
+                      value={ ( this.state.slots[this.getSlotIndex(this.state.selection)].points[0]) || 0 }
                       name={ 0 }
                     />
                   : this.state.criteria.map((criterion, i) => (
@@ -200,7 +200,7 @@ export default class Judge extends Component {
                         key={ i }
                         title={ criterion }
                         onChange={ this.handelCritriaChange }
-                        value={ (this.state.selection && this.state.slots[this.getSlotIndex(this.state.selection)].points[i]) || 0 }
+                        value={ ( this.state.slots[this.getSlotIndex(this.state.selection)].points[i]) || 0 }
                         name={ i }
                       />
                     ))
