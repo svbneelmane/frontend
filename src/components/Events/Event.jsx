@@ -43,8 +43,11 @@ export default class Events extends React.Component {
     this.state = {
       event: {},
       teams: [],
+      descriptionStatus: false,
     };
   }
+
+  toggleDescription = () => this.setState({ descriptionStatus: !this.state.descriptionStatus });
 
   componentWillMount = () => {
     eventsService.get(this.props.event).then(event => {
@@ -81,10 +84,29 @@ export default class Events extends React.Component {
                 }
               </p>
               <p css={{
+                display: "flex",
+                flexDirection: "column",
                 fontSize: "0.9em",
                 whiteSpace: "pre-wrap",
               }}>
-                { this.state.event.description }
+                <button
+                  onClick={ this.toggleDescription }
+                  css={{
+                    marginBottom: 10,
+                    width: 255,
+                  }}
+                >
+                  {
+                    this.state.descriptionStatus
+                    ? "Hide Rules"
+                    : "Show Rules"
+                  }
+                </button>
+                {
+                  this.state.descriptionStatus
+                  ? this.state.event.description
+                  : null
+                }
               </p>
               <div>
                 <Link to={ "/events/" + this.props.event + "/rounds" } css={{
