@@ -1,8 +1,9 @@
 import React from "react";
 
-import LBList from "../../commons/LBList";
 import leaderboardService from '../../services/leaderboard';
 import eventService from '../../services/events';
+import events from "../../services/events";
+import { Button } from "../../commons/Form";
 
 export default class Bias extends React.PureComponent {
   constructor(props) {
@@ -10,45 +11,17 @@ export default class Bias extends React.PureComponent {
 
     this.state = {
       title:"Event",
-      leaderboard: [
-        {points:12,
-          college:{
-            name:"MIT Team A",
-            location:"Manipal"
-          }
-        },
-        {points:48,
-          college:{
-            name:"KMC Team B",
-            location:"Manipal"
-          }
-        },
-        {points:12,
-          college:{
-            name:"MCODS Team B",
-            location:"Manipal"
-          }
-        },
-        {points:24,
-          college:{
-            name:"Sikkim Team A",
-            location:"Manipal"
-          }
-        },
-        
-      ],
+      teams:[]
+      
     };
   }
 
   componentWillMount = async () => {
 
-    /*REMOVE THIS*/
-    this.setState({
-      leaderboard: this.state.leaderboard.sort((a, b) => parseFloat(b.points) - parseFloat(a.points)),
-    });
+    let teams =  await events.getSlots(this.props.event, this.props.round);
+    this.setState({teams});
 
     let event = await eventService.get(this.props.event);
-    console.log(event);
     let roundno = event.rounds.indexOf(this.props.round)+1;
     this.setState({
       title: event.name+" - Round "+roundno
@@ -65,21 +38,24 @@ export default class Bias extends React.PureComponent {
     <div>
       <h1 style={{textAlign:"center"}}>{this.state.title}</h1>
       {
-        this.state.leaderboard.length>0
+        this.state.teams.length>0
         ? 
         (<table css={{
           width:"100%"
         }}>
+        <thead>
           <tr>
             <th>Slot No.</th>
             <th>Team Name</th>
             <th>Judge's Score</th>
-            <th>Bias</th>
-            <th>Action</th>
+            <th>Overtime (Mins)</th>
             <th>Total</th>
+            <th>Action</th>
           </tr>
+        </thead>
+        <tbody>
           {
-            this.state.leaderboard.map((team, i) => (
+            this.state.teams.map((slot, index) => (
             // <LBList
             //   key={ i }
             //   position={ i + 1 }
@@ -87,10 +63,18 @@ export default class Bias extends React.PureComponent {
             //   description={ team.college.location }
             //   points={ team.points }
             // />
-            <tr></tr>
+            <tr key={index} style={{textAlign:"center"}}>
+              <td>{slot.number}</td>
+              <td>{slot.team.name}</td>
+              <td>...</td>
+              <td><input type="number" min="0" value="0" style={{width:100}}/></td>
+              <td>...</td>
+              <td><Button>Disqualify</Button></td>
+            </tr>
           ))
         
           }
+          </tbody>
         </table>): <h1 style={{textAlign:"center"}}>No results</h1>
       }
     </div>
