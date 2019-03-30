@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { navigate } from "gatsby";
+
 import { Button } from "../../commons/Form";
 import Select from "react-select";
 import { CriteriaCard } from "../../commons/Card";
@@ -100,19 +102,19 @@ export default class Judge extends Component {
   }
 
   submitScore = async () => {
-    let score = this.state.slots.map(team => ({
+    let scores = this.state.slots.map(slot => ({
       judges: [{
         id: this.state.judge,
-        points: team.points
+        points: slot.points
       }],
-      team: team.id,
-      round: team.round,
+      team: slot.team._id,
+      round: slot.round,
     }));
 
-    let response = await events.createScores(this.props.event, this.props.round, score);
+    let response = await events.createScores(this.props.event, this.props.round, scores);
     if (response) {
       sessionStorage.removeItem("scoresheet:" + this.props.round);
-      // navigate("/events");
+      navigate("/events/" + this.props.event + "/rounds");
     }
   };
 
