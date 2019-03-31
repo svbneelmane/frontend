@@ -25,7 +25,7 @@ export default class extends React.Component {
   getRank = (points) => {
     if (!this.state.leaderboard.length) return 0;
 
-    let scores = Array.from(new Set(this.state.leaderboard.map(team => team.points)));
+    let scores = Array.from(new Set(this.state.leaderboard.map(team => team.points))).sort((a,b)=>b-a);
     return scores.indexOf(points) + 1;
   };
 

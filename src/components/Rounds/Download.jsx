@@ -6,6 +6,7 @@ import eventService from '../../services/events';
 import Top from "../../images/top.png"
 import Bottom from "../../images/bottom.png"
 import { Button } from "../../commons/Form";
+import collegesService from '../../services/colleges';
 
 export default class extends React.Component {
   constructor(props) {
@@ -28,38 +29,67 @@ export default class extends React.Component {
   };
 
   componentWillMount = async () => {
+    console.log(1);
     let event = await eventService.get(this.props.event);
+    console.log(2);
+
     await this.setState({ event });
+    console.log(3);
 
-    eventService.getSlots(this.props.event, this.props.round).then(slots =>
-      leaderboardService.getRound(this.props.event,this.props.round).then(lb => {
-        if (!lb.length) return;
+    let slots = await eventService.getSlots(this.props.event, this.props.round);
+    console.log(4);
 
-        let teams = slots;
+    let lb = await leaderboardService.getRound(this.props.event,this.props.round);
+    console.log(5);
+
+    if (!lb.length) return;
+    console.log(6);
+
+    let teams = slots;
+    for (let team of teams) {
+      let score = lb.find(score => score.team._id === team.team._id);
+
+      team.points = score.judgePoints || 0;
+      // team.points = score.points || 0;
+      team.overtime = score.overtime || 0;
+      team.bias = score.bias;
+      team.total = score.points;
+    }
+    console.log(7);
+
+    let scores = Array.from(new Set(teams.map(team => team.points))).sort((a,b)=>b-a);
+    console.log(8);
+
+    teams=teams.filter(slot => !slot.disqualified).sort((a, b) => parseFloat(b.points) - parseFloat(a.points))
+    let ranks=this.state.ranks;
+    console.log(9);
+
+    for(let i=0;i<teams.length;i++){
+      let team=teams[i];
+      let rank = scores.indexOf(team.points)+1;
+      
+      if(rank>=1&&rank<=3){
         
-        for (let team of teams) {
-          let score = lb.find(score => score.team._id === team.team._id);
+       
+      
+        let name = <>{"#"+team.number+" "+team.team.name.match(/[\w\s]+/)[0]}</>;
 
-          team.points = score.judgePoints || 0;
-          // team.points = score.points || 0;
-          team.overtime = score.overtime || 0;
-          team.bias = score.bias;
-          team.total = score.points;
+        if(team.team.members.length===1){
+          let participants = await collegesService.getParticipants(team.team.college)
+          let participant=participants.find(participant=>team.team.members.includes(participant.id));
+          name = <>{"#"+team.number+" "+participant.name}<br/><small>{team.team.name.match(/[\w\s]+/)[0]}</small></>;
         }
-        let scores = Array.from(new Set(teams.map(team => team.points)));
-        teams.filter(slot => !slot.disqualified).sort((a, b) => parseFloat(b.points) - parseFloat(a.points))
-        let ranks=this.state.ranks;
-        teams.forEach(team=>{
-          let rank = scores.indexOf(team.points)+1;
-          if(rank>=1&&rank<=3)
-            ranks[rank].push("#"+team.number+" "+team.team.name.match(/[\w\s]+/)[0]);
-        });
-        console.log(ranks);
-        this.setState({  scoreStatus: true,ranks },()=>{
-          console.log(this.state.teams);
-        });
-      })
-    );
+        console.log(name);
+        ranks[rank].push(name);
+
+
+      }
+    }
+    console.log(10);
+
+    console.log("aaa");
+    await this.setState({  scoreStatus: true,ranks });
+    console.log(11);
 
     
   }
@@ -82,22 +112,23 @@ export default class extends React.Component {
     <>
     <div id="leaderboard" css={{width:1000,background: "#eae8e3",margin:"auto"}}>
       <img src={Top} alt="top" style={{width:"100%"}}/>
+      <h1 css={{color:"#900",fontSize:"3em",fontFamily:"'Cinzel Decorative', cursive",textAlign:"center"}}>{this.state.event.name}</h1>
       <div css={{textAlign:"center"}}>
-        <h1 css={{color:"#900"}}>FIRST POSITION</h1>
+        <h2 css={{color:"#900"}}>FIRST POSITION</h2>
         {
-          this.state.ranks[1].map((i,j)=><h2 key={j}>{i}</h2>)
+          this.state.ranks[1].map((i,j)=><h3 key={j}>{i}</h3>)
         }
       </div>
       <div css={{textAlign:"center"}}>
-        <h1 css={{color:"#900"}}>SECOND POSITION</h1>
+        <h2 css={{color:"#900"}}>SECOND POSITION</h2>
         {
-          this.state.ranks[2].map((i,j)=><h2 key={j}>{i}</h2>)
+          this.state.ranks[2].map((i,j)=><h3 key={j}>{i}</h3>)
         }
       </div>
       <div css={{textAlign:"center"}}>
-        <h1 css={{color:"#900"}}>THIRD POSITION</h1>
+        <h2 css={{color:"#900"}}>THIRD POSITION</h2>
         {
-          this.state.ranks[3].map((i,j)=><h2 key={j}>{i}</h2>)
+          this.state.ranks[3].map((i,j)=><h3 key={j}>{i}</h3>)
         }
       </div>
       <img src={Bottom} alt="top" style={{width:"100%"}}/>
