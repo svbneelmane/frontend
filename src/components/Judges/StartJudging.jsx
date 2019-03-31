@@ -71,19 +71,19 @@ export default class Judge extends Component {
     if (value < 0 || value > 10) {
       return toast("Score cannot be above 10 or below 0");
     }
-  
-  
+
 
     let teams = this.state.slots;
 
     if (!teams[this.getSlotIndex(this.state.selection)].points.length) teams[this.getSlotIndex(this.state.selection)].points = new Array(this.state.criteria.length).fill(null);
 
-    teams[this.getSlotIndex(this.state.selection)].points[name] = value
+    // teams[this.getSlotIndex(this.state.selection)].points[name] = parseFloat(parseFloat(value).toFixed(1));
+    teams[this.getSlotIndex(this.state.selection)].points[name] = value.includes(".") && !value.endsWith(".5") ? value.split(".")[1] > 7 ? (parseInt(value.split(".")[0]) + 1) : value.split(".")[0] + (value.split(".")[1] < 3 ? "" : ".5") : value; // Yeah, tell me about it!
 
     let total = 0;
 
     for (let score of this.state.slots[this.getSlotIndex(this.state.selection)].points) {
-      if (score) total += parseFloat(parseFloat(score).toFixed(2));
+      if (score) total += parseFloat(parseFloat(score).toFixed(1));
     }
 
     teams[this.getSlotIndex(this.state.selection)].total = total;
@@ -98,13 +98,13 @@ export default class Judge extends Component {
            return;
          }
          slot.points.forEach(point=>{
-           
+
            if(point===""||point===null){
              finished=false;
            }
          })
       })
-      
+
       this.setState({
         submitVisible:finished
       });
@@ -197,7 +197,7 @@ export default class Judge extends Component {
                 color: "#ff5800",
                 fontSize: "1.5em"
               }}>
-                { (this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].total && this.state.slots[this.getSlotIndex(this.state.selection)].total.toFixed(2)) || 0 } Points
+                { (this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].total && this.state.slots[this.getSlotIndex(this.state.selection)].total.toFixed(1)) || 0 } Points
               </div>
 
               <div css={{
