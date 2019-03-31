@@ -71,12 +71,14 @@ export default class Judge extends Component {
     if (value < 0 || value > 10) {
       return toast("Score cannot be above 10 or below 0");
     }
+  
+  
 
     let teams = this.state.slots;
 
-    if (!teams[this.getSlotIndex(this.state.selection)].points.length) teams[this.getSlotIndex(this.state.selection)].points = new Array(this.state.criteria.length).fill(0);
+    if (!teams[this.getSlotIndex(this.state.selection)].points.length) teams[this.getSlotIndex(this.state.selection)].points = new Array(this.state.criteria.length).fill(null);
 
-    teams[this.getSlotIndex(this.state.selection)].points[name] = value;
+    teams[this.getSlotIndex(this.state.selection)].points[name] = value
 
     let total = 0;
 
@@ -89,6 +91,23 @@ export default class Judge extends Component {
     await this.setState({
       slots: teams
     }, () => {
+      let finished = true;
+      this.state.slots.forEach(slot=>{
+         if(slot.points.length===0){
+           finished=false;
+           return;
+         }
+         slot.points.forEach(point=>{
+           
+           if(point===""||point===null){
+             finished=false;
+           }
+         })
+      })
+      
+      this.setState({
+        submitVisible:finished
+      });
       localStorage.setItem("scoresheet:" + this.props.round, JSON.stringify(this.state));
     })
   };
@@ -192,7 +211,7 @@ export default class Judge extends Component {
                   ? <CriteriaCard
                       title="Score"
                       onChange={ this.handelCritriaChange }
-                      value={ (this.state.selection && this.state.slots[this.getSlotIndex(this.state.selection)].points[0]) || 0 }
+                      value={ ((this.state.selection && this.state.slots[this.getSlotIndex(this.state.selection)].points[0])||"") }
                       name={ 0 }
                     />
                   : this.state.criteria.map((criterion, i) => (
@@ -200,7 +219,7 @@ export default class Judge extends Component {
                         key={ i }
                         title={ criterion }
                         onChange={ this.handelCritriaChange }
-                        value={ (this.state.selection && this.state.slots[this.getSlotIndex(this.state.selection)].points[i]) || 0 }
+                        value={ ((this.state.selection && this.state.slots[this.getSlotIndex(this.state.selection)].points[i])||"") }
                         name={ i }
                       />
                     ))
@@ -208,7 +227,7 @@ export default class Judge extends Component {
               </div>
 
               <div>
-                <Button styles={{ marginTop: 16, }} onClick={ this.submitScore }>Submit</Button>
+                {this.state.submitVisible?<Button styles={{ marginTop: 16, }} onClick={ this.submitScore } style={{}}>Submit</Button>:<></>}
               </div>
             </div>
           </div>

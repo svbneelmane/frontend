@@ -4,6 +4,7 @@ import LBList from "../../commons/LBList";
 import leaderboardService from '../../services/leaderboard';
 import eventService from '../../services/events';
 import { Button } from "../../commons/Form";
+import { Link } from "gatsby";
 
 export default class extends React.Component {
   BUTTON_NORMAL = "Publish";
@@ -24,7 +25,7 @@ export default class extends React.Component {
   getRank = (points) => {
     if (!this.state.leaderboard.length) return 0;
 
-    let scores = Array.from(new Set(this.state.leaderboard.map(team => team.points)));
+    let scores = Array.from(new Set(this.state.leaderboard.map(team => team.points))).sort((a,b)=>b-a);
     return scores.indexOf(points) + 1;
   };
 
@@ -81,7 +82,10 @@ export default class extends React.Component {
               <div style={{textAlign:"center",padding:20}}>
                 {
                   this.state.published
-                  ? <div style={{ color:"#090" }}>Published</div>
+                  ? <>
+                      <div style={{ color:"#090" }}>Published</div>
+                      <Link to={`/events/${this.props.event}/rounds/${this.props.round}/leaderboard/download`}><Button>Download</Button></Link>
+                    </>
                   : <Button
                       onClick={ this.handlePublish }
                       disabled={ this.state.button === this.BUTTON_CLICKED }
