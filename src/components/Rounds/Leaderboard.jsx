@@ -51,7 +51,7 @@ export default class extends React.Component {
 
     eventService.publishRoundLeaderboard(this.props.event, this.props.round).then(status =>
       this.setState({
-        published: status,
+        published: !!status,
         button: this.BUTTON_NORMAL,
       })
     );
