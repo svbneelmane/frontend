@@ -12,7 +12,15 @@ export default class extends React.PureComponent {
     };
   }
 
-  componentWillMount = async () => {
+
+  getRank = (points) => {
+    if (!this.state.leaderboard.length) return 0;
+
+    let scores = Array.from(new Set(this.state.leaderboard.map(team => team.points)));
+    return scores.indexOf(points) + 1;
+  };
+
+    componentWillMount = async () => {
     let response = await leaderboardService.get();
     this.setState({
       leaderboard: response.sort((a, b) => parseFloat(b.points) - parseFloat(a.points)),
@@ -26,7 +34,7 @@ export default class extends React.PureComponent {
         ? this.state.leaderboard.map((team, i) => (
             <LBList
               key={ i }
-              position={ i + 1 }
+              position={ this.getRank(team.points) }
               title={ team.college.name }
               description={ team.college.location }
               points={ team.points }
