@@ -9,7 +9,6 @@ export default class extends React.PureComponent {
 
     this.state = {
       leaderboard: [],
-      published: false,
     };
   }
 
@@ -20,19 +19,8 @@ export default class extends React.PureComponent {
     return scores.indexOf(points) + 1;
   };
 
-  handlePublish = () => {
-    let leaderboard = this.state.leaderboard.map(team => ({
-      college: team.college._id,
-      points: team.points,
-    }));
-
-    leaderboardService.publish(leaderboard).then(lb =>
-      this.setState({ published: !!lb })
-    );
-  };
-
   componentWillMount = () => {
-    leaderboardService.get().then(lb =>
+    leaderboardService.getPublic().then(lb =>
       this.setState({
         leaderboard: lb.sort((a, b) => parseFloat(b.points) - parseFloat(a.points)),
       })
@@ -43,13 +31,6 @@ export default class extends React.PureComponent {
     <div>
       <div css={{ textAlign: "center" }}>
         <h1>College Leaderboard</h1>
-        <div>
-          {
-            this.state.published
-            ? "Published"
-            : <button onClick={ this.handlePublish }>Publish</button>
-          }
-        </div>
       </div>
       <div>
         {
