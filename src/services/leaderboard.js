@@ -13,7 +13,7 @@ const get = async () => {
 };
 
 const getPublic = async () => {
-  let response = await request("/leaderboard");
+  let response = await request("/leaderboard/public");
 
   if (response && response.status === 200) {
     return response.data;
