@@ -1,7 +1,7 @@
 import React from "react";
 
 import LBList from "../../commons/LBList";
-import leaderboardService from '../../services/leaderboard';
+import leaderboardService from "../../services/leaderboard";
 
 export default class extends React.PureComponent {
   constructor(props) {
@@ -12,7 +12,6 @@ export default class extends React.PureComponent {
     };
   }
 
-
   getRank = (points) => {
     if (!this.state.leaderboard.length) return 0;
 
@@ -20,17 +19,18 @@ export default class extends React.PureComponent {
     return scores.indexOf(points) + 1;
   };
 
-    componentWillMount = async () => {
-    let response = await leaderboardService.get();
-    this.setState({
-      leaderboard: response.sort((a, b) => parseFloat(b.points) - parseFloat(a.points)),
-    });
-  }
+  componentWillMount = () => {
+    leaderboardService.get().then(lb =>
+      this.setState({
+        leaderboard: lb.sort((a, b) => parseFloat(b.points) - parseFloat(a.points)),
+      })
+    );
+  };
 
   render = () => (
     <div>
       {
-        this.state.leaderboard.length>0
+        this.state.leaderboard.length
         ? this.state.leaderboard.map((team, i) => (
             <LBList
               key={ i }
@@ -40,7 +40,7 @@ export default class extends React.PureComponent {
               points={ team.points }
             />
           ))
-        : <h1 style={{textAlign:"center"}}>No results</h1>
+        : <h1 style={{ textAlign:"center" }}>No results</h1>
       }
     </div>
   );
