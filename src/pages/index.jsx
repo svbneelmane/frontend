@@ -21,6 +21,7 @@ import EventTeams from '../components/Events/Teams';
 import EventParticipants from '../components/Events/Participants';
 import EditEvent from '../components/Events/Edit';
 import Leaderboard from "../components/Leaderboard";
+import PublicLeaderboard from "../components/PublicLeaderboard";
 import Teams from "../components/Participants";
 import Register from "../components/Registration";
 import Participants from "../components/Registration/Participants";
@@ -86,6 +87,7 @@ export default () =>
         <PrivateRoute path="/judge/:event/rounds/:round" exact component={ Judge } type={ 2 } />
 
         <PrivateRoute path="/leaderboard" component={ Leaderboard } type={ 1 } />
+        <PrivateRoute path="/leaderboard/public" component={ PublicLeaderboard } type={ 4 } />
 
         <PrivateRoute path="/register" component={ Register } type={ 4 }  />
         <PrivateRoute path="/slots" component={ PublicSlotsEvents } type={ 4 }  />
