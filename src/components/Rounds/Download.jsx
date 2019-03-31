@@ -63,12 +63,12 @@ export default class extends React.Component {
         
        
       
-        let name = <>{"#"+team.number+" "+team.team.name.match(/[\w\s]+/)[0]}</>;
+        let name = <>{"#"+team.number+" "+team.team.name.match(/[\w\s-]+/)[0]}</>;
 
         if(team.team.members.length===1){
           let participants = await collegesService.getParticipants(team.team.college)
           let participant=participants.find(participant=>team.team.members.includes(participant.id));
-          name = <>{"#"+team.number+" "+participant.name}<br/><small>{team.team.name.match(/[\w\s]+/)[0]}</small></>;
+          name = <>{"#"+team.number+" "+participant.name}<br/><small>{team.team.name.match(/[\w\s-]+/)[0]}</small></>;
         }
         ranks[rank].push(name);
 
