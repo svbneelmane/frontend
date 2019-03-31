@@ -232,6 +232,30 @@ const getTeamsByRound = async (eventID, roundID) => {
   }
 };
 
+const updateTeamScores = async (eventID, roundID, teams) => {
+  let response = await request("/events/" + eventID + "/rounds/" + roundID + "/scores", "PATCH", teams);
+
+  if (response && response.status === 200) {
+    return response.data;
+  } else {
+    if (response && response.status === 401) toast("Your session has expired, please logout and login again.");
+    else toast(response.message);
+    return null;
+  }
+};
+
+const publishRoundLeaderboard = async (eventID, roundID) => {
+  let response = await request("/events/" + eventID + "/rounds/" + roundID + "/leaderboard", "PATCH", {});
+
+  if (response && response.status === 200) {
+    return response.data;
+  } else {
+    if (response && response.status === 401) toast("Your session has expired, please logout and login again.");
+    else toast(response.message);
+    return null;
+  }
+};
+
 export default {
   create,
   createRound,
@@ -251,4 +275,6 @@ export default {
   getTeams,
   getTeamsByRound,
   updateRound,
+  updateTeamScores,
+  publishRoundLeaderboard,
 };
