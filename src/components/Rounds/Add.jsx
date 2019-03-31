@@ -28,20 +28,22 @@ export default class AddRound extends React.Component {
 
   handleClick = () => {
     if (!this.state.round.criteria1) return toast("Please enter criteria 1");
-    if (!this.state.round.criteria2) return toast("Please enter criteria 2");
-    if (!this.state.round.criteria3) return toast("Please enter criteria 3");
-    if (!this.state.round.criteria4) return toast("Please enter criteria 4");
+    
+    let criteria=[this.state.round.criteria1];
+
+    if(this.state.round.criteria2&&this.state.round.criteria2.trim().length)
+      criteria.push(this.state.round.criteria2.trim());
+    if(this.state.round.criteria3&&this.state.round.criteria3.trim().length)
+      criteria.push(this.state.round.criteria3.trim());
+    if(this.state.round.criteria4&&this.state.round.criteria4.trim().length)
+      criteria.push(this.state.round.criteria4.trim());
+    
 
     this.setState({
       buttonText: this.ADDING
     }, () => {
       let round = {
-        criteria: [
-          this.state.round.criteria1,
-          this.state.round.criteria2,
-          this.state.round.criteria3,
-          this.state.round.criteria4,
-        ],
+        criteria,
         slottable: !!this.state.round.slottable,
       };
 
