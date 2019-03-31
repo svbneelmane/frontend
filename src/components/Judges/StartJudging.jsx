@@ -8,7 +8,6 @@ import { TeamList } from "../../commons/List";
 import judges from "../../services/judges";
 import events from "../../services/events";
 import { toast } from "../../actions/toastActions";
-import { getIteratorMethod } from "iterall";
 
 
 export default class Judge extends Component {
