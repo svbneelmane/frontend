@@ -85,7 +85,7 @@ export default class Bias extends React.Component {
   }
 
   handleSave() {
-    let bias = this.state.teams.map(slot => ({
+    let teams = this.state.teams.map(slot => ({
       id: slot.team._id,
       overtime: slot.overtime,
       disqualified: slot.team.disqualified,
@@ -93,10 +93,11 @@ export default class Bias extends React.Component {
 
     this.setState(
       { button: this.BUTTON_CLICKED },
-      () => eventService.addBias(this.props.event, this.props.round, bias).then(res => {
-        if (res) navigate(`events/${this.props.event}/rounds`);
-        this.setState({ button: this.BUTTON_NORMAL });
-      })
+      () =>
+        eventService.updateTeamScores(this.props.event, this.props.round, teams).then(res => {
+          if (res) navigate(`events/${this.props.event}/rounds`);
+          this.setState({ button: this.BUTTON_NORMAL });
+        })
     );
   }
 
