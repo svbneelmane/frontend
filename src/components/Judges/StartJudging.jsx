@@ -8,8 +8,6 @@ import { TeamList } from "../../commons/List";
 import judges from "../../services/judges";
 import events from "../../services/events";
 import { toast } from "../../actions/toastActions";
-import { getIteratorMethod } from "iterall";
-
 
 export default class Judge extends Component {
   constructor(props) {
@@ -169,16 +167,13 @@ export default class Judge extends Component {
               textAlign: "center",
               flex: 3,
             }}>
-              <div css={{
-
-              }}>
-              
+              <div>
                 <h2>{ this.state.event.name } - { "Round" + (this.state.event.rounds && (this.state.event.rounds.indexOf(this.props.round) + 1)) }</h2>
+                <h3>
+                  Slot #{ this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].number }&ensp;-&ensp;
+                  { this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].team.name }
+                </h3>
               </div>
-              <h3>
-                #{(this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].number)} - 
-                {(this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].team.name)}
-              </h3>
               <div css={{
                 color: "#ff5800",
                 fontSize: "1.5em"
