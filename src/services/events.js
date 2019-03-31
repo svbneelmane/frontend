@@ -232,17 +232,15 @@ const getTeamsByRound = async (eventID, roundID) => {
   }
 };
 
-const addBias = async (eventID, roundID, bias) => {
-  let response = await request("/events/" + eventID + "/rounds/" + roundID + "/bias","POST",bias);
+const updateTeamScores = async (eventID, roundID, teams) => {
+  let response = await request("/events/" + eventID + "/rounds/" + roundID + "/scores", "PATCH", teams);
 
   if (response && response.status === 200) {
-    return true;
+    return response.data;
   } else {
-    if(response&&response.status==="401")
-      toast("Your session has expired, please logout and login again.")
-    else
-      toast(response.message)
-    return false;
+    if (response && response.status === 401) toast("Your session has expired, please logout and login again.");
+    else toast(response.message);
+    return null;
   }
 };
 
@@ -277,6 +275,6 @@ export default {
   getTeams,
   getTeamsByRound,
   updateRound,
-  addBias,
+  updateTeamScores,
   publishRoundLeaderboard,
 };
