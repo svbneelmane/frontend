@@ -29,21 +29,15 @@ export default class extends React.Component {
   };
 
   componentWillMount = async () => {
-    console.log(1);
     let event = await eventService.get(this.props.event);
-    console.log(2);
 
     await this.setState({ event });
-    console.log(3);
 
     let slots = await eventService.getSlots(this.props.event, this.props.round);
-    console.log(4);
 
     let lb = await leaderboardService.getRound(this.props.event,this.props.round);
-    console.log(5);
 
     if (!lb.length) return;
-    console.log(6);
 
     let teams = slots;
     for (let team of teams) {
@@ -55,14 +49,11 @@ export default class extends React.Component {
       team.bias = score.bias;
       team.total = score.points;
     }
-    console.log(7);
 
     let scores = Array.from(new Set(teams.map(team => team.points))).sort((a,b)=>b-a);
-    console.log(8);
 
     teams=teams.filter(slot => !slot.disqualified).sort((a, b) => parseFloat(b.points) - parseFloat(a.points))
     let ranks=this.state.ranks;
-    console.log(9);
 
     for(let i=0;i<teams.length;i++){
       let team=teams[i];
@@ -79,17 +70,13 @@ export default class extends React.Component {
           let participant=participants.find(participant=>team.team.members.includes(participant.id));
           name = <>{"#"+team.number+" "+participant.name}<br/><small>{team.team.name.match(/[\w\s]+/)[0]}</small></>;
         }
-        console.log(name);
         ranks[rank].push(name);
 
 
       }
     }
-    console.log(10);
 
-    console.log("aaa");
     await this.setState({  scoreStatus: true,ranks });
-    console.log(11);
 
     
   }
@@ -104,7 +91,6 @@ export default class extends React.Component {
     let data = canvas.toDataURL("image/png");
     let a = document.createElement("A");
     a.href=data;
-    console.log(this.state);
     a.download=this.state.event.name;
     a.click();
   }
