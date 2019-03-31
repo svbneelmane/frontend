@@ -1,10 +1,10 @@
 import React from "react";
+import html2canvas from 'html2canvas'
 
-import LBList from "../../commons/LBList";
 import leaderboardService from '../../services/leaderboard';
 import eventService from '../../services/events';
-import { Button } from "../../commons/Form";
-import { Link } from "gatsby";
+import Top from "../../images/top.png"
+import Bottom from "../../images/bottom.png"
 
 export default class extends React.Component {
   BUTTON_NORMAL = "Publish";
@@ -57,47 +57,28 @@ export default class extends React.Component {
       })
     );
   }
-
+  async componentDidMount(){
+    let leaderboard = document.querySelector("#leaderboard");
+    let canvas = await html2canvas(leaderboard);
+    document.body.appendChild(canvas);
+  }
   render = () => (
-    <div>
-      <div>
-        <h1 style={{ textAlign:"center" }}>{ this.state.event.name }</h1>
-        <h2 style={{ textAlign:"center" }}>Round { this.state.event.rounds && this.state.event.rounds.indexOf(this.props.round) + 1 } Leaderboard</h2>
+    <div id="leaderboard" css={{width:1000,background: "#eae8e3",margin:"auto"}}>
+      <img src={Top} alt="top" style={{width:"100%"}}/>
+      <div css={{textAlign:"center"}}>
+        <h1 css={{color:"#900"}}>FIRST POSITION</h1>
+        <h2>#2 KMC, Manipal</h2>
+        <h2>#4 MIT, Manipal</h2>
       </div>
-      <div>
-        {
-          this.state.leaderboard.length
-          ? <>
-              {
-                this.state.leaderboard.map((slot, i) => (
-                  <LBList
-                    key={ i }
-                    position={ this.getRank(slot.points) }
-                    title={ slot.team.name }
-                    description={ "" }
-                    points={ slot.points }
-                  />
-                ))
-              }
-              <div style={{textAlign:"center",padding:20}}>
-                {
-                  this.state.published
-                  ? <>
-                      <div style={{ color:"#090" }}>Published</div>
-                      <Link to={`/events/${this.props.event}/rounds/${this.props.round}/leaderboard/download`}><Button>Download</Button></Link>
-                    </>
-                  : <Button
-                      onClick={ this.handlePublish }
-                      disabled={ this.state.button === this.BUTTON_CLICKED }
-                    >
-                      { this.state.button }
-                    </Button>
-                }
-              </div>
-            </>
-          : <h1 style={{ textAlign:"center" }}>No results</h1>
-        }
+      <div css={{textAlign:"center"}}>
+        <h1 css={{color:"#900"}}>SECOND POSITION</h1>
+        <h2>#1 MCODS, Manipal</h2>
       </div>
+      <div css={{textAlign:"center"}}>
+        <h1 css={{color:"#900"}}>THIRD POSITION</h1>
+        <h2>#7 SOIS, Manipal</h2>
+      </div>
+      <img src={Bottom} alt="top" style={{width:"100%"}}/>
     </div>
   );
 };

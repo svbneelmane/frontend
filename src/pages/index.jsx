@@ -36,6 +36,7 @@ import PublicSlots from "../components/PublicSlots/Slots";
 import Judge from "../components/Judges/StartJudging";
 import RoundLeaderboard from '../components/Rounds/Leaderboard';
 import Bias from '../components/Rounds/Bias'
+import Download from '../components/Rounds/Download'
 
 
 // import configureStore from "../store";
@@ -75,6 +76,7 @@ export default () =>
         <PrivateRoute path="/events/:event/rounds/:round/edit" exact component={ EditRound } type={ 1 } />
         <PrivateRoute path="/events/:event/rounds/:round/leaderboard" exact component={ RoundLeaderboard } type={ 1 } />
         <PrivateRoute path="/events/:event/rounds/:round/bias" exact component={ Bias } type={ 1 } />
+        <PrivateRoute path="/events/:event/rounds/:round/leaderboard/download" exact component={ Download} type={ 1 } />
 
         <PrivateRoute path="/colleges" component={ Colleges } type={ 1 } />
         <PrivateRoute path="/colleges/add" component={ AddCollege } type={ 1 } />

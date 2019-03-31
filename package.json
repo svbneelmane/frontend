@@ -18,6 +18,7 @@
     "gatsby": "^2.1.22",
     "gatsby-plugin-glamor": "^2.0.8",
     "glamor": "^2.20.40",
+    "html2canvas": "^1.0.0-alpha.12",
     "react": "^16.8.3",
     "react-datepicker": "^2.1.0",
     "react-dom": "^16.8.3",
