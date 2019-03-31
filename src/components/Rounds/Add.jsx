@@ -31,11 +31,11 @@ export default class AddRound extends React.Component {
     
     let criteria=[this.state.round.criteria1];
 
-    if(this.state.round.criteria2.trim().length)
+    if(this.state.round.criteria2&&this.state.round.criteria2.trim().length)
       criteria.push(this.state.round.criteria2.trim());
-    if(this.state.round.criteria3.trim().length)
+    if(this.state.round.criteria3&&this.state.round.criteria3.trim().length)
       criteria.push(this.state.round.criteria3.trim());
-    if(this.state.round.criteria4.trim().length)
+    if(this.state.round.criteria4&&this.state.round.criteria4.trim().length)
       criteria.push(this.state.round.criteria4.trim());
     
 
