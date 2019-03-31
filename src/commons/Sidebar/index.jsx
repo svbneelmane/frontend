@@ -52,13 +52,14 @@ const SidebarItems = () => (
     <SidebarItem to="/" title="Home" />
     <SidebarItem to="/register" title="Register" />
     <SidebarItem to="/slots" title="Slots" />
+    <SidebarItem to="/leaderboard/public" title="Leaderboard" />
     <SidebarSeparator />
     <SidebarItem to="/users" title="Users" />
     <SidebarItem to="/colleges" title="Colleges" />
     <SidebarItem to="/events" title="Events" />
     <SidebarItem to="/judges" title="Judges" />
-    <SidebarSeparator />
     <SidebarItem to="/leaderboard" title="Leaderboard" />
+    <SidebarSeparator />
     <SidebarItem to="/stats" title="Stats" />
   </ul>
 );
