@@ -2,6 +2,7 @@ import React from "react";
 import Select from "react-select";
 
 import eventsService from "../../services/events";
+import collegesService from "../../services/colleges"
 import LBList from "../../commons/LBList";
 
 export default class extends React.Component {
@@ -9,7 +10,7 @@ export default class extends React.Component {
     super(props);
 
     this.slots = [];
-
+    this.loadData=this.loadData.bind(this);
     this.state = {
       loaded: false,
       event: {},
@@ -21,22 +22,40 @@ export default class extends React.Component {
   }
 
   componentWillMount() {
-    eventsService.get(this.props.event).then(event =>
-      this.setState({
-        event,
-        round: event.rounds[0],
-        roundOptions: event.rounds.map((round, i) => ({
-          label: "Round " + (i + 1),
-          value: round,
-        }))
-      }, () =>
-        eventsService.getSlots(this.props.event, this.state.round).then(slots =>
-          this.setState({ slotted: !!slots.length, slots }, () =>
-            this.setState({ loaded: true })
-          )
-        )
-      )
-    );
+    this.loadData();
+  }
+  async loadData(){
+    let event = await eventsService.get(this.props.event);
+    await this.setState({
+      event,
+      round: event.rounds[0],
+      roundOptions: event.rounds.map((round, i) => ({
+        label: "Round " + (i + 1),
+        value: round,
+      }))
+    });
+    
+    let slots = await eventsService.getSlots(this.props.event, this.state.round);
+    let newSlots=[];
+    for(let i=0;i<slots.length;i++){
+      let slot=slots[i];
+      let number = slot.number;
+      let name = slot.team.name;
+      if(event.maxMembersPerTeam===1){
+        let participants = await collegesService.getParticipants(slot.team.college)
+        let participant=participants.find(participant=>slot.team.members.includes(participant.id));
+        let college = name.match(/[\w\s-,]*/)[0];
+        name = `${participant.name}, ${college}`;
+      }
+      if(event.maxTeamsPerCollege===1){
+        name = name.match(/[\w\s-,]*/)[0];
+        
+      }
+     newSlots.push({number,name}); 
+    }
+    await this.setState({ slotted: !!slots.length, slots:newSlots });
+    this.setState({ loaded: true });
+  
   }
 
   handleRoundChange = (e) => {
@@ -85,7 +104,7 @@ export default class extends React.Component {
             placeholder="Select Round"
             value={{ label: "Round " + (this.state.event.rounds && (this.state.event.rounds.indexOf(this.state.round) + 1)), value: this.state.round }}
             options={ this.state.roundOptions }
-            onChange={ (e) => this.handleRoundChange(e) }
+            onChange={this.handleRoundChange}
             styles={{
               control: (provided, state) => ({
                 ...provided,
@@ -132,7 +151,7 @@ export default class extends React.Component {
                       <LBList
                         key={ i }
                         position={ slot.number }
-                        title={ slot.team && slot.team.name }
+                        title={ slot.name }
                       />
                     )
                   }

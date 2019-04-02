@@ -5,6 +5,12 @@ const userTypes = {
   STUDENT_COORDINATOR: 1 << 3,
 };
 
+export const  servers={
+  development:"http://localhost:3003",
+  testing:"https://staging.manipalutsav.com",
+  production:"https://api.manipalutsav.com"
+}
+
 export default {
   // Whether the registrations are open for the following type of events.
   registrations: {
@@ -36,7 +42,6 @@ export default {
     light: "#f5f5f5",
     white: "#ffffff",
   },
-  //server:"http://localhost:3003",
-  server:"https://staging.manipalutsav.com",
-  // server:"https://api.manipalutsav.com",
+  server: servers.development
+  
 };

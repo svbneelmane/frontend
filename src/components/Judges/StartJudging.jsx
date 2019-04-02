@@ -125,7 +125,19 @@ export default class Judge extends Component {
       index++;
     }
   }
+  handleNoteChange=async(event)=>{
+    
+    let index = event.target.name;
+    let slots = this.state.slots;
+    console.log({index,slots},this.getSlotIndex(Number(index)));
+    slots[this.getSlotIndex(Number(index))].notes=event.target.value
+    
+    await this.setState({
+      slots
+    });
+    localStorage.setItem("scoresheet:" + this.props.round, JSON.stringify(this.state));
 
+  }
   submitScore = () => {
     let surity = typeof window !== "undefined"
       && window.confirm("Are you sure you want to submit the scores?\nOnce submitted, scores can't be edited.");
@@ -221,14 +233,30 @@ export default class Judge extends Component {
                         onChange={ this.handelCritriaChange }
                         value={ ((this.state.selection && this.state.slots[this.getSlotIndex(this.state.selection)].points[i])||"") }
                         name={ i }
+                        
                       />
                     ))
                 }
               </div>
-
               <div>
                 {this.state.submitVisible?<Button styles={{ marginTop: 16, }} onClick={ this.submitScore } style={{}}>Submit</Button>:<></>}
               </div>
+                <textarea 
+                  onChange={this.handleNoteChange} 
+                  css={{margin:"20px auto",minWidth:"50%",maxWidth:"70%"}} 
+                  placeholder="Write your notes here"
+                  name={this.state.selection}
+                  value={((this.state.selection && this.state.slots[this.getSlotIndex(this.state.selection)].notes)||"")}
+                  ></textarea>
+                <p css={{
+                display: "flex",
+                flexDirection: "column",
+                fontSize: "0.9em",
+                whiteSpace: "pre-wrap",
+              }}>
+                {this.state.event.description}
+              </p>
+             
             </div>
           </div>
         : <div css={{
