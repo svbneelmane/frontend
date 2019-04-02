@@ -203,8 +203,8 @@ export default class Judge extends Component {
               <div>
                 <h2>{ this.state.event.name } - { "Round" + (this.state.event.rounds && (this.state.event.rounds.indexOf(this.props.round) + 1)) }</h2>
                 <h3>
-                  Slot #{ this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].number }&ensp;-&ensp;
-                  { this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].team.name }
+                  Slot #{ this.state.slots.length && this.state.slots[this.getSlotIndex(this.state.selection)] && this.state.slots[this.getSlotIndex(this.state.selection)].number }&ensp;
+                 
                 </h3>
               </div>
               <div css={{

@@ -56,7 +56,7 @@ const TeamList = (props) => (
         color: "rgba(0,0,0,0.6)",
         verticalAlign: "middle",
         width: "88%"
-      }}>{props.name}</div>
+      }}></div>
 
       <div id={props.slot} css={{
         display: "inline-block",
