@@ -38,7 +38,7 @@ export default class extends React.Component {
     let lb = await leaderboardService.getRound(this.props.event,this.props.round);
 
     if (!lb.length) return;
-
+    
     let teams = slots;
     for (let team of teams) {
       let score = lb.find(score => score.team._id === team.team._id);
@@ -49,8 +49,8 @@ export default class extends React.Component {
       team.bias = score.bias;
       team.total = score.points;
     }
-
-    let scores = Array.from(new Set(teams.map(team => team.points))).sort((a,b)=>b-a);
+    console.log(teams);
+    let scores = Array.from(new Set(teams.map(team => team.total))).sort((a,b)=>b-a);
 
     teams=teams.filter(slot => !slot.disqualified).sort((a, b) => parseFloat(b.points) - parseFloat(a.points))
     let ranks=this.state.ranks;
@@ -60,9 +60,6 @@ export default class extends React.Component {
       let rank = scores.indexOf(team.points)+1;
       
       if(rank>=1&&rank<=3){
-        
-       
-      
         let name = <>{"#"+team.number+" "+team.team.name.match(/[\w\s-]+/)[0]}</>;
 
         if(team.team.members.length===1){
