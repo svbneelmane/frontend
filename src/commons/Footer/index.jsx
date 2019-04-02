@@ -23,7 +23,7 @@ export default () => (
       &ensp;or&ensp;
       <Contact name="Sambit" number="9986104763" />
     </div>
-    {constants.server==servers.testing?<p>Testing</p>:<></>}
-    {constants.server==servers.development?<p>Development</p>:<></>}
+    {constants.server===servers.testing?<p>Testing</p>:<></>}
+    {constants.server===servers.development?<p>Development</p>:<></>}
   </footer>
 );

@@ -38,8 +38,10 @@ const TeamList = (props) => (
     <div id={props.slot} css={{
       padding: "4%",
       backgroundColor: props.backgroundColor,
+      
       cursor: "pointer"
     }}>
+    
       <div id={props.slot} css={{
         display : "block",
         fontSize : "0.9em",

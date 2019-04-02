@@ -185,7 +185,9 @@ export default class Judge extends Component {
                     score={ team.total || 0 }
                     slot={ "#" + team.number }
                     name={ team.team && team.team.name }
-                    backgroundColor={ team.number === this.state.selection ? "rgba(255, 209, 0, .2)" : "" }
+                    backgroundColor={ team.number === this.state.selection ? "rgba(255, 209, 0, .2)" :
+                    (team.points.length!==0&&!team.points.includes(null)&&!team.points.includes("")?"rgba(255, 193, 167, 0.53)":"")
+                    }
                     onClick={ () => this.changeTeam(team) }
                   />
                 ))
