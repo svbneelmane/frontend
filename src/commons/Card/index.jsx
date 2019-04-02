@@ -10,7 +10,8 @@ const RoundCard = (props) => (
       padding: 20,
       borderRadius: "4px",
       // border: "2px solid #efefef",
-      width: "29%",
+      minWidth:"100px",
+      maxWidth:"400px",
       display: "inline-block",
       boxShadow: "0px 5px 12px -5px rgba(0, 0, 0, .1)",
     }}
