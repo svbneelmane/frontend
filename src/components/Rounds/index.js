@@ -30,11 +30,11 @@ export default class Rounds extends React.Component{
   }
 
   handleDelete = (roundID) => {
-    let surity = typeof window !== "undefined" && window.confirm("Are you sure you want to delete this round?");
+    // let surity = typeof window !== "undefined" && window.confirm("Are you sure you want to delete this round?");
 
-    if (surity) {
-      eventsService.deleteRound(this.props.event, roundID);
-    }
+    // if (surity) {
+    //   eventsService.deleteRound(this.props.event, roundID);
+    // }
   }
 
   render = () => (

@@ -24,7 +24,7 @@ export default class extends React.Component {
   getRank = (points) => {
     if (!this.state.teams.length) return 0;
 
-    let scores = Array.from(new Set(this.state.teams.map(team => team.points)));
+    let scores = Array.from(new Set(this.state.teams.map(team => team.total)));
     return scores.indexOf(points) + 1;
   };
 
@@ -49,33 +49,33 @@ export default class extends React.Component {
       team.bias = score.bias;
       team.total = score.points;
     }
-    console.log(teams);
+    teams=teams.filter(slot => !slot.team.disqualified).sort((a, b) => parseFloat(b.total) - parseFloat(a.total))
     let scores = Array.from(new Set(teams.map(team => team.total))).sort((a,b)=>b-a);
 
-    teams=teams.filter(slot => !slot.disqualified).sort((a, b) => parseFloat(b.points) - parseFloat(a.points))
-    let ranks=this.state.ranks;
+    this.setState({teams}, async ()=>{
+      let ranks=this.state.ranks;
 
-    for(let i=0;i<teams.length;i++){
-      let team=teams[i];
-      let rank = scores.indexOf(team.points)+1;
-      
-      if(rank>=1&&rank<=3){
-        let name = <>{"#"+team.number+" "+team.team.name.match(/[\w\s-]+/)[0]}</>;
 
-        if(team.team.members.length===1){
-          let participants = await collegesService.getParticipants(team.team.college)
-          let participant=participants.find(participant=>team.team.members.includes(participant.id));
-          name = <>{"#"+team.number+" "+participant.name}<br/><small>{team.team.name.match(/[\w\s-]+/)[0]}</small></>;
+      for(let i=0;i<teams.length;i++){
+        let team=teams[i];
+        let rank = scores.indexOf(team.total)+1;
+        
+        if(rank>=1&&rank<=3){
+          let name = <>{"#"+team.number+" "+team.team.name.match(/[\w\s-]+/)[0]}</>;
+  
+          if(team.team.members.length===1){
+            let participants = await collegesService.getParticipants(team.team.college)
+            let participant=participants.find(participant=>team.team.members.includes(participant.id));
+            name = <>{"#"+team.number+" "+participant.name}<br/><small>{team.team.name.match(/[\w\s-]+/)[0]}</small></>;
+          }
+          ranks[rank].push(name);
+  
+  
         }
-        ranks[rank].push(name);
-
-
       }
-    }
-
-    await this.setState({  scoreStatus: true,ranks });
-
-    
+  
+      await this.setState({  scoreStatus: true,ranks });
+    });    
   }
 
   async componentDidMount(){
