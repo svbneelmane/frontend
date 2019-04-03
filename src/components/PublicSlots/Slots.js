@@ -44,11 +44,11 @@ export default class extends React.Component {
       if(event.maxMembersPerTeam===1){
         let participants = await collegesService.getParticipants(slot.team.college)
         let participant=participants.find(participant=>slot.team.members.includes(participant.id));
-        let college = name.match(/[\w\s-,]*/)[0];
+        let college = name.match(/[\w\s-,.]*/)[0];
         name = `${participant.name}, ${college}`;
       }
       if(event.maxTeamsPerCollege===1){
-        name = name.match(/[\w\s-,]*/)[0];
+        name = name.match(/[\w\s-,.]*/)[0];
         
       }
      newSlots.push({number,name}); 

@@ -29,14 +29,14 @@ const styles = {
 
 const TeamCard = ({ team }) => {
   let handleDelete = (team) => {
-    let surety = typeof window !== "undefined"
-      && window.confirm("Are you sure you want to delete " + team.name + "?");
+    // let surety = typeof window !== "undefined"
+    //   && window.confirm("Are you sure you want to delete " + team.name + "?");
 
-    if (surety) {
-      eventsService.deleteTeam(team.event._id, team.id).then(() =>
-        navigate("/register/" + team.event._id)
-      );
-    }
+    // if (surety) {
+    //   eventsService.deleteTeam(team.event._id, team.id).then(() =>
+    //     navigate("/register/" + team.event._id)
+    //   );
+    // }
   }
 
   return (

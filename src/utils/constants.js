@@ -43,5 +43,4 @@ export default {
     white: "#ffffff",
   },
   server: servers.production
-  
 };
