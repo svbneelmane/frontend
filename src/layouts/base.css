@@ -89,7 +89,7 @@ a, input, button {
 .leaderboard{
   border:1px solid #000;
   border-collapse: collapse;
-  font-size: 12px;
+  margin:10px;
 }
 .leaderboard th,td{
   width:100px;
@@ -97,5 +97,13 @@ a, input, button {
   padding:5px;
 }
 th:first-child{
-  
+  position: sticky;
+  left:0px;
+  background: #fff;
+}
+tr:nth-child(odd){
+  background: #eee;
+}
+tr:nth-child(odd) th:first-child{
+  background: #eee;
 }

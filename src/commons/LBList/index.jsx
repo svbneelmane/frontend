@@ -40,6 +40,7 @@ const LBList = (props) => (
         : <>
             <div>{ props.points }</div>
             <div>Points</div>
+            
           </>
       }
     </div>
