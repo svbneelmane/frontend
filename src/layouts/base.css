@@ -85,3 +85,17 @@ a, input, button {
     display: none !important;
   }
 }
+
+.leaderboard{
+  border:1px solid #000;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.leaderboard th,td{
+  width:100px;
+  border:1px solid #000;
+  padding:5px;
+}
+th:first-child{
+  
+}

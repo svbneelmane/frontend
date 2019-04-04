@@ -12,12 +12,14 @@ export default class extends React.Component {
   constructor(props) {
     super(props);
     this.download = this.download.bind(this);
+    this.resize = this.resize.bind(this);
     this.state = {
       event: {},
       leaderboard: [],
       published: false,
       ranks: {1:[],2:[],3:[]},
       button: this.BUTTON_NORMAL,
+      width:1000
     };
   }
 
@@ -77,13 +79,19 @@ export default class extends React.Component {
       await this.setState({  scoreStatus: true,ranks });
     });    
   }
-
+  resize(event){
+    console.log("RESIZE");
+    let leaderboard = document.querySelector("#leaderboardContainer");
+    event.target.innerHTML="Done";
+    event.target.disabled=true;
+    this.setState({width:leaderboard.offsetHeight});
+  }
   async componentDidMount(){
     
     //document.body.appendChild(canvas);
   }
   async download(){
-    let leaderboard = document.querySelector("#leaderboard");
+    let leaderboard = document.querySelector("#leaderboardContainer");
     let canvas = await html2canvas(leaderboard);
     let data = canvas.toDataURL("image/png");
     let a = document.createElement("A");
@@ -93,30 +101,34 @@ export default class extends React.Component {
   }
   render = () => (
     <>
-    <div id="leaderboard" css={{width:1000,background: "#eae8e3",margin:"auto"}}>
-      <img src={Top} alt="top" style={{width:"100%"}}/>
-      <h1 css={{color:"#900",fontSize:"3em",fontFamily:"'Cinzel Decorative', cursive",textAlign:"center"}}>{this.state.event.name}</h1>
-      <div css={{textAlign:"center"}}>
-        <h2 css={{color:"#900"}}>FIRST POSITION</h2>
-        {
-          this.state.ranks[1].map((i,j)=><h3 key={j}>{i}</h3>)
-        }
+    
+    <div id="leaderboardContainer" style={{width:this.state.width,margin:"auto"}}>
+      <div id="leaderboard" css={{maxWidth:1000,background: "#eae8e3",margin:"auto"}}>
+        <img src={Top} alt="top" style={{width:"100%"}}/>
+        <h1 css={{color:"#900",fontSize:"3em",fontFamily:"'Cinzel Decorative', cursive",textAlign:"center"}}>{this.state.event.name}</h1>
+        <div css={{textAlign:"center"}}>
+          <h2 css={{color:"#900"}}>FIRST POSITION</h2>
+          {
+            this.state.ranks[1].map((i,j)=><h3 key={j}>{i}</h3>)
+          }
+        </div>
+        <div css={{textAlign:"center"}}>
+          <h2 css={{color:"#900"}}>SECOND POSITION</h2>
+          {
+            this.state.ranks[2].map((i,j)=><h3 key={j}>{i}</h3>)
+          }
+        </div>
+        <div css={{textAlign:"center"}}>
+          <h2 css={{color:"#900"}}>THIRD POSITION</h2>
+          {
+            this.state.ranks[3].map((i,j)=><h3 key={j}>{i}</h3>)
+          }
+        </div>
+        <img src={Bottom} alt="top" style={{width:"100%"}}/>
       </div>
-      <div css={{textAlign:"center"}}>
-        <h2 css={{color:"#900"}}>SECOND POSITION</h2>
-        {
-          this.state.ranks[2].map((i,j)=><h3 key={j}>{i}</h3>)
-        }
-      </div>
-      <div css={{textAlign:"center"}}>
-        <h2 css={{color:"#900"}}>THIRD POSITION</h2>
-        {
-          this.state.ranks[3].map((i,j)=><h3 key={j}>{i}</h3>)
-        }
-      </div>
-      <img src={Bottom} alt="top" style={{width:"100%"}}/>
     </div>
     <div style={{textAlign:"center",padding:20}}>
+      <Button onClick={this.resize} styles={{marginRight:100}}>Square Image</Button>
       <Button onClick={this.download}>Download</Button>
     </div>
     
