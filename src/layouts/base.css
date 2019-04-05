@@ -114,3 +114,15 @@ thead th{
   position: sticky;
   top:0px;
 }
+
+
+.feedback input[type="radio"]{
+  display:inline-block;
+}
+.feedback form{
+  display: block;
+}
+.feedback select{
+  height:50px;
+  font-size:20px;
+}
