@@ -61,7 +61,7 @@ export default class extends React.PureComponent {
           this.state.leaderboard.length
           ? this.state.leaderboard.map((team, i) => (
               <LBList
-                main={true}
+                main={false}
                 key={ i }
                 position={ this.getRank(team.points) }
                 title={ team.college.name }
