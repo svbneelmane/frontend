@@ -41,7 +41,8 @@ const getAll = async () => {
 
 const getCollege = async(college)=>{
   try{
-  let response = await fetch(`${constants.server}/colleges/${college}`,{
+  
+  let response = typeof window !== "undefined" && await window.fetch(`${constants.server}/colleges/${college}`,{
     credentials:"include"
   });
   let json = await response.json();

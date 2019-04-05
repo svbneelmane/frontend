@@ -13,8 +13,8 @@ export default class extends React.PureComponent {
       "Liked Elements": form[1].value,
       "Usefulness": form[2].value,
     };
-
-    fetch("https://usebasin.com/f/71436ab3ce6c.json", {
+    
+    typeof window !== "undefined" &&window.fetch("https://usebasin.com/f/71436ab3ce6c.json", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

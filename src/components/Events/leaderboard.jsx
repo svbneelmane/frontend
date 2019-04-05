@@ -13,7 +13,8 @@ export default class extends React.PureComponent {
   }
 
   componentWillMount = () => {
-    fetch(
+    
+    typeof window !== "undefined" && window.fetch(
       constants.server
         + "/leaderboard"
     ).then(res => res.json()).then(res => {

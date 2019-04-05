@@ -40,7 +40,8 @@ const get = async (id) => {
 
 const get2 = async (id) => {
   try{
-    let response = await fetch(`${constants.server}/users/${id}`,{
+
+    let response = typeof window !== "undefined" && await window.fetch(`${constants.server}/users/${id}`,{
       credentials:"include"
     });
     let json = await response.json();
