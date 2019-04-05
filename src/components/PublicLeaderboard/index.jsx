@@ -2,6 +2,8 @@ import React from "react";
 
 import LBList from "../../commons/LBList";
 import leaderboardService from "../../services/leaderboard";
+import { Button } from "../../commons/Form";
+import { Link } from "gatsby";
 
 export default class extends React.PureComponent {
   constructor(props) {
@@ -31,6 +33,7 @@ export default class extends React.PureComponent {
     <div>
       <div css={{ textAlign: "center" }}>
         <h1>College Leaderboard</h1>
+        <Link to="/board"><Button>View Table</Button></Link>
       </div>
       <div>
         {

@@ -84,6 +84,9 @@ a, input, button {
   .no-print, .no-print * {
     display: none !important;
   }
+  .leaderboardContainer{
+    overflow: visible!important;
+  }
 }
 
 .leaderboard{
@@ -106,4 +109,8 @@ tr:nth-child(odd){
 }
 tr:nth-child(odd) th:first-child{
   background: #eee;
+}
+thead th{
+  position: sticky;
+  top:0px;
 }
