@@ -2,6 +2,8 @@ import React from "react";
 
 import LBList from "../../commons/LBList";
 import leaderboardService from "../../services/leaderboard";
+import { Link } from "gatsby";
+import { Button } from "../../commons/Form";
 
 export default class extends React.PureComponent {
   constructor(props) {
@@ -43,11 +45,14 @@ export default class extends React.PureComponent {
     <div>
       <div css={{ textAlign: "center" }}>
         <h1>College Leaderboard</h1>
+       
+
         <div>
+        <Link to="/board"><Button>View Table</Button></Link>
           {
             this.state.published
             ? "Published"
-            : <button onClick={ this.handlePublish }>Publish</button>
+            : <button style={{marginLeft:20}} onClick={ this.handlePublish }>Publish</button>
           }
         </div>
       </div>
@@ -56,6 +61,7 @@ export default class extends React.PureComponent {
           this.state.leaderboard.length
           ? this.state.leaderboard.map((team, i) => (
               <LBList
+                main={true}
                 key={ i }
                 position={ this.getRank(team.points) }
                 title={ team.college.name }

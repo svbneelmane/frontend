@@ -84,7 +84,6 @@ export default class extends React.Component {
                   this.state.published
                   ? <>
                       <div style={{ color:"#090" }}>Published</div>
-                      <Link to={`/events/${this.props.event}/rounds/${this.props.round}/leaderboard/download`}><Button>Download</Button></Link>
                     </>
                   : <Button
                       onClick={ this.handlePublish }
@@ -93,6 +92,7 @@ export default class extends React.Component {
                       { this.state.button }
                     </Button>
                 }
+                 <Link to={`/events/${this.props.event}/rounds/${this.props.round}/leaderboard/download`}><Button styles={{marginLeft:20}}>Download</Button></Link>
               </div>
             </>
           : <h1 style={{ textAlign:"center" }}>No results</h1>

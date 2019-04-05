@@ -38,9 +38,11 @@ const LBList = (props) => (
         props.points === undefined
         ? null
         : <>
+        {props.main?'':<>
             <div>{ props.points }</div>
             <div>Points</div>
-            
+            </>
+        }
           </>
       }
     </div>

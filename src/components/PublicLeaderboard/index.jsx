@@ -33,13 +33,14 @@ export default class extends React.PureComponent {
     <div>
       <div css={{ textAlign: "center" }}>
         <h1>College Leaderboard</h1>
-        <Link to="/board"><Button>View Table</Button></Link>
+        <Link to="/publicboard"><Button>View Table</Button></Link>
       </div>
       <div>
         {
           this.state.leaderboard.length
           ? this.state.leaderboard.map((team, i) => (
               <LBList
+                main={true}
                 key={ i }
                 position={ this.getRank(team.points) }
                 title={ team.college.name }

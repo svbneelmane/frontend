@@ -123,6 +123,7 @@ export default class extends React.Component {
               {
                 this.state.newSlots.map((slot, i) =>
                   <LBList
+                    
                     key={ i }
                     position={ slot.number }
                     title={
