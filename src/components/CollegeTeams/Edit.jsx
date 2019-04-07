@@ -6,7 +6,7 @@ import participantsService from "../../services/participants";
 import { Button } from "../../commons/Form";
 import { toast } from "../../actions/toastActions";
 
-export default class EditRound extends React.Component {
+export default class EditMember extends React.Component {
   UPDATE = "Update";
   UPDATING = "Updating...";
 
@@ -17,7 +17,7 @@ export default class EditRound extends React.Component {
 
   handleChange = (e) => {
     this.setState({
-      round: {
+      participant: {
         ...this.state.participant,
         [e.target.name]: e.target.value,
       },
