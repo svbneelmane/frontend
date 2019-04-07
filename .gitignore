@@ -76,4 +76,6 @@ package-lock.json
 constants.js
 
 .gitignore
-board.jsx
+
+#vscode
+.vscode
