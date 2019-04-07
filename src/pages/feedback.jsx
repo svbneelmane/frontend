@@ -2,6 +2,8 @@ import React from "react";
 
 import StarRatings from 'react-star-ratings';
 import {Button} from '../commons/Form';
+import '../layouts/base.css'
+import '../layouts/fonts.css'
 
 
 export default class extends React.PureComponent {
@@ -117,8 +119,8 @@ export default class extends React.PureComponent {
         </div>
         <div css={{ padding:20 }}>
           <label htmlFor="android-app">Are you a: </label>
-          <input type="radio" name="question7" onChange={this.handleChange} value="male" id="male"/><label for="male">Male</label>
-          <input type="radio" name="question7" onChange={this.handleChange} value="female" id="female"/><label for="female">Female</label>
+          <input type="radio" name="question7" onChange={this.handleChange} value="male" id="male"/><label htmlFor="male">Male</label>
+          <input type="radio" name="question7" onChange={this.handleChange} value="female" id="female"/><label htmlFor="female">Female</label>
         </div>
 
         <div css={{ display: "flex", flexDirection: "column",  padding:20 }}>

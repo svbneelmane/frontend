@@ -60,6 +60,18 @@ const SidebarItems = () => (
     <SidebarItem to="/judges" title="Judges" />
     <SidebarItem to="/leaderboard" title="Leaderboard" />
     <SidebarSeparator />
+    <li>
+      <a href="/feedback" css={{
+        display: "block",
+        marginTop: 10,
+        padding: 10,
+        paddingLeft: 50,
+        fontSize: ".9em",
+        color:"#222"
+      }}>
+       Feedback
+      </a>
+    </li>
     <SidebarItem to="/stats" title="Stats" />
   </ul>
 );
