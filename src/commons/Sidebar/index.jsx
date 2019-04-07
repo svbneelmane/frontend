@@ -51,6 +51,7 @@ const SidebarItems = () => (
   }}>
     <SidebarItem to="/" title="Home" />
     <SidebarItem to="/register" title="Register" />
+    <SidebarItem to="/teams" title="Teams" />
     <SidebarItem to="/slots" title="Slots" />
     <SidebarItem to="/leaderboard/public" title="Leaderboard" />
     <SidebarSeparator />
