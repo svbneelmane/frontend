@@ -36,8 +36,10 @@ import PublicSlotsEvents from "../components/PublicSlots";
 import PublicSlots from "../components/PublicSlots/Slots";
 import Judge from "../components/Judges/StartJudging";
 import RoundLeaderboard from '../components/Rounds/Leaderboard';
-import Bias from '../components/Rounds/Bias'
-import Download from '../components/Rounds/Download'
+import Bias from '../components/Rounds/Bias';
+import Download from '../components/Rounds/Download';
+import CollegeTeams from "../components/CollegeTeams";
+import EditMember from "../components/CollegeTeams/Edit";
 
 
 // import configureStore from "../store";
@@ -91,6 +93,8 @@ export default () =>
         <PrivateRoute path="/leaderboard" component={ Leaderboard } type={ 1 } />
         <PrivateRoute path="/leaderboard/public" component={ PublicLeaderboard } type={ 4 } />
 
+        <PrivateRoute path="/teams" component={ CollegeTeams } type={ 4 } />
+        <PrivateRoute path="/teams/members/:member/edit" component={ EditMember } type={ 4 } />
         <PrivateRoute path="/register" component={ Register } type={ 4 }  />
         <PrivateRoute path="/slots" component={ PublicSlotsEvents } type={ 4 }  />
         <PrivateRoute path="/slots/:event" component={ PublicSlots } type={ 4 }  />
