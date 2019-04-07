@@ -32,14 +32,17 @@ export default class EditRound extends React.Component {
     this.setState({
       buttonText: this.UPDATING
     }, () => {
-      participantsService.update(this.props.participant, this.state.participant)
+      participantsService.update(this.props.member, this.state.participant)
       .then(() => navigate("/teams"))
       .catch(() => this.setState({ buttonText: this.UPDATE }));
     });
   };
 
   componentWillMount() {
-    participantsService.get(this.props.participant).then(participant => this.setState({ participant: participant || {} }));
+    participantsService.get(this.props.member).then(participant => {
+      console.log(participant);
+      this.setState({ participant: participant || {} })
+    });
   }
 
   render = () => (
@@ -69,7 +72,7 @@ export default class EditRound extends React.Component {
             autoComplete="off"
             name="registrationID"
             type="text"
-            value={ this.state.participant.name }
+            value={ this.state.participant.registrationID }
             placeholder="Registration Number"
             css={{ width: 300 }}
           />
