@@ -40,6 +40,7 @@ import Bias from '../components/Rounds/Bias';
 import Download from '../components/Rounds/Download';
 import CollegeTeams from "../components/CollegeTeams";
 import EditMember from "../components/CollegeTeams/Edit";
+import Winners from "../components/Winners";
 
 
 // import configureStore from "../store";
@@ -89,6 +90,8 @@ export default () =>
         <PrivateRoute path="/judges" component={ Judges } type={ 1 } />
         <PrivateRoute path="/judges/add" component={ AddJudge } type={ 1 } />
         <PrivateRoute path="/judge/:event/rounds/:round" exact component={ Judge } type={ 2 } />
+
+        <PrivateRoute path="/winners" component={ Winners } type={ 1 } />
 
         <PrivateRoute path="/leaderboard" component={ Leaderboard } type={ 1 } />
         <PrivateRoute path="/leaderboard/public" component={ PublicLeaderboard } type={ 4 } />
