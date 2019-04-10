@@ -33,6 +33,16 @@ const getRound = async (event,round) => {
   }
 };
 
+const getWinners = async (event,round) => {
+  let response = await request("/leaderboard/winners");
+  if (response && response.status === 200) {
+    return response.data;
+  } else {
+    if (response && response.status === 401) toast("Your session has expired, please logout and login again.");
+    return [];
+  }
+};
+
 const publish = async (leaderboard) => {
   let response = await request("/leaderboard/publish", "POST", leaderboard);
 
@@ -48,5 +58,6 @@ export default {
   get,
   getPublic,
   getRound,
+  getWinners,
   publish,
 };
