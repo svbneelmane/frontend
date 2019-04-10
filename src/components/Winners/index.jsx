@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "gatsby";
 
 import collegesService from "../../services/colleges";
 import leaderboardService from "../../services/leaderboard";
@@ -24,21 +23,36 @@ const styles = {
   },
 };
 
+const Member = (props) => (
+  <div css={styles.teamCard}>
+    <div>{ props.name }</div>
+    <div css={{
+      fontSize: "0.8em",
+      color: "#ff5800",
+    }}>{ props.team }</div>
+  </div>
+);
+
 const College = (props) => (
   <div>
     <h2>{ props.info.name + ", " + props.info.location }</h2>
     <div>
       {
-        props.winners && props.winners.map((winner, i) => (
-          <Link key={ i } to={ "/colleges/" + props.info.id + "/teams/" + winner.team._id + "/members" } css={styles.teamCard}>
-            <div>{ winner.team.name.match(/Team ./i)[0] }</div>
-            <div css={{
-              fontSize: "0.8em",
-              color: "#ff5800",
-            }}>
-              { winner.rank }{ winner.rank === 1 ? "st" : winner.rank === 2 ? "nd" : winner.rank === 3 ? "rd" : "th" } in { winner.team.event.name }
+        props.winners && props.winners.map((winner) => (
+          <div>
+            <h3>{ winner.team && winner.team.event.name } - { winner.rank + (winner.rank === 1 ? "st" : winner.rank === 2 ? "nd" : winner.rank === 3 ? "rd" : "th") } Prize</h3>
+            <div>
+              {
+                winner && winner.team && winner.team.members.map((member, i) => (
+                  <Member
+                    key={ i }
+                    name={ member.name }
+                    team={ winner.team.name.match(/Team ./i)[0] }
+                  />
+                ))
+              }
             </div>
-          </Link>
+          </div>
         ))
       }
     </div>
