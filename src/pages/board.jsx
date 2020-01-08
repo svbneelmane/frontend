@@ -121,12 +121,10 @@ export default class extends React.Component {
   sortByRank(){
     let colleges = this.state.colleges.sort((a,b)=>this.state.total[b.id]-this.state.total[a.id]);
     this.setState({colleges});
-    console.log(colleges);
   }
   sortByName(){
     let colleges = this.state.colleges.sort((a, b)=>a.name < b.name ? -1 : (a.name > b.name ? 1 : 0));
     this.setState({colleges});
-    console.log(colleges);
   }
   render = () => (
     <Layout> 

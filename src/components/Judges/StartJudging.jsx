@@ -129,7 +129,6 @@ export default class Judge extends Component {
     
     let index = event.target.name;
     let slots = this.state.slots;
-    console.log({index,slots},this.getSlotIndex(Number(index)));
     slots[this.getSlotIndex(Number(index))].notes=event.target.value
     
     await this.setState({

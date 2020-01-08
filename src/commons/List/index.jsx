@@ -34,10 +34,10 @@ const List = (props) => (
 );
 
 const TeamList = (props) => (
-  <div  onClick={props.onClick}>
+  <div  onClick={props.onClick} role="button" onKeyDown={props.onClick} tabIndex={0}>
     <div id={props.slot} css={{
       padding: "4%",
-      backgroundColor: props.backgroundColor,
+      backgroundColor: props.backgroundColor, 
       
       cursor: "pointer"
     }}>

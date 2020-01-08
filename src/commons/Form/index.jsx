@@ -21,9 +21,7 @@ class TextArea extends React.Component{
     value:''
   }
   componentWillReceiveProps(newProps){
-    this.setState({value:newProps.children},()=>{
-      console.log(this.state)
-    });
+    this.setState({value:newProps.children});
 
   }
   render(){

@@ -22,7 +22,6 @@ export default class extends React.PureComponent {
     event.preventDefault();
 
     
-    console.log(this.state);
     await this.setState({button:this.BUTTON_CLICKED})
     typeof window !== "undefined" &&window.fetch("https://usebasin.com/f/71436ab3ce6c.json", {
       method: "POST",
@@ -125,7 +124,7 @@ export default class extends React.PureComponent {
 
         <div css={{ display: "flex", flexDirection: "column",  padding:20 }}>
           <label htmlFor="android-app">You are a </label>
-          <select name="question8" onChange={this.handleChange} value={this.state.question8}>
+          <select name="question8" onBlur={this.handleChange} value={this.state.question8}>
             <option>Student</option>
             <option>Staff</option>
             <option>None of above</option>

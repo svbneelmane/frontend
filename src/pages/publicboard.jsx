@@ -37,10 +37,8 @@ export default class extends React.Component {
       if(event.faculty)
         continue;
       let round = await eventsService.getRound(event.id,event.rounds[0]);
-      if(!round.published){
-        console.log("Skipping "+event.name,event);
+      if(!round.published)
         continue;
-      }
       await this.setState({status:"Fetching  "+event.name+" leaderboard..."});
       let leaderboard = await leaderboardService.getRound(event.id,event.rounds[0]);
       leaderboard = leaderboard.filter(team=>!team.disqualified).sort((a,b)=>b.points-a.points);
@@ -119,12 +117,10 @@ export default class extends React.Component {
   sortByRank(){
     let colleges = this.state.colleges.sort((a,b)=>this.state.total[b.id]-this.state.total[a.id]);
     this.setState({colleges});
-    console.log(colleges);
   }
   sortByName(){
     let colleges = this.state.colleges.sort((a, b)=>a.name < b.name ? -1 : (a.name > b.name ? 1 : 0));
     this.setState({colleges});
-    console.log(colleges);
   }
   render = () => (
     <Layout> 

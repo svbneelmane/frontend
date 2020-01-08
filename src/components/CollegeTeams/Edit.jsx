@@ -40,7 +40,7 @@ export default class EditMember extends React.Component {
 
   componentWillMount() {
     participantsService.get(this.props.member).then(participant => {
-      console.log(participant);
+      
       this.setState({ participant: participant || {} })
     });
   }

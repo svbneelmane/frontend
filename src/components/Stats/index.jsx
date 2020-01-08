@@ -56,7 +56,6 @@ export default class extends React.PureComponent {
 
   componentWillMount = () => {
     statsService.get().then(stats => {
-      console.log(stats);
       this.setState({ stats, })
     });
   }

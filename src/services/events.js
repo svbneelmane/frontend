@@ -187,7 +187,6 @@ const getSlots2 = async (eventID, roundID) => {
   if (response && response.status === 200) {
     return response.data;
   } else {
-    console.log(response);
     if(response&&response.status==="401")
       toast("Your session has expired, please logout and login again.")
     if(response&&response.status===404)

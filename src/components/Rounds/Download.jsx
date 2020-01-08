@@ -80,7 +80,6 @@ export default class extends React.Component {
     });    
   }
   resize(event){
-    console.log("RESIZE");
     let leaderboard = document.querySelector("#leaderboardContainer");
     event.target.innerHTML="Done";
     event.target.disabled=true;

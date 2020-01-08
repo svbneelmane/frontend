@@ -54,7 +54,7 @@ export default class Teams extends React.Component {
       college:team.college,
       members:team.members.length
     }));
-    console.log(teams);
+    
     this.setState({teams,loaded:true});
       /*
       let sortedTeams = {};

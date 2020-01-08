@@ -74,7 +74,6 @@ export default class EditUser extends React.Component {
     this.getUser();
     reducer.subscribe(() => {
       reducer.getState().then(state => {
-        console.log(state);
         this.setState({
           colleges: state.data.list.map(college => ({
             value: college.id,

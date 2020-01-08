@@ -57,7 +57,6 @@ export default class Events extends React.Component {
   componentWillMount = () => {
    /****WORK TO DO HERE!! */
     collegesService.getTeams(this.props.college).then(teams => {
-      console.log(teams);
       let team = teams.find(team => team.id === this.props.team );
       collegesService.getParticipants(this.props.college).then(participants=>{
         participants=participants.filter(participant=>team.members.includes(participant.id));

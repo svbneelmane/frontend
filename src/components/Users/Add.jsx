@@ -73,7 +73,6 @@ export default class AddUser extends React.Component {
 
     reducer.subscribe(() => {
       reducer.getState().then(state => {
-        console.log(state);
         this.setState({
           colleges: state.data.list.map(college => ({
             value: college.id,

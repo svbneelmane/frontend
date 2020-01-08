@@ -39,7 +39,7 @@ export default class AddEvent extends React.Component {
   handleChange = (e) => {
     
     this.setState({ [e.name]: e.value },()=>{
-      console.log(this.state);
+      
     });
   };
 
@@ -111,11 +111,12 @@ export default class AddEvent extends React.Component {
       <p>Add a new event to MUCAPP.</p>
       <div>
         <div>
-          <label>Name: </label>
+          <label htmlFor="name">Name: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
             name="name"
+            id="name"
             type="text"
             value={this.state.name}
             placeholder="Name"
@@ -124,10 +125,11 @@ export default class AddEvent extends React.Component {
           />
         </div>
         <div>
-        <label>College: </label>
+        <label htmlFor="college">College: </label>
           <Select
             isSearchable={false}
             name="college"
+            id="college"
             placeholder="College"
             options={ this.state.colleges }
             onChange={ (e) => this.setState({ college: e.value }) }
@@ -159,11 +161,12 @@ export default class AddEvent extends React.Component {
           />
         </div>
         <div>
-        <label>Minimum Members Per Team: </label>
+        <label htmlFor="minMembersPerTeam">Minimum Members Per Team: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
             name="minMembersPerTeam"
+            id="minMembersPerTeam"
             type="number"
             placeholder="Minimum Members Per Team"
             required
@@ -173,11 +176,12 @@ export default class AddEvent extends React.Component {
           />
         </div>
         <div>
-        <label>Maximum Members Per Team: </label>
+        <label htmlFor="maxMembersPerTeam">Maximum Members Per Team: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
             name="maxMembersPerTeam"
+            id="maxMembersPerTeam"
             type="number"
             placeholder="Maximum Members Per Team"
             min="1"
@@ -186,11 +190,12 @@ export default class AddEvent extends React.Component {
           />
         </div>
         <div>
-        <label>Maximum Teams Per College: </label>
+        <label htmlFor="maxTeamsPerCollege">Maximum Teams Per College: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
             name="maxTeamsPerCollege"
+            id="maxTeamsPerCollege"
             type="number"
             value={this.state.maxTeamsPerCollege}
             placeholder="Maximum Teams Per College"
@@ -198,10 +203,11 @@ export default class AddEvent extends React.Component {
           />
         </div>
         <div>
-        <label>Venue: </label>
+        <label htmlFor="venue">Venue: </label>
          <Select
             isSearchable={false}
             name="venue"
+            id="venue"
             placeholder="Venue"
             options={ [
               {label:'Dr. TMA Pai Hall, 2nd Floor',value:'Dr. TMA Pai Hall, 2nd Floor'},
@@ -241,32 +247,35 @@ export default class AddEvent extends React.Component {
           />
         </div>
         <div>
-        <label>Description: </label>
+        <label htmlFor="description">Description: </label>
           <TextArea
             onChange={ this.handleChange }
             autoComplete="off"
             name="description"
+            id="description"
             type="text"
             placeholder="Description"
             styles={{ maxWidth: 300,minWidth:300 }}
           />
         </div>
         <div>
-        <label>Duration in minutes: </label>
+        <label htmlFor="duration">Duration in minutes: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
             name="duration"
+            id="duration"
             type="number"
             placeholder="Duration in minutes"
             styles={{ width: 300 ,verticalAlign:"top"}}
           />
         </div>
         <div>
-        <label>Start Date: </label>
+        <label htmlFor="startDate">Start Date: </label>
           <Input 
             type="datetime-local" 
             name="startDate" 
+            id="startDate" 
             value={this.state.startDate}
             onChange={this.handleChange}
             />
@@ -274,21 +283,23 @@ export default class AddEvent extends React.Component {
         </div>
       
         <div>
-        <label>End Date: </label>
+        <label htmlFor="endDate">End Date: </label>
         <Input 
             type="datetime-local" 
             name="endDate" 
+            id="endDate" 
             value={this.state.endDate}
             onChange={this.handleChange}
             />
         </div>
         <div>
-        <label>For: </label>
+        <label htmlFor="type">For: </label>
           <Select
             isSearchable={false}
             name="type"
+            id="type"
             placeholder="For"
-            options={ [{label:'Students',value:'students'},{label:'Faculty',value:'faculty'}] }
+            options={ [{label:'Students',value:'students'},{span:'Faculty',value:'faculty'}] }
             onChange={ (e) => this.setState({ type: e.value }) }
             styles={{
               control: (provided, state) => ({
@@ -319,41 +330,45 @@ export default class AddEvent extends React.Component {
         </div>
         
         <div>
-        <label>Criteria 1: </label>
+        <label htmlFor="criteria1">Criteria 1: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
             name="criteria1"
+            id="criteria1"
             placeholder="Criteria 1 "
             styles={{ width: 300 }}
           />
         </div>
         <div>
-        <label>Criteria 2: </label>
+        <label htmlFor="criteria2">Criteria 2: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
             name="criteria2"
+            id="criteria2"
             placeholder="Criteria 2 "
             styles={{ width: 300 }}
           />
         </div>
         <div>
-        <label>Criteria 3: </label>
+        <label htmlFor="criteria3">Criteria 3: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
             name="criteria3"
+            id="criteria3"
             placeholder="Criteria 3 "
             styles={{ width: 300 }}
           />
         </div>
         <div>
-        <label>Criteria 4: </label>
+        <label htmlFor="criteria4">Criteria 4: </label>
           <Input
             onChange={ this.handleChange }
             autoComplete="off"
             name="criteria4"
+            id="criteria4"
             placeholder="Criteria 4 "
             styles={{ width: 300 }}
           />

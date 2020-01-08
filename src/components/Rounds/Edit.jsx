@@ -60,7 +60,6 @@ export default class EditRound extends React.Component {
       this.setState({ event, })
     );
     eventsService.getRound(this.props.event, this.props.round).then(round => {
-      console.log(round);
       this.setState({ 
         round:{
           criteria1: round.criteria[0],
