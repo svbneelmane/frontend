@@ -41,6 +41,8 @@ import Download from '../components/Rounds/Download';
 import CollegeTeams from "../components/CollegeTeams";
 import EditMember from "../components/CollegeTeams/Edit";
 import Winners from "../components/Winners";
+import Certificates from "../components/Certificates";
+
 
 
 // import configureStore from "../store";
@@ -104,6 +106,8 @@ export default () =>
         <PrivateRoute path="/register/:event" component={ RegisterEvent } type={ 4 }  />
         <PrivateRoute path="/register/:event/teams" component={ RegisterTeam } type={ 4 }  />
         <PrivateRoute path="/register/:event/teams/:team" component={ Participants } type={ 4 }  />
+        <PrivateRoute path="/certificates" component={ Certificates } type={ 4 } />
+
 
         <NotFound path="/*" component={ NotFound } />
       </Router>

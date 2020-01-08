@@ -54,6 +54,7 @@ const SidebarItems = () => (
     <SidebarItem to="/teams" title="Teams" />
     <SidebarItem to="/slots" title="Slots" />
     <SidebarItem to="/leaderboard/public" title="Leaderboard" />
+    <SidebarItem to="/certificates" title="Certificates" />
     <SidebarSeparator />
     <SidebarItem to="/users" title="Users" />
     <SidebarItem to="/colleges" title="Colleges" />
@@ -61,6 +62,7 @@ const SidebarItems = () => (
     <SidebarItem to="/judges" title="Judges" />
     <SidebarItem to="/winners" title="Winners" />
     <SidebarItem to="/leaderboard" title="Leaderboard" />
+    
     <SidebarSeparator />
     <li>
       <a href="/feedback" css={{
